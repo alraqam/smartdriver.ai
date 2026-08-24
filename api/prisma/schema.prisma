@@ -1,0 +1,347 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Enums — DB-enforced so an invalid role/locale/status cannot be
+// written by a bad import or a hand-edited row.
+// ─────────────────────────────────────────────────────────────
+
+enum Role {
+  /// A learner studying for the licence exam. Everyone who signs up.
+  learner
+  /// Content/ops staff: importing questions, reviewing drafts, watching AI spend.
+  admin
+}
+
+/// UI and content language. Every learner-facing string in the content tables
+/// exists in both, so a learner can flip locale mid-session without gaps.
+enum Locale {
+  uz
+  ru
+}
+
+enum SessionMode {
+  /// Free practice, immediate feedback after each answer.
+  practice
+  /// Timed mock exam: no feedback until the end, pass/fail at the finish.
+  exam
+  /// Practice weighted toward the topics this learner keeps missing.
+  weak_topics
+}
+
+enum ContentStatus {
+  /// Imported but not yet shown to learners.
+  draft
+  /// Live — eligible to be served in a session.
+  published
+  /// Withdrawn (rule changed, question was wrong). Kept, never deleted, so
+  /// historical SessionItems still resolve to the question that was asked.
+  retired
+}
+
+enum ChatRole {
+  user
+  assistant
+}
+
+// ─────────────────────────────────────────────────────────────
+// Identity
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id         String   @id @default(cuid())
+  /// E.164, always +998… — normalised on the way in, never stored as typed.
+  phone      String   @unique
+  name       String?
+  locale     Locale   @default(uz)
+  role       Role     @default(learner)
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  sessions Session[]
+  mastery  TopicMastery[]
+  threads  ChatThread[]
+  aiUsage  AiUsage[]
+
+  @@index([createdAt])
+}
+
+/// One row per OTP issued. The code itself is never stored — only a bcrypt
+/// hash — so a database leak cannot be replayed into account takeovers.
+model OtpCode {
+  id         String    @id @default(cuid())
+  phone      String
+  codeHash   String
+  expiresAt  DateTime
+  /// Verification attempts against this code. Burned after too many.
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([phone, createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────
+// Content
+// ─────────────────────────────────────────────────────────────
+
+model Topic {
+  id      String @id @default(cuid())
+  slug    String @unique
+  order   Int
+  titleUz String
+  titleRu String
+
+  questions Question[]
+  mastery   TopicMastery[]
+
+  @@index([order])
+}
+
+model Question {
+  id String @id @default(cuid())
+  /// Stable id from the source bank. The importer upserts on this, so
+  /// re-importing the same file is a no-op rather than a duplicate.
+  externalId String @unique
+  topicId    String
+  topic      Topic  @relation(fields: [topicId], references: [id])
+
+  /// 1 (easy) to 5 (hard). Used to keep exam sets balanced.
+  difficulty Int     @default(3)
+  /// Diagram/photo for the question, if any. Relative path served by web/.
+  imageUrl   String?
+
+  textUz String
+  textRu String
+
+  /// Official rationale from the source bank, when it ships one. Distinct from
+  /// the AI explanation — this is authoritative, that is generated.
+  sourceNoteUz String?
+  sourceNoteRu String?
+
+  /// RuleSection.code values this question tests, e.g. ["PDD-6.2","PDD-13.9"].
+  /// Drives explanation grounding — without these the AI has no rule text to
+  /// cite and falls back to the question alone.
+  ruleRefs String[]
+
+  status     ContentStatus @default(draft)
+  reviewedAt DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  options      AnswerOption[]
+  items        SessionItem[]
+  explanations QuestionExplanation[]
+
+  @@index([topicId, status])
+  @@index([status])
+}
+
+model AnswerOption {
+  id         String   @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  order      Int
+  textUz     String
+  textRu     String
+  isCorrect  Boolean  @default(false)
+
+  @@index([questionId, order])
+}
+
+/// A section of the official traffic rules. The grounding corpus for both the
+/// per-question explanations and the tutor chat — everything the AI says is
+/// meant to trace back to a row here.
+model RuleSection {
+  id String @id @default(cuid())
+  /// Citable identifier, e.g. "PDD-6.2".
+  code    String @unique
+  order   Int
+  titleUz String
+  titleRu String
+  bodyUz  String
+  bodyRu  String
+
+  @@index([order])
+}
+
+/// Audit trail for bulk content loads: what file, what it changed, when.
+model ContentImport {
+  id       String @id @default(cuid())
+  filename String
+  /// sha256 of the file — re-importing an identical file is visible as such.
+  checksum  String
+  kind      String
+  inserted  Int      @default(0)
+  updated   Int      @default(0)
+  skipped   Int      @default(0)
+  dryRun    Boolean  @default(false)
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────
+// Practice
+// ─────────────────────────────────────────────────────────────
+
+model Session {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mode SessionMode
+  /// Set only for single-topic practice; null for exam and weak_topics.
+  topicId String?
+
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+
+  questionCount Int
+  correctCount  Int @default(0)
+  /// Exam mode only. Null means untimed.
+  timeLimitSec  Int?
+  /// Exam mode only, set at finish.
+  passed        Boolean?
+
+  items SessionItem[]
+
+  @@index([userId, startedAt])
+}
+
+model SessionItem {
+  id        String  @id @default(cuid())
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+  order      Int
+
+  chosenOptionId String?
+  isCorrect      Boolean?
+  answeredAt     DateTime?
+  /// Time spent on this item, for pacing feedback in exam mode.
+  msSpent        Int?
+
+  @@unique([sessionId, order])
+  @@index([questionId])
+}
+
+/// Rolling per-topic skill estimate. `ewma` is the exponentially-weighted
+/// recent accuracy (0..1): it moves fast on new evidence and forgets old
+/// mistakes, which is what makes "weak topics" reflect where the learner is
+/// NOW rather than where they started.
+model TopicMastery {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topicId String
+  topic   Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  attempts  Int      @default(0)
+  correct   Int      @default(0)
+  ewma      Float    @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, topicId])
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────────
+// AI
+// ─────────────────────────────────────────────────────────────
+
+/// Generated explanation cache. A given (question, locale, wrong answer) is
+/// explained ONCE and served from Postgres forever after — this is the main
+/// thing keeping API spend flat as usage grows.
+model QuestionExplanation {
+  id         String   @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  locale     Locale
+  /// The option the learner picked. Empty string = the generic explanation
+  /// (not a nullable column: Postgres treats NULLs as distinct in a unique
+  /// index, which would let duplicate generic rows through).
+  wrongOptionId String @default("")
+  /// Bumping PROMPT_VERSION in explain.service.ts invalidates the cache
+  /// without a migration or a manual purge.
+  promptVersion Int
+
+  body          String
+  keyRule       String
+  commonMistake String
+  model         String
+  createdAt     DateTime @default(now())
+
+  @@unique([questionId, locale, wrongOptionId, promptVersion])
+  @@index([questionId])
+}
+
+model ChatThread {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  locale    Locale
+  createdAt DateTime @default(now())
+
+  messages ChatMessage[]
+
+  @@index([userId, createdAt])
+}
+
+model ChatMessage {
+  id       String     @id @default(cuid())
+  threadId String
+  thread   ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  role     ChatRole
+  content  String
+  /// RuleSection codes the answer was grounded in, e.g. ["PDD-6.2"].
+  citations Json?
+  createdAt DateTime @default(now())
+
+  @@index([threadId, createdAt])
+}
+
+/// Every model call, billed or mocked. Makes AI spend a number we can look at
+/// instead of a surprise on the invoice.
+model AiUsage {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  /// "explain" | "tutor"
+  feature         String
+  model           String
+  inputTokens     Int     @default(0)
+  outputTokens    Int     @default(0)
+  cacheReadTokens Int     @default(0)
+  /// True when ANTHROPIC_API_KEY was unset and the call was simulated.
+  mock            Boolean @default(false)
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────
+// Settings
+// ─────────────────────────────────────────────────────────────
+
+/// Key-value operational settings. Exam shape (question count, time limit,
+/// allowed errors) lives here rather than in code so it can be corrected
+/// without a deploy when the official rules change.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}

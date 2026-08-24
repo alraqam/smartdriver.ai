@@ -1,0 +1,779 @@
+[
+  {
+    "externalId": "sd-general-001",
+    "topicSlug": "general",
+    "difficulty": 2,
+    "textUz": "Yo'l harakati qoidalariga muvofiq \"chorraha\" nima?",
+    "textRu": "Что такое «перекрёсток» согласно Правилам дорожного движения?",
+    "ruleRefs": ["PDD-1.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'llarning bir sathda kesishgan, tutashgan yoki ayrilgan joyi", "textRu": "Место пересечения, примыкания или разветвления дорог на одном уровне", "isCorrect": true },
+      { "textUz": "Har qanday yo'l kesishmasi, shu jumladan turli sathdagi", "textRu": "Любое пересечение дорог, включая пересечения на разных уровнях", "isCorrect": false },
+      { "textUz": "Hovlidan yo'lga chiqish joyi", "textRu": "Место выезда с дворовой территории на дорогу", "isCorrect": false },
+      { "textUz": "Svetofor o'rnatilgan har qanday joy", "textRu": "Любое место, где установлен светофор", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-general-002",
+    "topicSlug": "general",
+    "difficulty": 2,
+    "textUz": "Transport vositasining necha daqiqagacha bo'lgan harakatsiz holati \"to'xtash\" hisoblanadi?",
+    "textRu": "Прекращение движения транспортного средства на какое время считается «остановкой»?",
+    "ruleRefs": ["PDD-1.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "5 daqiqagacha", "textRu": "До 5 минут", "isCorrect": true },
+      { "textUz": "3 daqiqagacha", "textRu": "До 3 минут", "isCorrect": false },
+      { "textUz": "10 daqiqagacha", "textRu": "До 10 минут", "isCorrect": false },
+      { "textUz": "15 daqiqagacha", "textRu": "До 15 минут", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-general-003",
+    "topicSlug": "general",
+    "difficulty": 3,
+    "textUz": "Hovlidan yo'lga chiqish joyi chorraha hisoblanadimi?",
+    "textRu": "Считается ли выезд с дворовой территории перекрёстком?",
+    "ruleRefs": ["PDD-1.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, chorraha hisoblanmaydi", "textRu": "Нет, не считается перекрёстком", "isCorrect": true },
+      { "textUz": "Ha, har doim chorraha hisoblanadi", "textRu": "Да, всегда считается перекрёстком", "isCorrect": false },
+      { "textUz": "Faqat svetofor bo'lsa chorraha hisoblanadi", "textRu": "Считается только при наличии светофора", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-general-004",
+    "topicSlug": "general",
+    "difficulty": 2,
+    "textUz": "Haydovchi transport vositasini boshqarishdan oldin nima qilishi shart?",
+    "textRu": "Что обязан сделать водитель перед началом движения?",
+    "ruleRefs": ["PDD-2.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Transport vositasining texnik holatiga ishonch hosil qilishi", "textRu": "Убедиться в исправности транспортного средства", "isCorrect": true },
+      { "textUz": "Faqat yoqilg'i miqdorini tekshirishi", "textRu": "Проверить только уровень топлива", "isCorrect": false },
+      { "textUz": "Hech qanday tekshiruv talab qilinmaydi", "textRu": "Никакой проверки не требуется", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-general-005",
+    "topicSlug": "general",
+    "difficulty": 1,
+    "textUz": "Haydovchi nazorat qiluvchi mansabdor shaxs talabiga ko'ra qaysi hujjatlarni taqdim etishi shart?",
+    "textRu": "Какие документы водитель обязан предъявить по требованию уполномоченного должностного лица?",
+    "ruleRefs": ["PDD-2.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Haydovchilik guvohnomasi, ro'yxatga olish hujjatlari va sug'urta polisi", "textRu": "Водительское удостоверение, регистрационные документы и полис страхования", "isCorrect": true },
+      { "textUz": "Faqat haydovchilik guvohnomasi", "textRu": "Только водительское удостоверение", "isCorrect": false },
+      { "textUz": "Faqat pasport", "textRu": "Только паспорт", "isCorrect": false },
+      { "textUz": "Faqat sug'urta polisi", "textRu": "Только полис страхования", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-general-006",
+    "topicSlug": "general",
+    "difficulty": 2,
+    "textUz": "Harakatlanish paytida telefondan foydalanish qanday hollarda mumkin?",
+    "textRu": "В каком случае разрешается пользоваться телефоном во время движения?",
+    "ruleRefs": ["PDD-2.7"],
+    "status": "published",
+    "options": [
+      { "textUz": "Faqat qo'lni ishlatmasdan gaplashish imkonini beruvchi qurilma bilan", "textRu": "Только с устройством, позволяющим вести переговоры без использования рук", "isCorrect": true },
+      { "textUz": "Qisqa suhbat bo'lsa qo'lda ushlab turish mumkin", "textRu": "Можно держать в руке, если разговор короткий", "isCorrect": false },
+      { "textUz": "Sekin tezlikda har qanday holatda mumkin", "textRu": "Можно в любом случае при небольшой скорости", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-001",
+    "topicSlug": "signals",
+    "difficulty": 1,
+    "textUz": "Svetoforning sariq signali nimani anglatadi?",
+    "textRu": "Что означает жёлтый сигнал светофора?",
+    "ruleRefs": ["PDD-6.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatni taqiqlaydi va signallar almashishi haqida ogohlantiradi", "textRu": "Запрещает движение и предупреждает о предстоящей смене сигналов", "isCorrect": true },
+      { "textUz": "Harakatga ruxsat beradi, lekin ehtiyot bo'lish kerak", "textRu": "Разрешает движение, но требует осторожности", "isCorrect": false },
+      { "textUz": "Faqat chapga burilishni taqiqlaydi", "textRu": "Запрещает только поворот налево", "isCorrect": false },
+      { "textUz": "Tezlikni oshirishga ruxsat beradi", "textRu": "Разрешает увеличить скорость", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-002",
+    "topicSlug": "signals",
+    "difficulty": 2,
+    "textUz": "Chaqnovchi sariq signal nimani bildiradi?",
+    "textRu": "Что означает жёлтый мигающий сигнал светофора?",
+    "ruleRefs": ["PDD-6.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatga ruxsat beradi va boshqarilmaydigan chorraha yoki o'tish joyi borligi haqida xabar beradi", "textRu": "Разрешает движение и информирует о нерегулируемом перекрёстке или переходе", "isCorrect": true },
+      { "textUz": "Harakatni taqiqlaydi", "textRu": "Запрещает движение", "isCorrect": false },
+      { "textUz": "Svetofor nosozligi va harakat taqiqlanganini bildiradi", "textRu": "Означает неисправность светофора и запрет движения", "isCorrect": false },
+      { "textUz": "Faqat to'g'riga harakatga ruxsat beradi", "textRu": "Разрешает движение только прямо", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-003",
+    "topicSlug": "signals",
+    "difficulty": 2,
+    "textUz": "Chaqnovchi qizil signal nimani anglatadi?",
+    "textRu": "Что означает красный мигающий сигнал светофора?",
+    "ruleRefs": ["PDD-6.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatni taqiqlaydi", "textRu": "Запрещает движение", "isCorrect": true },
+      { "textUz": "Ehtiyot bo'lib harakatlanishga ruxsat beradi", "textRu": "Разрешает движение с осторожностью", "isCorrect": false },
+      { "textUz": "Faqat piyodalarga tegishli", "textRu": "Относится только к пешеходам", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-004",
+    "topicSlug": "signals",
+    "difficulty": 2,
+    "textUz": "Qizil va sariq signallar birgalikda yonganda nima qilish kerak?",
+    "textRu": "Что означает одновременное включение красного и жёлтого сигналов?",
+    "ruleRefs": ["PDD-6.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakat taqiqlanadi, tez orada yashil signal yonadi", "textRu": "Движение запрещено, скоро включится зелёный сигнал", "isCorrect": true },
+      { "textUz": "Harakatni boshlash mumkin", "textRu": "Можно начинать движение", "isCorrect": false },
+      { "textUz": "Svetofor nosoz", "textRu": "Светофор неисправен", "isCorrect": false },
+      { "textUz": "Faqat o'ngga burilishga ruxsat", "textRu": "Разрешён только поворот направо", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-005",
+    "topicSlug": "signals",
+    "difficulty": 3,
+    "textUz": "Sariq signal yonganda haydovchi keskin tormozlanishsiz to'xtay olmasa, nima qilishi kerak?",
+    "textRu": "Как поступить водителю, если при жёлтом сигнале он не может остановиться без экстренного торможения?",
+    "ruleRefs": ["PDD-6.14"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatni davom ettirishga haqli", "textRu": "Имеет право продолжить движение", "isCorrect": true },
+      { "textUz": "Har qanday holatda keskin tormozlashi shart", "textRu": "Обязан применить экстренное торможение в любом случае", "isCorrect": false },
+      { "textUz": "Orqaga yurib to'xtash chizig'igacha qaytishi kerak", "textRu": "Должен сдать назад до стоп-линии", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-006",
+    "topicSlug": "signals",
+    "difficulty": 3,
+    "textUz": "Regulirovchining signallari svetofor signallariga zid bo'lsa, kim ustunlikka ega?",
+    "textRu": "Чьи сигналы имеют приоритет, если сигналы регулировщика противоречат сигналам светофора?",
+    "ruleRefs": ["PDD-6.15"],
+    "status": "published",
+    "options": [
+      { "textUz": "Regulirovchining talablari bajarilishi shart", "textRu": "Должны выполняться требования регулировщика", "isCorrect": true },
+      { "textUz": "Svetofor signallari ustun", "textRu": "Приоритет у сигналов светофора", "isCorrect": false },
+      { "textUz": "Yo'l belgilari ustun", "textRu": "Приоритет у дорожных знаков", "isCorrect": false },
+      { "textUz": "Haydovchi o'zi tanlaydi", "textRu": "Водитель выбирает сам", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-007",
+    "topicSlug": "signals",
+    "difficulty": 2,
+    "textUz": "Chaqnovchi yashil signal nimani bildiradi?",
+    "textRu": "Что означает зелёный мигающий сигнал светофора?",
+    "ruleRefs": ["PDD-6.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatga ruxsat beradi va amal qilish muddati tugayotganini bildiradi", "textRu": "Разрешает движение и информирует, что время его действия истекает", "isCorrect": true },
+      { "textUz": "Harakatni taqiqlaydi", "textRu": "Запрещает движение", "isCorrect": false },
+      { "textUz": "Svetofor nosozligini bildiradi", "textRu": "Информирует о неисправности светофора", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signals-008",
+    "topicSlug": "signals",
+    "difficulty": 3,
+    "textUz": "Svetofor signallari ustunlik belgilari talablariga zid bo'lsa, haydovchi nimaga amal qiladi?",
+    "textRu": "Чем должен руководствоваться водитель, если сигналы светофора противоречат требованиям знаков приоритета?",
+    "ruleRefs": ["PDD-6.15"],
+    "status": "published",
+    "options": [
+      { "textUz": "Svetofor signallariga", "textRu": "Сигналами светофора", "isCorrect": true },
+      { "textUz": "Ustunlik belgilariga", "textRu": "Знаками приоритета", "isCorrect": false },
+      { "textUz": "Yo'l chiziqlariga", "textRu": "Дорожной разметкой", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-001",
+    "topicSlug": "priority",
+    "difficulty": 2,
+    "textUz": "Teng ahamiyatli yo'llar kesishgan chorrahada relssiz transport vositasi haydovchisi kimga yo'l berishi shart?",
+    "textRu": "Кому обязан уступить дорогу водитель безрельсового транспортного средства на перекрёстке равнозначных дорог?",
+    "ruleRefs": ["PDD-13.9"],
+    "status": "published",
+    "options": [
+      { "textUz": "O'ngdan yaqinlashayotgan transport vositalariga", "textRu": "Транспортным средствам, приближающимся справа", "isCorrect": true },
+      { "textUz": "Chapdan yaqinlashayotgan transport vositalariga", "textRu": "Транспортным средствам, приближающимся слева", "isCorrect": false },
+      { "textUz": "Faqat yuk avtomobillariga", "textRu": "Только грузовым автомобилям", "isCorrect": false },
+      { "textUz": "Hech kimga, u ustunlikka ega", "textRu": "Никому, он имеет преимущество", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-002",
+    "topicSlug": "priority",
+    "difficulty": 2,
+    "textUz": "Asosiy bo'lmagan yo'ldan chorrahaga chiqayotgan haydovchi nima qilishi shart?",
+    "textRu": "Что обязан сделать водитель, выезжающий на перекрёсток со второстепенной дороги?",
+    "ruleRefs": ["PDD-13.9"],
+    "status": "published",
+    "options": [
+      { "textUz": "Asosiy yo'ldagi transport vositalariga yo'l berishi", "textRu": "Уступить дорогу транспортным средствам на главной дороге", "isCorrect": true },
+      { "textUz": "Faqat o'ngdagi transport vositalariga yo'l berishi", "textRu": "Уступить только транспортным средствам справа", "isCorrect": false },
+      { "textUz": "Har doim to'liq to'xtashi", "textRu": "Всегда полностью остановиться", "isCorrect": false },
+      { "textUz": "Hech kimga yo'l bermasligi", "textRu": "Никому не уступать", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-003",
+    "topicSlug": "priority",
+    "difficulty": 3,
+    "textUz": "Teng ahamiyatli yo'lda chapga burilayotgan haydovchi kimga yo'l berishi shart?",
+    "textRu": "Кому обязан уступить дорогу водитель, поворачивающий налево на равнозначной дороге?",
+    "ruleRefs": ["PDD-13.12"],
+    "status": "published",
+    "options": [
+      { "textUz": "Qarama-qarshi tomondan to'g'riga yoki o'ngga harakatlanayotganlarga", "textRu": "Движущимся со встречного направления прямо или направо", "isCorrect": true },
+      { "textUz": "Faqat qarama-qarshi to'g'riga harakatlanayotganlarga", "textRu": "Только движущимся со встречного направления прямо", "isCorrect": false },
+      { "textUz": "Hech kimga", "textRu": "Никому", "isCorrect": false },
+      { "textUz": "Orqadan kelayotganlarga", "textRu": "Движущимся сзади", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-004",
+    "topicSlug": "priority",
+    "difficulty": 3,
+    "textUz": "Aylanma harakatli chorrahaga kirayotgan haydovchi kimga yo'l berishi shart?",
+    "textRu": "Кому обязан уступить дорогу водитель, въезжающий на перекрёсток с круговым движением?",
+    "ruleRefs": ["PDD-13.11"],
+    "status": "published",
+    "options": [
+      { "textUz": "Aylanma bo'ylab harakatlanayotgan transport vositalariga", "textRu": "Транспортным средствам, движущимся по кругу", "isCorrect": true },
+      { "textUz": "Aylanmaga kirayotganlarga", "textRu": "Транспортным средствам, въезжающим на круг", "isCorrect": false },
+      { "textUz": "Hech kimga, kirayotganlar ustun", "textRu": "Никому, въезжающие имеют преимущество", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-005",
+    "topicSlug": "priority",
+    "difficulty": 4,
+    "textUz": "Teng sharoitda tramvay va relssiz transport vositasi o'rtasida kim ustunlikka ega?",
+    "textRu": "Кто имеет преимущество при прочих равных условиях — трамвай или безрельсовое транспортное средство?",
+    "ruleRefs": ["PDD-13.12"],
+    "status": "published",
+    "options": [
+      { "textUz": "Tramvay", "textRu": "Трамвай", "isCorrect": true },
+      { "textUz": "Relssiz transport vositasi", "textRu": "Безрельсовое транспортное средство", "isCorrect": false },
+      { "textUz": "O'ngdagi transport vositasi", "textRu": "Транспортное средство справа", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-priority-006",
+    "topicSlug": "priority",
+    "difficulty": 3,
+    "textUz": "Asosiy yo'ldan kelayotgan transport vositasiga yo'l berish majburiyati uning keyingi harakat yo'nalishiga bog'liqmi?",
+    "textRu": "Зависит ли обязанность уступить дорогу транспортному средству на главной дороге от направления его дальнейшего движения?",
+    "ruleRefs": ["PDD-13.9"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, yo'nalishidan qat'i nazar yo'l berish shart", "textRu": "Нет, уступить необходимо независимо от направления", "isCorrect": true },
+      { "textUz": "Ha, faqat to'g'riga ketayotgan bo'lsa", "textRu": "Да, только если оно движется прямо", "isCorrect": false },
+      { "textUz": "Ha, faqat o'ngga burilayotgan bo'lsa", "textRu": "Да, только если оно поворачивает направо", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-001",
+    "topicSlug": "maneuvering",
+    "difficulty": 1,
+    "textUz": "Manyovr oldidan burilish ko'rsatkichi qachon yoqilishi kerak?",
+    "textRu": "Когда должен быть включён указатель поворота перед манёвром?",
+    "ruleRefs": ["PDD-8.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Manyovr boshlanishidan oldin, oldindan", "textRu": "Заблаговременно до начала манёвра", "isCorrect": true },
+      { "textUz": "Manyovr paytida", "textRu": "Во время манёвра", "isCorrect": false },
+      { "textUz": "Manyovr tugagandan keyin", "textRu": "После завершения манёвра", "isCorrect": false },
+      { "textUz": "Faqat boshqa transport bo'lsa", "textRu": "Только при наличии других транспортных средств", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-002",
+    "topicSlug": "maneuvering",
+    "difficulty": 3,
+    "textUz": "Burilish ko'rsatkichini yoqish haydovchiga ustunlik beradimi?",
+    "textRu": "Даёт ли включение указателя поворота водителю преимущество?",
+    "ruleRefs": ["PDD-8.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, ustunlik bermaydi va ehtiyot choralaridan ozod qilmaydi", "textRu": "Нет, не даёт преимущества и не освобождает от мер предосторожности", "isCorrect": true },
+      { "textUz": "Ha, boshqalar yo'l berishi shart", "textRu": "Да, остальные обязаны уступить дорогу", "isCorrect": false },
+      { "textUz": "Faqat aholi punktlarida beradi", "textRu": "Даёт только в населённых пунктах", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-003",
+    "topicSlug": "maneuvering",
+    "difficulty": 2,
+    "textUz": "Burilish ko'rsatkichlari nosoz bo'lsa, haydovchi qanday signal beradi?",
+    "textRu": "Как водитель подаёт сигнал, если указатели поворота неисправны?",
+    "ruleRefs": ["PDD-8.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Qo'l bilan", "textRu": "Рукой", "isCorrect": true },
+      { "textUz": "Ovoz signali bilan", "textRu": "Звуковым сигналом", "isCorrect": false },
+      { "textUz": "Faralar bilan", "textRu": "Фарами", "isCorrect": false },
+      { "textUz": "Signal berish shart emas", "textRu": "Сигнал подавать не обязательно", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-004",
+    "topicSlug": "maneuvering",
+    "difficulty": 2,
+    "textUz": "O'ngga burilish qanday bajarilishi kerak?",
+    "textRu": "Как должен выполняться поворот направо?",
+    "ruleRefs": ["PDD-8.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Imkon qadar yo'lning o'ng chetiga yaqinroq", "textRu": "Как можно ближе к правому краю проезжей части", "isCorrect": true },
+      { "textUz": "Yo'lning o'rtasidan", "textRu": "С середины проезжей части", "isCorrect": false },
+      { "textUz": "Chap chetidan", "textRu": "С левого края проезжей части", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-005",
+    "topicSlug": "maneuvering",
+    "difficulty": 2,
+    "textUz": "Chapga burilishdan oldin haydovchi qaysi holatni egallashi shart?",
+    "textRu": "Какое положение должен занять водитель перед поворотом налево?",
+    "ruleRefs": ["PDD-8.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Tegishli yo'nalishdagi eng chekka chap holatni", "textRu": "Крайнее левое положение на проезжей части", "isCorrect": true },
+      { "textUz": "Eng chekka o'ng holatni", "textRu": "Крайнее правое положение", "isCorrect": false },
+      { "textUz": "Har qanday yo'lakni", "textRu": "Любую полосу движения", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-maneuver-006",
+    "topicSlug": "maneuvering",
+    "difficulty": 2,
+    "textUz": "Manyovr tugagandan keyin burilish signali qachon o'chirilishi kerak?",
+    "textRu": "Когда должен быть прекращён сигнал поворота после завершения манёвра?",
+    "ruleRefs": ["PDD-8.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Darhol", "textRu": "Немедленно", "isCorrect": true },
+      { "textUz": "10 soniyadan keyin", "textRu": "Через 10 секунд", "isCorrect": false },
+      { "textUz": "Keyingi chorrahada", "textRu": "На следующем перекрёстке", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-001",
+    "topicSlug": "overtaking",
+    "difficulty": 1,
+    "textUz": "Quvib o'tish qaysi tomondan bajariladi?",
+    "textRu": "С какой стороны выполняется обгон?",
+    "ruleRefs": ["PDD-11.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Chap tomondan", "textRu": "С левой стороны", "isCorrect": true },
+      { "textUz": "O'ng tomondan", "textRu": "С правой стороны", "isCorrect": false },
+      { "textUz": "Vaziyatga qarab har ikki tomondan", "textRu": "С любой стороны в зависимости от ситуации", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-002",
+    "topicSlug": "overtaking",
+    "difficulty": 2,
+    "textUz": "Temir yo'l kesishmasidan necha metr masofada quvib o'tish taqiqlanadi?",
+    "textRu": "На каком расстоянии перед железнодорожным переездом запрещён обгон?",
+    "ruleRefs": ["PDD-11.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "100 metrdan yaqin masofada", "textRu": "Ближе чем за 100 метров", "isCorrect": true },
+      { "textUz": "50 metrdan yaqin masofada", "textRu": "Ближе чем за 50 метров", "isCorrect": false },
+      { "textUz": "20 metrdan yaqin masofada", "textRu": "Ближе чем за 20 метров", "isCorrect": false },
+      { "textUz": "200 metrdan yaqin masofada", "textRu": "Ближе чем за 200 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-003",
+    "topicSlug": "overtaking",
+    "difficulty": 2,
+    "textUz": "Piyodalar o'tish joyida quvib o'tishga ruxsat beriladimi?",
+    "textRu": "Разрешён ли обгон на пешеходном переходе?",
+    "ruleRefs": ["PDD-11.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, taqiqlanadi", "textRu": "Нет, запрещён", "isCorrect": true },
+      { "textUz": "Ha, piyoda bo'lmasa mumkin", "textRu": "Да, если на нём нет пешеходов", "isCorrect": false },
+      { "textUz": "Ha, sekin tezlikda mumkin", "textRu": "Да, на малой скорости", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-004",
+    "topicSlug": "overtaking",
+    "difficulty": 3,
+    "textUz": "Quvib o'tishni boshlashdan oldin haydovchi nimaga ishonch hosil qilishi shart?",
+    "textRu": "В чём обязан убедиться водитель, прежде чем начать обгон?",
+    "ruleRefs": ["PDD-11.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Kiradigan yo'lak yetarli masofada bo'shligiga va hech kimga xavf tug'dirmasligiga", "textRu": "Что полоса свободна на достаточном расстоянии и он не создаст опасности", "isCorrect": true },
+      { "textUz": "Faqat orqadan hech kim quvib o'tmayotganiga", "textRu": "Только в том, что его самого никто не обгоняет", "isCorrect": false },
+      { "textUz": "Faqat tezligi yetarli ekanligiga", "textRu": "Только в том, что его скорость достаточна", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-005",
+    "topicSlug": "overtaking",
+    "difficulty": 3,
+    "textUz": "Ko'priklar, estakadalar va tunnellarda quvib o'tish mumkinmi?",
+    "textRu": "Разрешён ли обгон на мостах, эстакадах и в тоннелях?",
+    "ruleRefs": ["PDD-11.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, taqiqlanadi", "textRu": "Нет, запрещён", "isCorrect": true },
+      { "textUz": "Ha, agar chiziqlar ruxsat bersa", "textRu": "Да, если разметка это допускает", "isCorrect": false },
+      { "textUz": "Faqat kunduzi mumkin", "textRu": "Разрешён только в светлое время суток", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-overtaking-006",
+    "topicSlug": "overtaking",
+    "difficulty": 4,
+    "textUz": "Boshqarilmaydigan chorrahada asosiy yo'lda harakatlanayotganda quvib o'tishga ruxsat beriladimi?",
+    "textRu": "Разрешён ли обгон на нерегулируемом перекрёстке при движении по главной дороге?",
+    "ruleRefs": ["PDD-11.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Ha, asosiy yo'lda harakatlanayotganda taqiq qo'llanilmaydi", "textRu": "Да, при движении по главной дороге запрет не действует", "isCorrect": true },
+      { "textUz": "Yo'q, har qanday chorrahada taqiqlanadi", "textRu": "Нет, запрещён на любом перекрёстке", "isCorrect": false },
+      { "textUz": "Faqat yengil avtomobillar uchun mumkin", "textRu": "Разрешён только легковым автомобилям", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-speed-001",
+    "topicSlug": "speed",
+    "difficulty": 1,
+    "textUz": "Aholi punktlarida ruxsat etilgan eng yuqori tezlik qancha?",
+    "textRu": "Какая максимальная скорость разрешена в населённых пунктах?",
+    "ruleRefs": ["PDD-10.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "70 km/soat", "textRu": "70 км/ч", "isCorrect": true },
+      { "textUz": "60 km/soat", "textRu": "60 км/ч", "isCorrect": false },
+      { "textUz": "80 km/soat", "textRu": "80 км/ч", "isCorrect": false },
+      { "textUz": "90 km/soat", "textRu": "90 км/ч", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-speed-002",
+    "topicSlug": "speed",
+    "difficulty": 2,
+    "textUz": "Turar joy zonalarida va hovli hududlarida tezlik qancha bo'lishi kerak?",
+    "textRu": "Какая скорость разрешена в жилых зонах и на дворовых территориях?",
+    "ruleRefs": ["PDD-10.2"],
+    "status": "published",
+    "options": [
+      { "textUz": "20 km/soatdan oshmasligi kerak", "textRu": "Не более 20 км/ч", "isCorrect": true },
+      { "textUz": "30 km/soatdan oshmasligi kerak", "textRu": "Не более 30 км/ч", "isCorrect": false },
+      { "textUz": "40 km/soatdan oshmasligi kerak", "textRu": "Не более 40 км/ч", "isCorrect": false },
+      { "textUz": "Cheklov yo'q", "textRu": "Ограничений нет", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-speed-003",
+    "topicSlug": "speed",
+    "difficulty": 2,
+    "textUz": "Xavf paydo bo'lganda haydovchi nima qilishi shart?",
+    "textRu": "Что обязан предпринять водитель при возникновении опасности для движения?",
+    "ruleRefs": ["PDD-10.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Tezlikni kamaytirish, hatto to'liq to'xtash choralarini ko'rishi", "textRu": "Принять меры к снижению скорости вплоть до остановки", "isCorrect": true },
+      { "textUz": "Manyovr qilib xavfni chetlab o'tishi", "textRu": "Объехать опасность манёвром", "isCorrect": false },
+      { "textUz": "Ovoz signali berib harakatni davom ettirishi", "textRu": "Подать звуковой сигнал и продолжить движение", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-speed-004",
+    "topicSlug": "speed",
+    "difficulty": 3,
+    "textUz": "Tezlikni tanlashda haydovchi nimalarni hisobga olishi kerak?",
+    "textRu": "Что должен учитывать водитель при выборе скорости движения?",
+    "ruleRefs": ["PDD-10.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakat jadalligi, yo'l va meteorologik sharoitlar, ko'rinish darajasi", "textRu": "Интенсивность движения, дорожные и метеоусловия, видимость", "isCorrect": true },
+      { "textUz": "Faqat o'rnatilgan tezlik belgisini", "textRu": "Только установленный знак ограничения скорости", "isCorrect": false },
+      { "textUz": "Faqat transport vositasining quvvatini", "textRu": "Только мощность транспортного средства", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-stopping-001",
+    "topicSlug": "stopping",
+    "difficulty": 2,
+    "textUz": "Piyodalar o'tish joyidan necha metr masofada to'xtash taqiqlanadi?",
+    "textRu": "На каком расстоянии от пешеходного перехода запрещена остановка?",
+    "ruleRefs": ["PDD-12.4"],
+    "status": "published",
+    "options": [
+      { "textUz": "5 metrdan yaqin masofada", "textRu": "Ближе 5 метров", "isCorrect": true },
+      { "textUz": "10 metrdan yaqin masofada", "textRu": "Ближе 10 метров", "isCorrect": false },
+      { "textUz": "15 metrdan yaqin masofada", "textRu": "Ближе 15 метров", "isCorrect": false },
+      { "textUz": "3 metrdan yaqin masofada", "textRu": "Ближе 3 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-stopping-002",
+    "topicSlug": "stopping",
+    "difficulty": 2,
+    "textUz": "Yo'nalishli transport vositalari to'xtash joyidan necha metr masofada to'xtash taqiqlanadi?",
+    "textRu": "На каком расстоянии от места остановки маршрутных транспортных средств запрещена остановка?",
+    "ruleRefs": ["PDD-12.4"],
+    "status": "published",
+    "options": [
+      { "textUz": "15 metrdan yaqin masofada", "textRu": "Ближе 15 метров", "isCorrect": true },
+      { "textUz": "5 metrdan yaqin masofada", "textRu": "Ближе 5 метров", "isCorrect": false },
+      { "textUz": "10 metrdan yaqin masofada", "textRu": "Ближе 10 метров", "isCorrect": false },
+      { "textUz": "25 metrdan yaqin masofada", "textRu": "Ближе 25 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-stopping-003",
+    "topicSlug": "stopping",
+    "difficulty": 3,
+    "textUz": "Ko'rinish necha metrdan kam bo'lgan yo'l uchastkalarida to'xtash taqiqlanadi?",
+    "textRu": "На участках дорог с какой видимостью запрещена остановка?",
+    "ruleRefs": ["PDD-12.4"],
+    "status": "published",
+    "options": [
+      { "textUz": "100 metrdan kam bo'lganda", "textRu": "С видимостью менее 100 метров", "isCorrect": true },
+      { "textUz": "50 metrdan kam bo'lganda", "textRu": "С видимостью менее 50 метров", "isCorrect": false },
+      { "textUz": "150 metrdan kam bo'lganda", "textRu": "С видимостью менее 150 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-stopping-004",
+    "topicSlug": "stopping",
+    "difficulty": 2,
+    "textUz": "Quyidagi joylarning qaysi birida to'xtash taqiqlanadi?",
+    "textRu": "В каком из перечисленных мест остановка запрещена?",
+    "ruleRefs": ["PDD-12.4"],
+    "status": "published",
+    "options": [
+      { "textUz": "Ko'prik va estakadalarda", "textRu": "На мостах и эстакадах", "isCorrect": true },
+      { "textUz": "Aholi punktidagi to'g'ri yo'l uchastkasida", "textRu": "На прямом участке дороги в населённом пункте", "isCorrect": false },
+      { "textUz": "Maxsus belgilangan to'xtash joyida", "textRu": "На специально обозначенной стоянке", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-stopping-005",
+    "topicSlug": "stopping",
+    "difficulty": 3,
+    "textUz": "Chorrahada kesishayotgan yo'l chetidan necha metr masofada to'xtash taqiqlanadi?",
+    "textRu": "На каком расстоянии от края пересекаемой проезжей части запрещена остановка на перекрёстке?",
+    "ruleRefs": ["PDD-12.4"],
+    "status": "published",
+    "options": [
+      { "textUz": "5 metrdan yaqin masofada", "textRu": "Ближе 5 метров", "isCorrect": true },
+      { "textUz": "10 metrdan yaqin masofada", "textRu": "Ближе 10 метров", "isCorrect": false },
+      { "textUz": "15 metrdan yaqin masofada", "textRu": "Ближе 15 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-pedestrians-001",
+    "topicSlug": "pedestrians",
+    "difficulty": 1,
+    "textUz": "Boshqarilmaydigan piyodalar o'tish joyiga yaqinlashayotgan haydovchi nima qilishi shart?",
+    "textRu": "Что обязан сделать водитель, приближающийся к нерегулируемому пешеходному переходу?",
+    "ruleRefs": ["PDD-14.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'lni kesib o'tayotgan yoki o'tishga kirishgan piyodalarga yo'l berishi", "textRu": "Уступить дорогу пешеходам, переходящим дорогу или вступившим на неё", "isCorrect": true },
+      { "textUz": "Ovoz signali berib o'tib ketishi", "textRu": "Подать звуковой сигнал и проехать", "isCorrect": false },
+      { "textUz": "Faqat tezlikni oshirishi", "textRu": "Только увеличить скорость", "isCorrect": false },
+      { "textUz": "Har doim to'liq to'xtashi", "textRu": "Всегда полностью останавливаться", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-pedestrians-002",
+    "topicSlug": "pedestrians",
+    "difficulty": 3,
+    "textUz": "Piyodalar o'tish joyi oldida qo'shni yo'lakdagi transport vositasi to'xtagan bo'lsa, haydovchi nima qilishi kerak?",
+    "textRu": "Как должен поступить водитель, если перед пешеходным переходом остановилось транспортное средство в соседней полосе?",
+    "ruleRefs": ["PDD-14.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Harakatni faqat piyoda yo'qligiga ishonch hosil qilgandan keyin davom ettirishi", "textRu": "Продолжить движение, лишь убедившись, что перед ним нет пешеходов", "isCorrect": true },
+      { "textUz": "Uni chetlab tezlikni oshirib o'tib ketishi", "textRu": "Объехать его, увеличив скорость", "isCorrect": false },
+      { "textUz": "Ovoz signali berib davom etishi", "textRu": "Продолжить движение, подав звуковой сигнал", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-pedestrians-003",
+    "topicSlug": "pedestrians",
+    "difficulty": 2,
+    "textUz": "Sariq signal yoqilganda yo'lda turgan piyoda nima qilishi kerak?",
+    "textRu": "Что должен сделать пешеход, находящийся на проезжей части при включении жёлтого сигнала?",
+    "ruleRefs": ["PDD-6.14"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'lning narigi tomoniga o'tishni tugatishi", "textRu": "Освободить проезжую часть, завершив переход", "isCorrect": true },
+      { "textUz": "Joyida to'xtab qolishi", "textRu": "Остановиться на месте", "isCorrect": false },
+      { "textUz": "Orqaga qaytishi", "textRu": "Вернуться назад", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-special-001",
+    "topicSlug": "special",
+    "difficulty": 2,
+    "textUz": "Shlagbaum yopilayotgan bo'lsa, temir yo'l kesishmasiga chiqish mumkinmi?",
+    "textRu": "Разрешается ли выезжать на переезд при закрывающемся шлагбауме?",
+    "ruleRefs": ["PDD-15.3"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, taqiqlanadi", "textRu": "Нет, запрещается", "isCorrect": true },
+      { "textUz": "Ha, agar poyezd ko'rinmasa", "textRu": "Да, если поезда не видно", "isCorrect": false },
+      { "textUz": "Ha, tezlikni oshirib o'tish mumkin", "textRu": "Да, можно проехать, увеличив скорость", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-special-002",
+    "topicSlug": "special",
+    "difficulty": 3,
+    "textUz": "Kesishma ortida tirbandlik hosil bo'lgan bo'lsa, temir yo'l kesishmasiga chiqish mumkinmi?",
+    "textRu": "Разрешается ли выезжать на железнодорожный переезд, если за ним образовался затор?",
+    "ruleRefs": ["PDD-15.3"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, kesishmada to'xtab qolish xavfi bor", "textRu": "Нет, есть риск вынужденной остановки на переезде", "isCorrect": true },
+      { "textUz": "Ha, shlagbaum ochiq bo'lsa mumkin", "textRu": "Да, если шлагбаум открыт", "isCorrect": false },
+      { "textUz": "Ha, svetofor yashil bo'lsa mumkin", "textRu": "Да, если горит зелёный сигнал", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-special-003",
+    "topicSlug": "special",
+    "difficulty": 2,
+    "textUz": "Qorong'i vaqtda harakatlanayotgan transport vositasida qanday yorug'lik yoqilgan bo'lishi shart?",
+    "textRu": "Какой свет должен быть включён на движущемся транспортном средстве в тёмное время суток?",
+    "ruleRefs": ["PDD-19.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Uzoq yoki yaqin yorug'lik faralari", "textRu": "Фары дальнего или ближнего света", "isCorrect": true },
+      { "textUz": "Faqat gabarit chiroqlari", "textRu": "Только габаритные огни", "isCorrect": false },
+      { "textUz": "Faqat tumanga qarshi chiroqlar", "textRu": "Только противотуманные фары", "isCorrect": false },
+      { "textUz": "Yo'l yoritilgan bo'lsa hech qanday", "textRu": "Никакой, если дорога освещена", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-special-004",
+    "topicSlug": "special",
+    "difficulty": 3,
+    "textUz": "Uzoq yorug'lik qarama-qarshi transport vositasidan qancha masofada yaqin yorug'likka almashtirilishi kerak?",
+    "textRu": "За какое расстояние до встречного транспортного средства дальний свет должен быть переключён на ближний?",
+    "ruleRefs": ["PDD-19.1"],
+    "status": "published",
+    "options": [
+      { "textUz": "Kamida 150 metr", "textRu": "Не менее чем за 150 метров", "isCorrect": true },
+      { "textUz": "Kamida 50 metr", "textRu": "Не менее чем за 50 метров", "isCorrect": false },
+      { "textUz": "Kamida 100 metr", "textRu": "Не менее чем за 100 метров", "isCorrect": false },
+      { "textUz": "Kamida 300 metr", "textRu": "Не менее чем за 300 метров", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-safety-001",
+    "topicSlug": "safety",
+    "difficulty": 2,
+    "textUz": "Yo'l-transport hodisasi sodir bo'lganda haydovchi birinchi navbatda nima qilishi shart?",
+    "textRu": "Что в первую очередь обязан сделать водитель при дорожно-транспортном происшествии?",
+    "ruleRefs": ["PDD-2.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Darhol to'xtab, avariya signalini yoqishi va avariya to'xtash belgisini qo'yishi", "textRu": "Немедленно остановиться, включить аварийную сигнализацию и выставить знак аварийной остановки", "isCorrect": true },
+      { "textUz": "Transport vositalarini yo'ldan darhol olib qo'yishi", "textRu": "Немедленно убрать транспортные средства с проезжей части", "isCorrect": false },
+      { "textUz": "Sug'urta kompaniyasiga qo'ng'iroq qilib kutishi", "textRu": "Позвонить в страховую компанию и ждать", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-safety-002",
+    "topicSlug": "safety",
+    "difficulty": 3,
+    "textUz": "Yo'l-transport hodisasida jabrlanganlar bo'lsa, haydovchi nima qilishi shart?",
+    "textRu": "Что обязан сделать водитель при наличии пострадавших в ДТП?",
+    "ruleRefs": ["PDD-2.5"],
+    "status": "published",
+    "options": [
+      { "textUz": "Birinchi yordam ko'rsatish, tez yordam chaqirish va militsiyaga xabar berish", "textRu": "Оказать первую помощь, вызвать скорую помощь и сообщить в милицию", "isCorrect": true },
+      { "textUz": "Faqat militsiyani kutish", "textRu": "Только дождаться сотрудников милиции", "isCorrect": false },
+      { "textUz": "Jabrlanganni o'z transportida kasalxonaga olib borish shart", "textRu": "Обязательно отвезти пострадавшего в больницу на своём транспорте", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-safety-003",
+    "topicSlug": "safety",
+    "difficulty": 2,
+    "textUz": "Charchagan yoki kasal holatda transport vositasini boshqarish mumkinmi?",
+    "textRu": "Разрешается ли управлять транспортным средством в утомлённом или болезненном состоянии?",
+    "ruleRefs": ["PDD-2.7"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, taqiqlanadi", "textRu": "Нет, запрещается", "isCorrect": true },
+      { "textUz": "Ha, qisqa masofaga mumkin", "textRu": "Да, разрешается на короткие расстояния", "isCorrect": false },
+      { "textUz": "Ha, sekin tezlikda mumkin", "textRu": "Да, при небольшой скорости", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-safety-004",
+    "topicSlug": "safety",
+    "difficulty": 2,
+    "textUz": "Reaksiyani susaytiradigan dori vositalarini qabul qilgan haydovchi transport vositasini boshqarishi mumkinmi?",
+    "textRu": "Может ли управлять транспортным средством водитель, принявший лекарства, ухудшающие реакцию?",
+    "ruleRefs": ["PDD-2.7"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'q, taqiqlanadi", "textRu": "Нет, запрещается", "isCorrect": true },
+      { "textUz": "Ha, agar shifokor ruxsat bergan bo'lsa", "textRu": "Да, если разрешил врач", "isCorrect": false },
+      { "textUz": "Ha, kichik dozada mumkin", "textRu": "Да, в небольшой дозе", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-markings-001",
+    "topicSlug": "markings",
+    "difficulty": 3,
+    "textUz": "Yo'l chiziqlari va yo'l belgilari talablari bir-biriga zid bo'lsa, haydovchi nimaga amal qiladi?",
+    "textRu": "Чем должен руководствоваться водитель, если требования разметки противоречат дорожным знакам?",
+    "ruleRefs": ["PDD-6.15"],
+    "status": "published",
+    "options": [
+      { "textUz": "Yo'l belgilariga", "textRu": "Дорожными знаками", "isCorrect": true },
+      { "textUz": "Yo'l chiziqlariga", "textRu": "Дорожной разметкой", "isCorrect": false },
+      { "textUz": "O'z ixtiyoriga ko'ra", "textRu": "По своему усмотрению", "isCorrect": false }
+    ]
+  },
+  {
+    "externalId": "sd-signs-001",
+    "topicSlug": "signs",
+    "difficulty": 2,
+    "textUz": "Regulirovchi ishlayotgan chorrahada haydovchi kimning talablariga birinchi navbatda amal qiladi?",
+    "textRu": "Чьи требования водитель выполняет в первую очередь на перекрёстке, где работает регулировщик?",
+    "ruleRefs": ["PDD-6.15"],
+    "status": "published",
+    "options": [
+      { "textUz": "Regulirovchining", "textRu": "Регулировщика", "isCorrect": true },
+      { "textUz": "Svetoforning", "textRu": "Светофора", "isCorrect": false },
+      { "textUz": "Ustunlik belgilarining", "textRu": "Знаков приоритета", "isCorrect": false },
+      { "textUz": "Yo'l chiziqlarining", "textRu": "Дорожной разметки", "isCorrect": false }
+    ]
+  }
+]

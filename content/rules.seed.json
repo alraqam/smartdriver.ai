@@ -1,0 +1,162 @@
+[
+  {
+    "code": "PDD-1.2",
+    "order": 12,
+    "titleUz": "Asosiy atamalar",
+    "titleRu": "Основные термины",
+    "bodyUz": "Chorraha — yo'llarning bir sathda kesishgan, tutashgan yoki ayrilgan joyi. Yo'l harakati xavfsizligi nuqtai nazaridan chorraha chegarasi qarama-qarshi joylashgan yo'l chetlarining yaxlitlanish boshlanishini tutashtiruvchi chiziqlar bilan belgilanadi. Uy oldidagi hovlidan chiqish joylari chorraha hisoblanmaydi. Haydovchi — transport vositasini boshqarayotgan shaxs. To'xtash — transport vositasining 5 daqiqagacha bo'lgan harakatsiz holati; agar yo'lovchilarni tushirish-chiqarish yoki yukni ortish-tushirish talab qilsa, undan ko'proq ham bo'lishi mumkin. Turish — 5 daqiqadan ortiq davom etadigan harakatsiz holat.",
+    "bodyRu": "Перекрёсток — место пересечения, примыкания или разветвления дорог на одном уровне. Границы перекрёстка определяются линиями, соединяющими начала закруглений противоположных краёв проезжей части. Выезды с прилегающих дворовых территорий перекрёстками не считаются. Водитель — лицо, управляющее транспортным средством. Остановка — преднамеренное прекращение движения на время до 5 минут, либо дольше, если это необходимо для посадки-высадки пассажиров или загрузки-разгрузки груза. Стоянка — прекращение движения на время более 5 минут."
+  },
+  {
+    "code": "PDD-2.1",
+    "order": 21,
+    "titleUz": "Haydovchining majburiyatlari",
+    "titleRu": "Обязанности водителя",
+    "bodyUz": "Mexanik transport vositasi haydovchisi o'zida haydovchilik guvohnomasi, transport vositasini ro'yxatga olish hujjatlari va majburiy sug'urta polisini saqlashi hamda ularni nazorat qiluvchi mansabdor shaxsning talabiga ko'ra tekshirish uchun berishi shart. Haydovchi transport vositasini boshqarishdan oldin uning texnik holatiga ishonch hosil qilishi lozim.",
+    "bodyRu": "Водитель механического транспортного средства обязан иметь при себе водительское удостоверение, регистрационные документы на транспортное средство и полис обязательного страхования, и передавать их для проверки по требованию уполномоченного должностного лица. Перед выездом водитель обязан убедиться в исправности транспортного средства."
+  },
+  {
+    "code": "PDD-2.7",
+    "order": 27,
+    "titleUz": "Haydovchiga taqiqlanadi",
+    "titleRu": "Водителю запрещается",
+    "bodyUz": "Haydovchiga alkogol, giyohvand yoki boshqa mast qiluvchi moddalar ta'siri ostida, shuningdek reaksiyani va diqqatni susaytiradigan dori vositalari ta'sirida, kasal yoki charchagan holatda transport vositasini boshqarish taqiqlanadi. Harakatlanish paytida qo'lda ushlab turiladigan telefondan foydalanish taqiqlanadi.",
+    "bodyRu": "Водителю запрещается управлять транспортным средством в состоянии алкогольного, наркотического или иного опьянения, под воздействием лекарственных препаратов, ухудшающих реакцию и внимание, в болезненном или утомлённом состоянии. Запрещается пользоваться во время движения телефоном, не оборудованным техническим устройством, позволяющим вести переговоры без использования рук."
+  },
+  {
+    "code": "PDD-6.2",
+    "order": 62,
+    "titleUz": "Svetofor signallari",
+    "titleRu": "Сигналы светофора",
+    "bodyUz": "Yashil signal harakatga ruxsat beradi. Chaqnovchi yashil signal harakatga ruxsat beradi va uning amal qilish muddati tugayotgani haqida xabar beradi. Sariq signal harakatni taqiqlaydi va signallar almashishi haqida ogohlantiradi. Chaqnovchi sariq signal harakatga ruxsat beradi va boshqarilmaydigan chorraha yoki boshqarilmaydigan piyodalar o'tish joyi borligi, xavf haqida xabar beradi. Qizil signal, shu jumladan chaqnovchi qizil signal, harakatni taqiqlaydi. Qizil va sariq signallarning birgalikdagi ko'rinishi harakatni taqiqlaydi va yashil signal yoqilishi haqida xabar beradi.",
+    "bodyRu": "Зелёный сигнал разрешает движение. Зелёный мигающий сигнал разрешает движение и информирует, что время его действия истекает. Жёлтый сигнал запрещает движение и предупреждает о предстоящей смене сигналов. Жёлтый мигающий сигнал разрешает движение и информирует о наличии нерегулируемого перекрёстка или пешеходного перехода, предупреждает об опасности. Красный сигнал, в том числе мигающий, запрещает движение. Сочетание красного и жёлтого сигналов запрещает движение и информирует о предстоящем включении зелёного сигнала."
+  },
+  {
+    "code": "PDD-6.14",
+    "order": 614,
+    "titleUz": "Sariq signalda to'xtatib bo'lmaganda",
+    "titleRu": "Если при жёлтом сигнале остановиться невозможно",
+    "bodyUz": "Sariq signal yonganda yoki regulirovchi qo'lini yuqoriga ko'targanda, agar haydovchi keskin tormozlanishga murojaat qilmasdan belgilangan joyda to'xtay olmasa, harakatni davom ettirishga ruxsat etiladi. Piyodalar yo'lning narigi tomoniga o'tishni tugatishlari shart.",
+    "bodyRu": "Водители, которые при включении жёлтого сигнала или поднятии регулировщиком руки вверх не могут остановиться в установленном месте, не прибегая к экстренному торможению, имеют право двигаться дальше. Пешеходы в этом случае должны освободить проезжую часть."
+  },
+  {
+    "code": "PDD-6.15",
+    "order": 615,
+    "titleUz": "Signallar ustunligi",
+    "titleRu": "Приоритет сигналов",
+    "bodyUz": "Haydovchilar va piyodalar regulirovchining talablarini svetofor signallari, yo'l belgilari va chiziqlari talablariga zid bo'lsa ham bajarishlari shart. Svetofor signallari, chaqnovchi sariq signaldan tashqari, ustunlik belgilari talablariga zid bo'lsa, ustunlikni svetofor belgilaydi.",
+    "bodyRu": "Водители и пешеходы должны выполнять требования регулировщика, даже если они противоречат сигналам светофора, дорожным знакам и разметке. Сигналы светофора, кроме жёлтого мигающего, имеют приоритет над знаками приоритета."
+  },
+  {
+    "code": "PDD-8.1",
+    "order": 81,
+    "titleUz": "Manyovr oldidan signal berish",
+    "titleRu": "Подача сигнала перед манёвром",
+    "bodyUz": "Harakatni boshlash, qayta saflanish, burilish va to'xtash oldidan haydovchi tegishli yo'nalishdagi burilish ko'rsatkichlari bilan, ular bo'lmasa yoki nosoz bo'lsa — qo'l bilan signal berishi shart. Signal manyovr boshlanishidan oldin oldindan berilishi va u tugagach darhol to'xtatilishi kerak. Signal berish haydovchiga ustunlik bermaydi va uni ehtiyot choralarini ko'rishdan ozod qilmaydi.",
+    "bodyRu": "Перед началом движения, перестроением, поворотом и остановкой водитель обязан подавать сигналы указателями поворота соответствующего направления, а при их отсутствии или неисправности — рукой. Сигнал должен подаваться заблаговременно до начала манёвра и прекращаться немедленно после его завершения. Подача сигнала не даёт водителю преимущества и не освобождает его от принятия мер предосторожности."
+  },
+  {
+    "code": "PDD-8.5",
+    "order": 85,
+    "titleUz": "Burilishdan oldin joylashish",
+    "titleRu": "Расположение перед поворотом",
+    "bodyUz": "O'ngga, chapga burilish yoki qayta burilishdan oldin haydovchi tegishli yo'nalishdagi yo'lning eng chekka holatini oldindan egallashi shart. Chorrahaga chiqishda o'ngga burilish imkon qadar yo'lning o'ng chetiga yaqinroq bajarilishi kerak.",
+    "bodyRu": "Перед поворотом направо, налево или разворотом водитель обязан заблаговременно занять соответствующее крайнее положение на проезжей части. Поворот направо должен выполняться как можно ближе к правому краю проезжей части."
+  },
+  {
+    "code": "PDD-11.1",
+    "order": 111,
+    "titleUz": "Quvib o'tish qoidalari",
+    "titleRu": "Правила обгона",
+    "bodyUz": "Quvib o'tishni boshlashdan oldin haydovchi o'zi kirmoqchi bo'lgan harakat yo'lagi quvib o'tish uchun yetarli masofada bo'sh ekanligiga va manyovr jarayonida boshqa harakat qatnashchilariga xavf tug'dirmasligiga hamda to'sqinlik qilmasligiga ishonch hosil qilishi shart. Quvib o'tish faqat chap tomondan bajariladi.",
+    "bodyRu": "Прежде чем начать обгон, водитель обязан убедиться в том, что полоса движения, на которую он собирается выехать, свободна на достаточном для обгона расстоянии и что в процессе обгона он не создаст опасности и помех другим участникам движения. Обгон выполняется только с левой стороны."
+  },
+  {
+    "code": "PDD-11.5",
+    "order": 115,
+    "titleUz": "Quvib o'tish taqiqlanadi",
+    "titleRu": "Обгон запрещён",
+    "bodyUz": "Quvib o'tish taqiqlanadi: boshqariladigan chorrahalarda va asosiy bo'lmagan yo'lda harakatlanayotganda boshqarilmaydigan chorrahalarda; piyodalar o'tish joylarida; temir yo'l kesishmalarida va ulardan 100 metrdan yaqin masofada; ko'priklar, estakadalar va tunnellarda; yo'lning xavfli burilishlarida va ko'rinish cheklangan boshqa uchastkalarda.",
+    "bodyRu": "Обгон запрещён: на регулируемых перекрёстках, а также на нерегулируемых перекрёстках при движении по дороге, не являющейся главной; на пешеходных переходах; на железнодорожных переездах и ближе чем за 100 метров перед ними; на мостах, эстакадах и в тоннелях; на опасных поворотах и других участках с ограниченной видимостью."
+  },
+  {
+    "code": "PDD-10.1",
+    "order": 101,
+    "titleUz": "Tezlikni tanlash",
+    "titleRu": "Выбор скорости",
+    "bodyUz": "Haydovchi transport vositasini harakat tezligini belgilangan cheklovlarni hisobga olgan holda, harakat jadalligi, transport vositasi va yukning xususiyatlari, yo'l va meteorologik sharoitlar, xususan ko'rinish darajasini inobatga olib boshqarishi shart. Tezlik haydovchiga harakatni doimiy nazorat qilish imkonini berishi kerak. Xavf paydo bo'lganda haydovchi transport vositasini to'xtatish uchun choralar ko'rishi shart.",
+    "bodyRu": "Водитель должен вести транспортное средство со скоростью, не превышающей установленного ограничения, учитывая при этом интенсивность движения, особенности и состояние транспортного средства и груза, дорожные и метеорологические условия, в частности видимость в направлении движения. Скорость должна обеспечивать водителю возможность постоянного контроля за движением. При возникновении опасности водитель обязан принять меры к снижению скорости вплоть до остановки."
+  },
+  {
+    "code": "PDD-10.2",
+    "order": 102,
+    "titleUz": "Aholi punktlarida tezlik",
+    "titleRu": "Скорость в населённых пунктах",
+    "bodyUz": "Aholi punktlarida transport vositalarining harakatlanishiga soatiga 70 kilometrdan oshmagan tezlikda ruxsat etiladi. Hovli hududlarida va turar joy zonalarida harakat tezligi soatiga 20 kilometrdan oshmasligi kerak.",
+    "bodyRu": "В населённых пунктах разрешается движение транспортных средств со скоростью не более 70 км/ч. В жилых зонах и на дворовых территориях скорость движения не должна превышать 20 км/ч."
+  },
+  {
+    "code": "PDD-13.9",
+    "order": 139,
+    "titleUz": "Boshqarilmaydigan chorrahada ustunlik",
+    "titleRu": "Приоритет на нерегулируемом перекрёстке",
+    "bodyUz": "Asosiy bo'lmagan yo'lda harakatlanayotgan haydovchi qaysi tomondan yaqinlashayotganidan qat'i nazar asosiy yo'lda harakatlanayotgan transport vositalariga yo'l berishi shart. Teng ahamiyatli yo'llar kesishgan chorrahada relssiz transport vositasi haydovchisi o'ngdan yaqinlashayotgan transport vositalariga yo'l berishi shart.",
+    "bodyRu": "На перекрёстке неравнозначных дорог водитель транспортного средства, движущегося по второстепенной дороге, должен уступить дорогу транспортным средствам, приближающимся по главной, независимо от направления их дальнейшего движения. На перекрёстке равнозначных дорог водитель безрельсового транспортного средства обязан уступить дорогу транспортным средствам, приближающимся справа."
+  },
+  {
+    "code": "PDD-13.12",
+    "order": 1312,
+    "titleUz": "Chapga burilish va qayta burilish",
+    "titleRu": "Поворот налево и разворот",
+    "bodyUz": "Chapga burilish yoki qayta burilishda relssiz transport vositasi haydovchisi teng ahamiyatli yo'lda qarama-qarshi tomondan to'g'riga yoki o'ngga harakatlanayotgan transport vositalariga yo'l berishi shart. Tramvaylar o'rtasida bir xil sharoitda relssiz transport vositalariga nisbatan ustunlikka ega.",
+    "bodyRu": "При повороте налево или развороте водитель безрельсового транспортного средства обязан уступить дорогу транспортным средствам, движущимся по равнозначной дороге со встречного направления прямо или направо. Трамвай имеет преимущество перед безрельсовыми транспортными средствами при прочих равных условиях."
+  },
+  {
+    "code": "PDD-13.11",
+    "order": 1311,
+    "titleUz": "Aylanma harakatli chorraha",
+    "titleRu": "Перекрёсток с круговым движением",
+    "bodyUz": "Aylanma harakat tashkil etilgan chorrahaga kirayotgan transport vositasi haydovchisi bunday chorrahada harakatlanayotgan transport vositalariga yo'l berishi shart, agar boshqacha tartib ustunlik belgilari bilan belgilanmagan bo'lsa.",
+    "bodyRu": "Водитель транспортного средства, въезжающего на перекрёсток, на котором организовано круговое движение, обязан уступить дорогу транспортным средствам, движущимся по такому перекрёстку, если иное не установлено знаками приоритета."
+  },
+  {
+    "code": "PDD-12.4",
+    "order": 124,
+    "titleUz": "To'xtash taqiqlanadigan joylar",
+    "titleRu": "Места, где остановка запрещена",
+    "bodyUz": "To'xtash taqiqlanadi: tramvay yo'llarida va ularning bevosita yaqinida; temir yo'l kesishmalarida, tunnellarda, ko'priklar va estakadalarda; piyodalar o'tish joylarida va ulardan 5 metrdan yaqin masofada; chorrahalarda va kesishayotgan yo'l chetidan 5 metrdan yaqin masofada; yo'nalishli transport to'xtash joyidan 15 metrdan yaqin masofada; ko'rinish 100 metrdan kam bo'lgan yo'l uchastkalarida.",
+    "bodyRu": "Остановка запрещается: на трамвайных путях и в непосредственной близости от них; на железнодорожных переездах, в тоннелях, на мостах и эстакадах; на пешеходных переходах и ближе 5 метров от них; на перекрёстках и ближе 5 метров от края пересекаемой проезжей части; ближе 15 метров от мест остановки маршрутных транспортных средств; на участках дорог с видимостью менее 100 метров."
+  },
+  {
+    "code": "PDD-14.1",
+    "order": 141,
+    "titleUz": "Piyodalarga yo'l berish",
+    "titleRu": "Уступить дорогу пешеходам",
+    "bodyUz": "Boshqarilmaydigan piyodalar o'tish joyiga yaqinlashayotgan transport vositasi haydovchisi yo'lni kesib o'tayotgan yoki o'tishga kirishgan piyodalarga yo'l berishi shart. Piyodalar o'tish joyi oldida to'xtagan yoki sekinlashgan transport vositasi bo'lsa, qo'shni yo'laklardagi haydovchilar ham harakatni faqat piyoda yo'qligiga ishonch hosil qilgandan keyin davom ettirishlari mumkin.",
+    "bodyRu": "Водитель транспортного средства, приближающегося к нерегулируемому пешеходному переходу, обязан уступить дорогу пешеходам, переходящим дорогу или вступившим на неё для перехода. Если перед пешеходным переходом остановилось или замедлило движение транспортное средство, водители других полос могут продолжать движение, лишь убедившись, что перед ним нет пешеходов."
+  },
+  {
+    "code": "PDD-15.3",
+    "order": 153,
+    "titleUz": "Temir yo'l kesishmasi",
+    "titleRu": "Железнодорожный переезд",
+    "bodyUz": "Shlagbaum yopilayotganda yoki yopiq bo'lsa, svetoforning taqiqlovchi signali yoqilganda, navbatchining taqiqlovchi signali berilganda temir yo'l kesishmasiga chiqish taqiqlanadi. Kesishma ortida haydovchini to'xtashga majbur qiladigan tirbandlik bo'lsa ham kesishmaga chiqish taqiqlanadi.",
+    "bodyRu": "Запрещается выезжать на переезд при закрытом или закрывающемся шлагбауме, при запрещающем сигнале светофора, при запрещающем сигнале дежурного по переезду. Запрещается выезжать на переезд, если за переездом образовался затор, который вынудит водителя остановиться на переезде."
+  },
+  {
+    "code": "PDD-19.1",
+    "order": 191,
+    "titleUz": "Tashqi yoritish asboblari",
+    "titleRu": "Внешние световые приборы",
+    "bodyUz": "Qorong'i vaqtda va ko'rinish yetarli bo'lmagan sharoitlarda, yo'l yoritilganidan qat'i nazar, harakatlanayotgan transport vositasida uzoq yoki yaqin yorug'lik faralari yoqilgan bo'lishi shart. Aholi punktlarida yo'l yoritilgan bo'lsa yaqin yorug'lik ishlatiladi. Uzoq yorug'lik qarama-qarshi transport vositasidan 150 metrdan kam masofada yaqin yorug'likka almashtirilishi kerak.",
+    "bodyRu": "В тёмное время суток и в условиях недостаточной видимости, независимо от освещения дороги, на движущемся транспортном средстве должны быть включены фары дальнего или ближнего света. В населённых пунктах при освещённой дороге применяется ближний свет. Дальний свет должен быть переключён на ближний не менее чем за 150 метров до встречного транспортного средства."
+  },
+  {
+    "code": "PDD-2.5",
+    "order": 25,
+    "titleUz": "Yo'l-transport hodisasi",
+    "titleRu": "Дорожно-транспортное происшествие",
+    "bodyUz": "Yo'l-transport hodisasi sodir bo'lganda unga aloqador haydovchi darhol transport vositasini to'xtatishi, avariya to'xtash signalini yoqishi va avariya to'xtash belgisini qo'yishi, transport vositalarini va hodisaga aloqador narsalarni joyidan qimirlatmasligi shart. Jabrlanganlar bo'lsa, birinchi yordam ko'rsatish, tez yordam chaqirish va militsiyaga xabar berish lozim.",
+    "bodyRu": "При дорожно-транспортном происшествии причастный к нему водитель обязан немедленно остановить транспортное средство, включить аварийную сигнализацию и выставить знак аварийной остановки, не перемещать предметы, имеющие отношение к происшествию. При наличии пострадавших — оказать первую помощь, вызвать скорую помощь и сообщить в милицию."
+  }
+]

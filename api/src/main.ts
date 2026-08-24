@@ -1,0 +1,85 @@
+// .env FIRST — before any module that reads process.env at import time
+// (JwtModule.register and the service constructors all do).
+import 'dotenv/config';
+import 'reflect-metadata';
+import { NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
+import helmet from 'helmet';
+import { AppModule } from './app.module';
+
+const DEV_SECRET = 'smartdriverai-dev-secret';
+
+// Fail fast at boot on missing or dangerous config, rather than surfacing it
+// as an opaque error on whichever request happens to need it first.
+function assertRequiredConfig() {
+  const db = process.env.DATABASE_URL;
+  if (!db || !/^postgres(ql)?:\/\//.test(db)) {
+    throw new Error('DATABASE_URL must be set to a postgresql:// connection string.');
+  }
+
+  const prod = process.env.NODE_ENV === 'production';
+  if (prod) {
+    const s = process.env.JWT_SECRET;
+    if (!s || s === DEV_SECRET || s.length < 16) {
+      throw new Error(
+        'JWT_SECRET must be set to a strong value (>=16 chars, not the dev default) in production.',
+      );
+    }
+
+    // In mock mode no SMS is sent and the code goes to the log — which in
+    // production means nobody can sign in, and anyone with log access can sign
+    // in as anyone. Refuse to start rather than ship a broken door.
+    if (!process.env.ESKIZ_EMAIL || !process.env.ESKIZ_PASSWORD) {
+      throw new Error(
+        'Eskiz would run in MOCK mode in production: no SMS would be sent and OTP codes would be written to the log. Set ESKIZ_EMAIL and ESKIZ_PASSWORD.',
+      );
+    }
+  }
+}
+
+async function bootstrap() {
+  const logger = new Logger('Bootstrap');
+  assertRequiredConfig();
+
+  const app = await NestFactory.create(AppModule, { cors: false });
+  app.enableShutdownHooks();
+
+  // Behind Traefik / EasyPanel — trust the proxy so the client IP used for
+  // rate limiting is the learner's, not the proxy's (otherwise every learner
+  // shares one bucket and the OTP limit locks everyone out at once).
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
+  app.use(helmet());
+  app.setGlobalPrefix('api');
+
+  const prod = process.env.NODE_ENV === 'production';
+  let origins: string[];
+  if (process.env.CORS_ORIGINS) {
+    origins = process.env.CORS_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean);
+  } else if (prod) {
+    origins = [];
+    logger.warn('CORS_ORIGINS not set in production — denying all cross-origin requests.');
+  } else {
+    origins = ['http://localhost:5175', 'http://localhost:4175', 'http://localhost:8082'];
+  }
+  app.enableCors({ origin: origins, credentials: true });
+
+  const port = Number(process.env.PORT) || 3003;
+  await app.listen(port);
+  logger.log(`SmartDriverAI API → http://localhost:${port}/api`);
+  if (!process.env.ESKIZ_EMAIL) {
+    logger.warn('Eskiz in MOCK mode — OTP codes are printed to this log, no SMS is sent.');
+    if (process.env.DEMO_SHOW_OTP !== 'false') {
+      // Loud, because an OTP in an HTTP response is a real vulnerability
+      // anywhere it is not deliberate. Production cannot reach this line —
+      // assertRequiredConfig() refuses to boot in mock mode there.
+      logger.warn(
+        'DEMO MODE — OTP codes are ALSO returned in the /auth/otp/request response body and shown in the UI. Set DEMO_SHOW_OTP=false to disable.',
+      );
+    }
+  }
+  if (!process.env.ANTHROPIC_API_KEY) {
+    logger.warn('Anthropic in MOCK mode — explanations and tutor replies are canned.');
+  }
+}
+
+bootstrap();

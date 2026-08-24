@@ -1,0 +1,53 @@
+{
+  "name": "smartdriverai-api",
+  "version": "0.1.0",
+  "description": "SmartDriverAI backend API — NestJS, Postgres (Prisma), phone-OTP auth, Claude-powered explanations",
+  "private": true,
+  "scripts": {
+    "build": "prisma generate && nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node dist/main",
+    "prisma:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "content:import": "ts-node -r tsconfig-paths/register src/content/import.cli.ts",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "test": "jest",
+    "eval:retrieval": "nest build && node test/eval-retrieval.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0",
+    "@nestjs/common": "^10.4.4",
+    "@nestjs/core": "^10.4.4",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/platform-express": "^10.4.4",
+    "@nestjs/throttler": "^6.4.0",
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.6.1",
+    "helmet": "^8.0.0",
+    "prisma": "^5.22.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.5",
+    "@nestjs/schematics": "^10.2.3",
+    "@nestjs/testing": "^10.4.4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.5",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.6.3"
+  }
+}

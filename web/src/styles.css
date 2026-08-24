@@ -1,0 +1,71 @@
+/* SmartDriverAi — desktop web shell.
+   Ported from the Claude Design prototype: Plus Jakarta Sans, a fixed sidebar,
+   and a centred panel that the screens fill absolutely.
+
+   Almost all styling lives in the components as theme-driven inline styles
+   (the design's own approach — a colour has to follow the light/dark token, not
+   a stylesheet). What stays here is what inline styles cannot express:
+   keyframes, scrollbars, and document-level resets. */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* The shell owns scrolling; each screen scrolls inside its own panel. */
+  overflow: hidden;
+}
+
+button, input, textarea { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+
+@keyframes sdai-spin { to { transform: rotate(360deg); } }
+
+@keyframes sdai-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.25); }
+}
+
+@keyframes sdai-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes sdai-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slim scrollbars — a default chrome scrollbar inside a 28px-radius panel
+   reads as a rendering bug rather than as furniture. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 138, 152, 0.35) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(128, 138, 152, 0.3);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(128, 138, 152, 0.5); }
+
+/* Placeholder colour cannot be set inline, and it has to follow the theme. */
+input::placeholder { color: rgba(128, 138, 152, 0.7); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

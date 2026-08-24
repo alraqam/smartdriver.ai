@@ -1,0 +1,14 @@
+[
+  { "slug": "general", "order": 1, "titleUz": "Umumiy qoidalar va atamalar", "titleRu": "Общие положения и термины" },
+  { "slug": "signals", "order": 2, "titleUz": "Svetofor va regulirovchi signallari", "titleRu": "Сигналы светофора и регулировщика" },
+  { "slug": "signs", "order": 3, "titleUz": "Yo'l belgilari", "titleRu": "Дорожные знаки" },
+  { "slug": "markings", "order": 4, "titleUz": "Yo'l chiziqlari", "titleRu": "Дорожная разметка" },
+  { "slug": "priority", "order": 5, "titleUz": "Chorrahalarda ustunlik", "titleRu": "Приоритет на перекрёстках" },
+  { "slug": "maneuvering", "order": 6, "titleUz": "Manyovr qilish va joylashish", "titleRu": "Манёврирование и расположение" },
+  { "slug": "overtaking", "order": 7, "titleUz": "Quvib o'tish va qarama-qarshi harakat", "titleRu": "Обгон и встречное движение" },
+  { "slug": "speed", "order": 8, "titleUz": "Harakat tezligi", "titleRu": "Скорость движения" },
+  { "slug": "stopping", "order": 9, "titleUz": "To'xtash va turish", "titleRu": "Остановка и стоянка" },
+  { "slug": "pedestrians", "order": 10, "titleUz": "Piyodalar va yo'lovchilar", "titleRu": "Пешеходы и пассажиры" },
+  { "slug": "special", "order": 11, "titleUz": "Maxsus sharoitlar va transport", "titleRu": "Особые условия и транспорт" },
+  { "slug": "safety", "order": 12, "titleUz": "Texnik holat va birinchi yordam", "titleRu": "Техническое состояние и первая помощь" }
+]

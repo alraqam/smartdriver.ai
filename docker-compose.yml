@@ -1,0 +1,66 @@
+# SmartDriverAI — local stack: NestJS API + static web app (nginx).
+#
+# Postgres lives in the shared infra stack (../_shared-infra): database
+# "smartdriverai" on host port 5432. Start that first:
+#
+#   docker compose -f ../_shared-infra/docker-compose.yml up -d
+#
+# Then, from this directory:  docker compose up --build
+#   web → http://localhost:8082
+#   api → http://localhost:3003/api
+#   db  → localhost:5432 (shared-postgres, database "smartdriverai")
+#
+# No Redis: nothing in the MVP needs a queue.
+name: smartdriverai
+
+services:
+  api:
+    build: ./api
+    image: smartdriverai-api
+    ports:
+      - "3003:3003"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      NODE_ENV: production
+      PORT: "3003"
+      DATABASE_URL: "postgresql://smartdriverai:smartdriverai@host.docker.internal:5432/smartdriverai?schema=public"
+
+      # Local-only default. Production MUST set a strong JWT_SECRET — the API
+      # refuses to boot in production without one.
+      JWT_SECRET: "${JWT_SECRET:-local-dev-only-secret-change-in-prod-0123456789}"
+      JWT_EXPIRES_IN: "30d"
+
+      # nginx proxies /api on the same origin, so cross-origin requests only
+      # come from the Vite dev server.
+      CORS_ORIGINS: "http://localhost:8082,http://localhost:5175,http://localhost:4175"
+
+      # Eskiz SMS. Blank -> mock mode: no SMS is sent and the OTP goes to the
+      # log. NODE_ENV=production refuses to start that way, so set these (or
+      # drop NODE_ENV to development) to bring the stack up locally.
+      ESKIZ_EMAIL: "${ESKIZ_EMAIL:-}"
+      ESKIZ_PASSWORD: "${ESKIZ_PASSWORD:-}"
+      ESKIZ_FROM: "${ESKIZ_FROM:-4546}"
+
+      # Anthropic. Blank -> mock mode: explanations and tutor replies are
+      # canned and clearly labelled as such, and nothing is cached.
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      ANTHROPIC_MODEL: "${ANTHROPIC_MODEL:-claude-opus-5}"
+      TUTOR_DAILY_LIMIT: "${TUTOR_DAILY_LIMIT:-30}"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3003/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+
+  web:
+    build: ./web
+    image: smartdriverai-web
+    ports:
+      - "8082:80"
+    depends_on:
+      api:
+        condition: service_started
+    restart: unless-stopped

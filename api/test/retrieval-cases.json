@@ -1,0 +1,25 @@
+{
+  "note": "Cases for the rule-retrieval eval (npm run eval:retrieval). Extend this as the real rule corpus lands — it is the only check that the tutor is looking at the right rules. `expect` is the RuleSection.code that should be retrieved; `offCorpus` cases must retrieve nothing at all.",
+  "onCorpus": [
+    { "locale": "uz", "q": "Svetoforning sariq signali nimani anglatadi?", "expect": "PDD-6.2" },
+    { "locale": "uz", "q": "Aholi punktida ruxsat etilgan eng yuqori tezlik qancha?", "expect": "PDD-10.2" },
+    { "locale": "uz", "q": "Piyodalar o'tish joyida quvib o'tish mumkinmi?", "expect": "PDD-11.5" },
+    { "locale": "uz", "q": "Temir yo'l kesishmasiga qachon chiqish mumkin emas?", "expect": "PDD-15.3" },
+    { "locale": "uz", "q": "Chorrahada kim birinchi o'tadi?", "expect": "PDD-13.9" },
+    { "locale": "uz", "q": "Qorong'i vaqtda qanday yorug'lik yoqilishi kerak?", "expect": "PDD-19.1" },
+    { "locale": "uz", "q": "Piyodalar o'tish joyidan necha metrda to'xtash taqiqlanadi?", "expect": "PDD-12.4" },
+    { "locale": "uz", "q": "Yo'l-transport hodisasida haydovchi nima qilishi kerak?", "expect": "PDD-2.5" },
+    { "locale": "ru", "q": "Что означает жёлтый сигнал светофора?", "expect": "PDD-6.2" },
+    { "locale": "ru", "q": "Какая максимальная скорость в населённых пунктах?", "expect": "PDD-10.2" },
+    { "locale": "ru", "q": "Когда запрещён обгон?", "expect": "PDD-11.5" },
+    { "locale": "ru", "q": "Кому уступить дорогу на перекрёстке равнозначных дорог?", "expect": "PDD-13.9" },
+    { "locale": "ru", "q": "Можно ли пользоваться телефоном за рулём?", "expect": "PDD-2.7" },
+    { "locale": "ru", "q": "Что делать при жёлтом сигнале, если нельзя остановиться?", "expect": "PDD-6.14" }
+  ],
+  "offCorpus": [
+    { "locale": "uz", "q": "Qaysi restoranda kechki ovqat qilishni maslahat berasiz?" },
+    { "locale": "uz", "q": "Toshkentda kvartira narxi qancha turadi?" },
+    { "locale": "ru", "q": "Как приготовить плов и какие специи нужны?" },
+    { "locale": "ru", "q": "Сколько стоит квартира в Ташкенте?" }
+  ]
+}

@@ -11,9 +11,14 @@ Uzbek and Russian throughout. Mobile-first web app.
 
 ```
 api/       NestJS + Prisma + Postgres        → :3003
-web/       Vite + React, mobile-first        → :5175 (dev), :8082 (docker)
+web/       Vite + React, desktop web app     → :5175 (dev), :8082 (docker)
 content/   seed questions, rules, topics + the import format
 ```
+
+The interface implements the **SmartDriverAi Web App** design from Claude
+Design: a fixed sidebar over a centred panel, light and dark themes, and the
+"road ahead" home screen where progress is a literal winding road. See
+[The UI](#the-ui) for what was adapted and why.
 
 ---
 
@@ -192,3 +197,44 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
 4. **`signs` and `markings` have one question each.** They are the two topics
    that genuinely need diagrams, so they are thin until images exist.
 5. **No payments.** Everything is free in v1.
+
+---
+
+## The UI
+
+Ported from the Claude Design project **SmartDriverAi → `SmartDriverAi Web
+App.html`**. The design was a prototype running on hardcoded data with no auth,
+so it was implemented as the real app's interface rather than copied verbatim.
+Three deliberate departures:
+
+**Locales are uz + ru, not uz + en.** The design shipped Uzbek and English; the
+product targets Uzbekistan, so the English strings were translated to Russian.
+
+**No invented gamification.** The prototype showed XP, a level ("Lv 4") and
+quiz "hearts". None has anything behind it in the data, and rendering invented
+numbers in a live app is worse than omitting them. What survives is what is
+real: the streak is derived from actual session dates, accuracy and readiness
+come from mastery. Hearts are gone outright — a lives mechanic that ends a
+study session early is hostile in exam prep.
+
+**Nothing is locked.** The prototype's road had locked stops. Every topic here
+stays open: refusing to let an adult practise pedestrians until they finish
+signals is gamification getting in the way of studying. A road node is only
+inert when the topic genuinely has no questions imported.
+
+What maps onto real data:
+
+| Design screen | Backed by |
+|---|---|
+| The road, with a stop per module | The 12 real topics; node state comes from mastery |
+| Lesson detail | `GET /topics/:id/rules` — the rule sections the topic's questions cite, ordered by how many lean on each |
+| Quiz | A real `practice` session, with **Why?** calling the explanation endpoint |
+| Mock exam | A real `exam` session — the server picks the questions, owns the clock and scores it |
+| Sign library | Static; the one screen with no backend, deliberately |
+| Profile | Real readiness, weak topics and coverage |
+
+The mock-exam runner is why `answer()` now lets an **exam** answer be revised
+until submission: navigating back to change your mind is how the real test
+works. Exam scoring and mastery are applied once, at `finish()`, so revising
+cannot double-count. Practice answers stay final — feedback has already been
+shown, so changing one afterwards would only be a way to fake a score.

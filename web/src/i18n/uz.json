@@ -1,17 +1,14 @@
 {
   "app.name": "SmartDriverAi",
   "app.tagline": "Haydovchilik nazariyasi",
-
   "nav.road": "Yo'l",
   "nav.lessons": "Mavzular",
   "nav.mock": "Imtihon",
   "nav.signs": "Belgilar",
   "nav.tutor": "Ustoz",
   "nav.profile": "Profil",
-
   "theme.light": "Yorug'",
   "theme.dark": "Qorong'u",
-
   "common.loading": "Yuklanmoqda...",
   "common.error": "Xatolik yuz berdi",
   "common.retry": "Qayta urinish",
@@ -25,7 +22,6 @@
   "common.day": "kun",
   "common.practice": "Mashq qilish",
   "common.close": "Yopish",
-
   "login.title": "Kirish",
   "login.subtitle": "Telefon raqamingizni kiriting — SMS orqali kod yuboramiz.",
   "login.phone": "Telefon raqami",
@@ -40,7 +36,6 @@
   "login.resend": "Kodni qayta yuborish",
   "login.mockHint": "Demo rejimi: SMS yuborilmaydi — kod server logida chiqadi.",
   "login.demoCode": "Demo rejimi: SMS yuborilmadi. Kod avtomatik kiritildi.",
-
   "road.greeting": "Assalomu alaykum",
   "road.youreHere": "SIZ SHU YERDA",
   "road.nextUp": "KEYINGI",
@@ -53,7 +48,6 @@
   "road.accuracy": "aniqlik",
   "road.readiness": "tayyorlik",
   "road.empty": "Savollar hali import qilinmagan.",
-
   "lessons.title": "Mavzular",
   "lessons.summary": "{lessons} ta savol · {modules} ta mavzu",
   "lessons.filterAll": "Barchasi",
@@ -66,14 +60,12 @@
   "lessons.count": "{n} ta savol",
   "lessons.weak": "Zaif",
   "lessons.none": "Bu filtrga mos mavzu yo'q.",
-
   "lesson.eyebrow": "MAVZU",
   "lesson.rulesTitle": "Ushbu mavzudagi qoidalar",
   "lesson.noRules": "Bu mavzu uchun qoida matni hali yuklanmagan. Mashqni baribir boshlashingiz mumkin.",
   "lesson.ruleQuestions": "{n} ta savol",
   "lesson.startPractice": "Mashqni boshlash",
   "lesson.questionsAvailable": "{n} ta savol mavjud",
-
   "quiz.questionXofY": "{a}-SAVOL, JAMI {b}",
   "quiz.explain": "Nega?",
   "quiz.explaining": "Tushuntirilmoqda...",
@@ -81,7 +73,6 @@
   "quiz.keyRule": "Asosiy qoida",
   "quiz.commonMistake": "Ko'p uchraydigan xato",
   "quiz.exitConfirm": "Mashqni tark etasizmi? Javob berilgan savollar saqlanadi.",
-
   "result.score": "BAHO",
   "result.complete": "Mashq yakunlandi!",
   "result.almostThere": "Deyarli yetib keldingiz",
@@ -92,7 +83,6 @@
   "result.review": "Javoblarni ko'rib chiqish",
   "result.again": "Yana urinish",
   "result.home": "Yo'lga qaytish",
-
   "mock.title": "Sinov imtihoni",
   "mock.ready": "Imtihonga tayyormisiz?",
   "mock.brief": "{n} ta savol · {m} daqiqa · {max} tagacha xatoga yo'l qo'yiladi. Bu O'zbekiston B toifasi nazariy imtihoniga mos.",
@@ -121,13 +111,11 @@
   "mock.yourAnswer": "Sizning javobingiz",
   "mock.correctAnswer": "To'g'ri javob",
   "mock.exitConfirm": "Imtihondan chiqasizmi? Vaqt to'xtamaydi.",
-
   "review.title": "Ko'rib chiqish",
   "review.all": "Barchasi",
   "review.wrong": "Xato",
   "review.skipped": "O'tkazilgan",
   "review.empty": "Bu toifada savol yo'q.",
-
   "signs.title": "Belgilar kutubxonasi",
   "signs.total": "{n} TA BELGI",
   "signs.search": "Belgini qidirish...",
@@ -143,7 +131,6 @@
   "signs.when": "Qayerda uchraydi",
   "signs.action": "Nima qilish kerak",
   "signs.askTutor": "Ustozdan so'rash",
-
   "tutor.title": "AI Ustoz",
   "tutor.placeholder": "Yo'l qoidalari haqida savol bering...",
   "tutor.thinking": "O'ylamoqda...",
@@ -153,7 +140,6 @@
   "tutor.quotaOver": "Kunlik limit tugadi. Ertaga qayta urinib ko'ring.",
   "tutor.newThread": "Yangi suhbat",
   "tutor.sources": "Manbalar",
-
   "profile.title": "Profil",
   "profile.name": "Ism",
   "profile.namePlaceholder": "Ismingiz",
@@ -173,5 +159,26 @@
   "profile.recent": "Oxirgi mashg'ulotlar",
   "profile.noRecent": "Hali mashg'ulot yo'q.",
   "profile.language": "Til",
-  "profile.of": "{c}/{t}"
+  "profile.of": "{c}/{t}",
+  "nav.mistakes": "Xatolar",
+  "mistakes.title": "Xatolar ustida ishlash",
+  "mistakes.subtitle": "{n} ta savol",
+  "mistakes.empty": "Hali xato yo'q. Mashqni boshlang — noto'g'ri javob bergan savollaringiz shu yerda to'planadi.",
+  "mistakes.emptyFiltered": "Bu toifada savol yo'q.",
+  "mistakes.allClear": "Bugunga hammasi bajarilgan. Yangi savollar muddati kelganda paydo bo'ladi.",
+  "mistakes.filterOpen": "Ochiq",
+  "mistakes.filterDue": "Bugun",
+  "mistakes.filterMastered": "Bajarilgan",
+  "mistakes.filterAll": "Barchasi",
+  "mistakes.start": "Takrorlashni boshlash",
+  "mistakes.startCount": "{n} ta savol bugun kutmoqda",
+  "mistakes.dueNow": "Bugun",
+  "mistakes.dueIn": "{n} kundan keyin",
+  "mistakes.dueTomorrow": "Ertaga",
+  "mistakes.mastered": "Bajarilgan",
+  "mistakes.wrongTimes": "{n} marta xato",
+  "mistakes.correctAnswer": "To'g'ri javob",
+  "mistakes.step": "{a}/{b}-bosqich",
+  "mistakes.howItWorks": "Xato qilgan savolingiz shu yerga tushadi va uni {n} marta ketma-ket to'g'ri yechguningizcha qaytib turadi.",
+  "road.dueReviews": "takrorlash"
 }

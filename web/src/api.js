@@ -80,6 +80,8 @@ export const api = {
   topics: (locale) => request(`/topics${locale ? `?locale=${locale}` : ''}`),
   topicRules: (id, locale) => request(`/topics/${id}/rules${locale ? `?locale=${locale}` : ''}`),
   progress: (locale) => request(`/me/progress${locale ? `?locale=${locale}` : ''}`),
+  reviews: (locale, filter) =>
+    request(`/me/reviews?${new URLSearchParams({ ...(locale ? { locale } : {}), ...(filter ? { filter } : {}) })}`),
 
   createSession: (payload) => request('/sessions', { method: 'POST', body: payload }),
   getSession: (id) => request(`/sessions/${id}`),

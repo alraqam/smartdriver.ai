@@ -103,10 +103,11 @@ minutes, burn after 5 wrong guesses, and are superseded the moment a new one is
 issued. Phone numbers are normalised to E.164 on the way in, so every way of
 typing one number resolves to the same account.
 
-**Practice** comes in three modes. `practice` is a single topic with immediate
+**Practice** comes in four modes. `practice` is a single topic with immediate
 feedback; `weak_topics` weights selection toward what the learner keeps missing
 (and toward topics they have never opened, which rank higher still); `exam` is a
-timed mock spread evenly across topics, with no feedback until the end.
+timed mock spread evenly across topics, with no feedback until the end; `review`
+drills whatever the mistake bank says is due.
 
 Two things the quiz engine does that are easy to get wrong:
 
@@ -121,6 +122,17 @@ toward neutral while the evidence is thin so a 1-of-1 topic cannot claim
 mastery. **Readiness** blends mastery across *every* topic (so untouched topics
 count against you) with recent mock-exam scores, and reports its own
 `confidence` rather than dressing up a guess.
+
+**The mistake bank** is the retention loop. A question enters it the moment a
+learner gets it wrong and comes back on a Leitner schedule (due now, then 1, 3,
+7 and 16 days), leaving only after five correct recalls spread over about a
+month. Any later miss sends it straight back to the start, including a question
+that had already graduated — forgetting a rule you had fixed is exactly the
+signal worth catching. It is deliberately *not* a schedule over the whole
+question bank: with several hundred items, scheduling everything buries the
+handful someone actually struggles with. Complementary to topic mastery, not a
+duplicate of it — mastery is per topic and drives readiness and weak-topic
+weighting; this is per question and drives retention. Exam answers feed it too.
 
 **AI explanations** are cached in Postgres per (question, locale, wrong answer,
 prompt version). A question is explained once and served from the database
@@ -162,8 +174,8 @@ cd api && npm run lint && npm test
 ```
 
 Unit tests cover the parts where being wrong is silent: phone normalisation,
-mastery/readiness scoring, question selection, option shuffling, and importer
-validation.
+mastery/readiness scoring, question selection, option shuffling, the spaced
+repetition schedule, the demo-OTP gate, and importer validation.
 
 Retrieval cannot be unit tested — it is a SQL query against real content — so
 it has its own eval against the live database:
@@ -197,6 +209,10 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
 4. **`signs` and `markings` have one question each.** They are the two topics
    that genuinely need diagrams, so they are thin until images exist.
 5. **No payments.** Everything is free in v1.
+6. **No admin HTTP endpoints yet.** Content is imported with the CLI
+   (`npm run content:import`), which needs shell access to the server. The
+   original plan called for `POST /admin/import` and a draft-review queue so a
+   content person could work without a terminal; that is still to build.
 
 ---
 

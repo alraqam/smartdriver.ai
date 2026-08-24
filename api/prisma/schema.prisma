@@ -34,6 +34,9 @@ enum SessionMode {
   exam
   /// Practice weighted toward the topics this learner keeps missing.
   weak_topics
+  /// Spaced-repetition drill over the questions this learner has got wrong
+  /// and has not yet fixed. See src/reviews/schedule.ts.
+  review
 }
 
 enum ContentStatus {
@@ -67,6 +70,7 @@ model User {
 
   sessions Session[]
   mastery  TopicMastery[]
+  reviews  QuestionReview[]
   threads  ChatThread[]
   aiUsage  AiUsage[]
 
@@ -139,6 +143,7 @@ model Question {
   options      AnswerOption[]
   items        SessionItem[]
   explanations QuestionExplanation[]
+  reviews      QuestionReview[]
 
   @@index([topicId, status])
   @@index([status])
@@ -254,6 +259,41 @@ model TopicMastery {
 
   @@unique([userId, topicId])
   @@index([userId])
+}
+
+/// One learner's standing with one question they have got wrong.
+///
+/// A row exists only once the question has actually been missed — this is a
+/// mistake bank, not a schedule over the whole question bank. Complementary to
+/// TopicMastery rather than a duplicate of it: mastery is per TOPIC and drives
+/// readiness and weak-topic weighting, this is per QUESTION and drives
+/// retention of the specific items someone keeps getting wrong.
+model QuestionReview {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  /// Leitner box. 0 = just missed, MASTERED_BOX = fixed.
+  box         Int      @default(0)
+  /// Lifetime misses. Never decreases — orders the mistake bank.
+  wrongCount  Int      @default(1)
+  /// Right answers since the last miss.
+  rightStreak Int      @default(0)
+  dueAt       DateTime
+  lastWrongAt DateTime?
+  /// Graduated out of the rotation. The row is kept so the history stays
+  /// honest and a later slip can revive it.
+  mastered    Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, questionId])
+  /// The hot query: "what is due for this learner right now".
+  @@index([userId, mastered, dueAt])
+  @@index([userId, wrongCount])
 }
 
 // ─────────────────────────────────────────────────────────────

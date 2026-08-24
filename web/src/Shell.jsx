@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { api } from './api';
 import { useTheme } from './design/theme.jsx';
 import { Icon } from './design/Icon.jsx';
 import { useI18n, LOCALES } from './i18n/index.jsx';
@@ -18,6 +20,7 @@ export function initialOf(user) {
 const NAV = [
   { id: 'road', to: '/', icon: 'map', end: true },
   { id: 'lessons', to: '/lessons', icon: 'book' },
+  { id: 'mistakes', to: '/mistakes', icon: 'target', badge: 'due' },
   { id: 'mock', to: '/mock', icon: 'quiz' },
   { id: 'signs', to: '/signs', icon: 'library' },
   { id: 'tutor', to: '/tutor', icon: 'sparkle' },
@@ -33,6 +36,7 @@ const PANEL_W = [
   [/^\/result\//, 640],
   [/^\/review\//, 760],
   [/^\/lessons/, 760],
+  [/^\/mistakes/, 760],
   [/^\/mock/, 760],
   [/^\/signs/, 900],
   [/^\/tutor/, 760],
@@ -73,6 +77,17 @@ export function Shell({ dark, setDark, children }) {
   const focused = /^\/(session|mock\/run)/.test(pathname);
   const width = panelWidth(pathname);
 
+  // How many mistakes are owed today. Refetched on every navigation so it
+  // settles right after a drill rather than going stale until reload.
+  const [due, setDue] = useState(0);
+  useEffect(() => {
+    let alive = true;
+    api.reviews(locale, 'due')
+      .then((r) => alive && setDue(r.counts.due))
+      .catch(() => {});
+    return () => { alive = false; };
+  }, [pathname, locale]);
+
   return (
     <div style={{ display: 'flex', height: '100vh', background: T.shellBg, color: T.text }}>
       {!focused && (
@@ -104,7 +119,15 @@ export function Shell({ dark, setDark, children }) {
               {({ isActive }) => (
                 <>
                   <Icon name={item.icon} size={20} color={isActive ? '#fff' : T.textDim} strokeWidth={2} />
-                  {t(`nav.${item.id}`)}
+                  <span style={{ flex: 1 }}>{t(`nav.${item.id}`)}</span>
+                  {item.badge === 'due' && due > 0 && (
+                    <span style={{
+                      minWidth: 20, padding: '1px 6px', borderRadius: 10,
+                      background: isActive ? 'rgba(255,255,255,0.28)' : T.danger,
+                      color: '#fff', fontSize: 11, fontWeight: 800, textAlign: 'center',
+                      fontVariantNumeric: 'tabular-nums',
+                    }}>{due}</span>
+                  )}
                 </>
               )}
             </NavLink>

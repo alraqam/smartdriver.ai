@@ -9,6 +9,7 @@ import Login from './pages/Login.jsx';
 import Road from './pages/Road.jsx';
 import Lessons from './pages/Lessons.jsx';
 import Lesson from './pages/Lesson.jsx';
+import Mistakes from './pages/Mistakes.jsx';
 import Quiz from './pages/Quiz.jsx';
 import Result from './pages/Result.jsx';
 import Review from './pages/Review.jsx';
@@ -58,6 +59,7 @@ export default function App() {
                   <Route path="/" element={<Road />} />
                   <Route path="/lessons" element={<Lessons />} />
                   <Route path="/lesson/:id" element={<Lesson />} />
+                  <Route path="/mistakes" element={<Mistakes />} />
                   <Route path="/session/:id" element={<Quiz />} />
                   <Route path="/result/:id" element={<Result />} />
                   <Route path="/review/:id" element={<Review />} />

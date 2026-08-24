@@ -1,17 +1,14 @@
 {
   "app.name": "SmartDriverAi",
   "app.tagline": "Теория вождения",
-
   "nav.road": "Дорога",
   "nav.lessons": "Темы",
   "nav.mock": "Экзамен",
   "nav.signs": "Знаки",
   "nav.tutor": "Наставник",
   "nav.profile": "Профиль",
-
   "theme.light": "Светлая",
   "theme.dark": "Тёмная",
-
   "common.loading": "Загрузка...",
   "common.error": "Произошла ошибка",
   "common.retry": "Повторить",
@@ -25,7 +22,6 @@
   "common.day": "дн.",
   "common.practice": "Практика",
   "common.close": "Закрыть",
-
   "login.title": "Вход",
   "login.subtitle": "Введите номер телефона — мы отправим код в SMS.",
   "login.phone": "Номер телефона",
@@ -40,7 +36,6 @@
   "login.resend": "Отправить код повторно",
   "login.mockHint": "Демо-режим: SMS не отправляется — код выводится в лог сервера.",
   "login.demoCode": "Демо-режим: SMS не отправлено. Код подставлен автоматически.",
-
   "road.greeting": "Здравствуйте",
   "road.youreHere": "ВЫ ЗДЕСЬ",
   "road.nextUp": "ДАЛЕЕ",
@@ -53,7 +48,6 @@
   "road.accuracy": "точность",
   "road.readiness": "готовность",
   "road.empty": "Вопросы ещё не импортированы.",
-
   "lessons.title": "Темы",
   "lessons.summary": "{lessons} вопросов · {modules} тем",
   "lessons.filterAll": "Все",
@@ -66,14 +60,12 @@
   "lessons.count": "{n} вопросов",
   "lessons.weak": "Слабая",
   "lessons.none": "Нет тем по этому фильтру.",
-
   "lesson.eyebrow": "ТЕМА",
   "lesson.rulesTitle": "Правила по этой теме",
   "lesson.noRules": "Текст правил для этой темы ещё не загружен. Практику можно начать всё равно.",
   "lesson.ruleQuestions": "{n} вопросов",
   "lesson.startPractice": "Начать практику",
   "lesson.questionsAvailable": "Доступно вопросов: {n}",
-
   "quiz.questionXofY": "ВОПРОС {a} ИЗ {b}",
   "quiz.explain": "Почему?",
   "quiz.explaining": "Объясняем...",
@@ -81,7 +73,6 @@
   "quiz.keyRule": "Ключевое правило",
   "quiz.commonMistake": "Частая ошибка",
   "quiz.exitConfirm": "Выйти из практики? Отвеченные вопросы сохранятся.",
-
   "result.score": "РЕЗУЛЬТАТ",
   "result.complete": "Практика завершена!",
   "result.almostThere": "Почти получилось",
@@ -92,7 +83,6 @@
   "result.review": "Разбор ответов",
   "result.again": "Ещё раз",
   "result.home": "Вернуться на дорогу",
-
   "mock.title": "Пробный экзамен",
   "mock.ready": "Готовы к экзамену?",
   "mock.brief": "{n} вопросов · {m} минут · допускается до {max} ошибок. Соответствует теоретическому экзамену категории B в Узбекистане.",
@@ -121,13 +111,11 @@
   "mock.yourAnswer": "Ваш ответ",
   "mock.correctAnswer": "Правильный ответ",
   "mock.exitConfirm": "Выйти из экзамена? Таймер не остановится.",
-
   "review.title": "Разбор",
   "review.all": "Все",
   "review.wrong": "Ошибки",
   "review.skipped": "Пропущено",
   "review.empty": "В этой категории нет вопросов.",
-
   "signs.title": "Библиотека знаков",
   "signs.total": "{n} ЗНАКОВ",
   "signs.search": "Поиск знака...",
@@ -143,7 +131,6 @@
   "signs.when": "Где встречается",
   "signs.action": "Что делать",
   "signs.askTutor": "Спросить наставника",
-
   "tutor.title": "AI Наставник",
   "tutor.placeholder": "Задайте вопрос о правилах дорожного движения...",
   "tutor.thinking": "Думает...",
@@ -153,7 +140,6 @@
   "tutor.quotaOver": "Дневной лимит исчерпан. Попробуйте завтра.",
   "tutor.newThread": "Новый диалог",
   "tutor.sources": "Источники",
-
   "profile.title": "Профиль",
   "profile.name": "Имя",
   "profile.namePlaceholder": "Ваше имя",
@@ -173,5 +159,26 @@
   "profile.recent": "Недавние занятия",
   "profile.noRecent": "Занятий пока нет.",
   "profile.language": "Язык",
-  "profile.of": "{c}/{t}"
+  "profile.of": "{c}/{t}",
+  "nav.mistakes": "Ошибки",
+  "mistakes.title": "Работа над ошибками",
+  "mistakes.subtitle": "{n} вопросов",
+  "mistakes.empty": "Ошибок пока нет. Начните практику — вопросы, на которые вы ответили неверно, соберутся здесь.",
+  "mistakes.emptyFiltered": "В этой категории нет вопросов.",
+  "mistakes.allClear": "На сегодня всё сделано. Новые вопросы появятся, когда подойдёт их срок.",
+  "mistakes.filterOpen": "Открытые",
+  "mistakes.filterDue": "Сегодня",
+  "mistakes.filterMastered": "Закрытые",
+  "mistakes.filterAll": "Все",
+  "mistakes.start": "Начать повторение",
+  "mistakes.startCount": "{n} вопросов ждут сегодня",
+  "mistakes.dueNow": "Сегодня",
+  "mistakes.dueIn": "Через {n} дн.",
+  "mistakes.dueTomorrow": "Завтра",
+  "mistakes.mastered": "Закрыт",
+  "mistakes.wrongTimes": "Ошибок: {n}",
+  "mistakes.correctAnswer": "Правильный ответ",
+  "mistakes.step": "Шаг {a}/{b}",
+  "mistakes.howItWorks": "Вопрос, в котором вы ошиблись, попадает сюда и возвращается, пока вы не решите его верно {n} раз подряд.",
+  "road.dueReviews": "повторить"
 }

@@ -10,6 +10,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SettingsService, DEFAULT_PRACTICE_COUNT } from '../settings/settings.service';
 import { MasteryState, adjustedScore, isWeak, readiness, updateMastery } from '../progress/mastery';
 import { Candidate, RECENCY_WINDOW, selectForExam, selectForTopic, selectWeakTopics } from './selection';
+import { ReviewsService, REVIEW_SESSION_SIZE } from '../reviews/reviews.service';
 import { shuffleOptions } from './shuffle';
 
 /// How many recent exams feed the readiness score.
@@ -20,6 +21,7 @@ export class SessionsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly settings: SettingsService,
+    private readonly reviews: ReviewsService,
   ) {}
 
   // ── creating a session ────────────────────────────────────
@@ -36,6 +38,25 @@ export class SessionsService {
     }
     if (mode !== SessionMode.practice && opts.topicId) {
       throw new BadRequestException(`${mode} rejimida topicId ishlatilmaydi`);
+    }
+
+    // A review drill draws from the mistake bank rather than the question bank,
+    // so it skips candidate selection entirely — the schedule already decided
+    // which questions are owed.
+    if (mode === SessionMode.review) {
+      const due = await this.reviews.due(userId, Math.min(REVIEW_SESSION_SIZE, Math.max(1, opts.count ?? REVIEW_SESSION_SIZE)));
+      if (due.length === 0) {
+        throw new ConflictException("Takrorlash uchun savol yo'q — hammasi bajarilgan.");
+      }
+      const created = await this.prisma.session.create({
+        data: {
+          userId,
+          mode,
+          questionCount: due.length,
+          items: { create: due.map((r, order) => ({ questionId: r.questionId, order })) },
+        },
+      });
+      return this.get(userId, created.id);
     }
 
     if (opts.topicId) {
@@ -286,6 +307,10 @@ export class SessionsService {
         create: { userId, topicId: item.question.topicId, ...next },
         update: next,
       });
+
+      // Same transaction as the answer: a mistake-bank row that disagrees with
+      // the answer that produced it would be worse than no row.
+      await this.reviews.record(tx, userId, item.questionId, isCorrect);
     });
 
     const correctOption = item.question.options.find((o) => o.isCorrect)!;
@@ -360,6 +385,12 @@ export class SessionsService {
           const list = byTopic.get(topicId) ?? [];
           list.push(it.isCorrect === true);
           byTopic.set(topicId, list);
+        }
+
+        // Exam answers feed the mistake bank as well — a question missed under
+        // exam conditions is exactly the one worth drilling.
+        for (const it of answered) {
+          await this.reviews.record(tx, userId, it.questionId, it.isCorrect === true);
         }
 
         for (const [topicId, results] of byTopic) {

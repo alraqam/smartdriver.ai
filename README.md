@@ -265,6 +265,19 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
 6. **`signs` and `markings` still have one question each.** The upload exists
    now, so this is purely a content job rather than a missing feature.
 
+**Every response carries a request id** (`X-Request-Id`, and `requestId` in any
+error body). It is eight hex characters so a learner can read it down a phone,
+and it is the join between "it said `a3f19c2b`" and the one log line holding the
+stack. Requests are logged with method, path, duration, user — and a **masked**
+phone, because "which user" has to be answerable while a log quietly
+accumulating full phone numbers is a PII store nobody decided to build. Bodies
+are never logged: the two busiest endpoints carry a phone and a one-time code.
+Health checks and image requests are excluded, or they drown everything else.
+
+An unhandled error returns a generic message and the request id, never the
+underlying text — an unhandled error is by definition one nobody wrote a
+message for, and its wording tends to name tables, files and queries.
+
 ---
 
 ## Admin

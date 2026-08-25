@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import helmet from 'helmet';
+import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
 
 const DEV_SECRET = 'smartdriverai-dev-secret';
@@ -41,7 +42,11 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   assertRequiredConfig();
 
-  const app = await NestFactory.create(AppModule, { cors: false });
+  // bodyParser:false because we register the parsers ourselves below. Nest
+  // skips its own if it finds one already applied, so leaving it on and adding
+  // a second parser silently disables parsing everywhere the added one does
+  // not match.
+  const app = await NestFactory.create(AppModule, { cors: false, bodyParser: false });
   app.enableShutdownHooks();
 
   // Behind Traefik / EasyPanel — trust the proxy so the client IP used for
@@ -49,6 +54,19 @@ async function bootstrap() {
   // shares one bucket and the OTP limit locks everyone out at once).
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
   app.use(helmet());
+
+  // Body parsing. A content import carries the whole question bank in one
+  // request — the seed file alone is ~90kb and a real bank is several hundred
+  // — so it needs far more than the 100kb default. Everything else keeps a
+  // tight limit rather than opening that headroom app-wide.
+  //
+  // Order matters: the path-scoped parser runs first, and body-parser marks
+  // the request as parsed, so the general parser below skips a body the first
+  // one already read.
+  app.use('/api/admin/import', json({ limit: '25mb' }));
+  app.use(json({ limit: '1mb' }));
+  app.use(urlencoded({ extended: true, limit: '1mb' }));
+
   app.setGlobalPrefix('api');
 
   const prod = process.env.NODE_ENV === 'production';

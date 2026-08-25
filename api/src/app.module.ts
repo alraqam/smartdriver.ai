@@ -12,6 +12,7 @@ import { SessionsModule } from './sessions/sessions.module';
 import { ProgressModule } from './progress/progress.module';
 import { AiModule } from './ai/ai.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { AdminModule } from './admin/admin.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 import { HealthController } from './health.controller';
@@ -31,6 +32,7 @@ import { HealthController } from './health.controller';
     ProgressModule,
     ReviewsModule,
     AiModule,
+    AdminModule,
   ],
   controllers: [HealthController],
   providers: [

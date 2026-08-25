@@ -209,10 +209,42 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
 4. **`signs` and `markings` have one question each.** They are the two topics
    that genuinely need diagrams, so they are thin until images exist.
 5. **No payments.** Everything is free in v1.
-6. **No admin HTTP endpoints yet.** Content is imported with the CLI
-   (`npm run content:import`), which needs shell access to the server. The
-   original plan called for `POST /admin/import` and a draft-review queue so a
-   content person could work without a terminal; that is still to build.
+6. **No admin UI yet.** The admin endpoints exist (see below) but nothing
+   renders them, so a content person still needs an HTTP client. The endpoints
+   are the half that could not be skipped; a screen over them is the next step.
+
+---
+
+## Admin
+
+Content operations for whoever maintains the question bank. Everything is under
+`/api/admin` and guarded by `AdminGuard`.
+
+| | |
+|---|---|
+| `POST /admin/import` | Bulk load. Same code path as the CLI — kind detected from the file's shape, whole file validated before anything is written, upsert key makes a re-import a no-op. Takes `dryRun` and `allowMassRetire`. |
+| `GET /admin/questions` | Review queue. Filter by `status`, `topicId`, `q` (searches both locales and `externalId`), with `skip`/`take`. |
+| `PATCH /admin/questions/:id/status` | Publish or retire one, stamping `reviewedAt`. |
+| `POST /admin/questions/status` | Same for a batch — a reviewer clearing a queue should not make one request per question. Ids that do not exist are **reported**, not silently dropped. |
+| `GET /admin/imports` | Load history. |
+| `GET /admin/stats` | Counts by status and topic, plus two content-health figures invisible to learners: published questions with no `ruleRefs` (their explanations have nothing to cite) and `ruleRefs` pointing at rules that do not exist. |
+| `GET /admin/ai-usage` | Spend by feature, and how many explanations are cached — i.e. calls that never had to be made twice. |
+
+**Authority is re-read from the database on every admin request**, rather than
+trusted from the `role` claim in the JWT. Tokens live 30 days, so a role claim
+in one can be a month out of date, and rewriting the question bank is not
+authority to leave standing on a stale claim. It costs one indexed lookup, and
+only on `/admin` routes.
+
+To mint the first admin, set `ADMIN_PHONE` (and optionally `ADMIN_NAME`) and
+restart. It is promote-only and never demotes, so clearing it later does not
+strip access from whoever is running content. The account is created if absent;
+they then sign in by OTP like anyone else. There is deliberately no self-serve
+promotion endpoint — the person who can deploy is the person who can appoint an
+admin, which is the authority they already have.
+
+Import bodies get a 25 MB limit on that one route (the seed file alone exceeds
+Express's 100 KB default); every other route keeps 1 MB.
 
 ---
 

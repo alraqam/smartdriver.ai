@@ -61,7 +61,7 @@ export function ModuleRow({ topic, onClick }) {
 
       {done ? (
         <div style={{
-          width: 22, height: 22, borderRadius: 11, flex: 'none', background: T.success,
+          width: 22, height: 22, borderRadius: 11, flex: 'none', background: T.successFill,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <Icon name="check" size={13} color="#fff" strokeWidth={3} />

@@ -278,6 +278,27 @@ An unhandled error returns a generic message and the request id, never the
 underlying text — an unhandled error is by definition one nobody wrote a
 message for, and its wording tends to name tables, files and queries.
 
+### Contrast and focus
+
+The palette is measured against WCAG AA, not eyeballed. Every semantic colour
+carries **two** values, because one cannot do both jobs: a colour light enough
+to read as text on a dark surface is too light for white text to sit on. The
+design's `#3AA2FF` reads at 7.0 against the dark background but left white at
+**2.7** — that was the primary call to action, the active nav item and the "you
+are here" badge. `a` / `success` / `danger` / `warn` are for text and vary by
+theme; the `*Fill` values are backgrounds white sits on and all clear 5:1.
+
+Focus is the one piece of interaction styling in `styles.css` rather than an
+inline style, because an inline style cannot express `:focus-visible`. There
+was previously no focus indicator at all beyond the browser default, which
+disappears against a filled accent button. It draws two rings — a contrasting
+halo then the accent — so it survives landing on a pale card or a saturated
+button.
+
+Both were verified by measuring every text node on every route in both themes,
+excluding gradients (unsampleable) and disabled controls (which WCAG 1.4.3
+exempts).
+
 ---
 
 ## Admin

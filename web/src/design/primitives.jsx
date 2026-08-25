@@ -69,7 +69,7 @@ export function PrimaryButton({ children, onClick, disabled, icon, style }) {
   return (
     <button onClick={onClick} disabled={disabled} style={{
       width: '100%', border: 'none',
-      background: disabled ? T.surface2 : T.a,
+      background: disabled ? T.surface2 : T.aFill,
       color: disabled ? T.textFaint : '#fff',
       padding: '15px 18px', borderRadius: 16,
       fontSize: 15, fontWeight: 800, letterSpacing: -0.2,

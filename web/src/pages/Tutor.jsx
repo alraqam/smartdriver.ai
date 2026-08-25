@@ -182,7 +182,9 @@ export default function Tutor() {
             </div>
 
             <div style={{
-              fontSize: 11, fontWeight: 800, color: T.textFaint,
+              // textDim, matching every other section label — textFaint is for
+              // genuinely de-emphasised marks, not for text meant to be read.
+              fontSize: 11, fontWeight: 800, color: T.textDim,
               letterSpacing: 0.6, textTransform: 'uppercase', margin: '20px 0 8px',
             }}>{t('tutor.examples')}</div>
 
@@ -209,7 +211,7 @@ export default function Tutor() {
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word',
                 fontSize: 14, lineHeight: 1.5,
                 ...(m.role === 'user'
-                  ? { alignSelf: 'flex-end', background: T.a, color: '#fff', borderBottomRightRadius: 4 }
+                  ? { alignSelf: 'flex-end', background: T.aFill, color: '#fff', borderBottomRightRadius: 4 }
                   : { alignSelf: 'flex-start', background: T.surface, color: T.text, border: `0.5px solid ${T.stroke}`, borderBottomLeftRadius: 4 }),
               }}>
                 {m.content}
@@ -257,7 +259,7 @@ export default function Tutor() {
         />
         <button type="submit" disabled={streaming || !draft.trim() || outOfQuota} aria-label={t('tutor.title')} style={{
           border: 'none', width: 48, height: 48, borderRadius: 14, flex: 'none',
-          background: streaming || !draft.trim() || outOfQuota ? T.surface2 : T.a,
+          background: streaming || !draft.trim() || outOfQuota ? T.surface2 : T.aFill,
           color: '#fff', cursor: streaming || !draft.trim() || outOfQuota ? 'default' : 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>

@@ -345,7 +345,7 @@ function Questions() {
           }}>{t('admin.clearSelection')}</button>
           <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
             <button onClick={() => apply('published')} disabled={busy} style={{
-              border: 'none', background: T.success, color: '#fff', padding: '8px 14px',
+              border: 'none', background: T.successFill, color: '#fff', padding: '8px 14px',
               borderRadius: 10, fontSize: 12.5, fontWeight: 800, cursor: busy ? 'default' : 'pointer', fontFamily: 'inherit',
             }}>{t('admin.publish')}</button>
             <button onClick={() => apply('retired')} disabled={busy} style={{
@@ -548,7 +548,7 @@ function ImportTab() {
             </PrimaryButton>
             {dry && (
               <button onClick={() => run(false)} disabled={busy} style={{
-                border: 'none', background: T.success, color: '#fff', padding: '12px 20px',
+                border: 'none', background: T.successFill, color: '#fff', padding: '12px 20px',
                 borderRadius: 16, fontSize: 15, fontWeight: 800, cursor: busy ? 'default' : 'pointer',
                 fontFamily: 'inherit',
               }}>{busy ? t('admin.applying') : t('admin.apply')}</button>

@@ -105,7 +105,7 @@ function SignDetail({ sign, onClose, onAsk }) {
           </div>
 
           <button onClick={() => onAsk(copy.name)} style={{
-            marginTop: 22, width: '100%', border: 'none', background: T.a, color: '#fff',
+            marginTop: 22, width: '100%', border: 'none', background: T.aFill, color: '#fff',
             padding: 14, borderRadius: 14, fontFamily: 'inherit',
             fontSize: 15, fontWeight: 800, letterSpacing: -0.2, cursor: 'pointer',
             boxShadow: `0 8px 22px ${hexA(T.a, 0.35)}`,

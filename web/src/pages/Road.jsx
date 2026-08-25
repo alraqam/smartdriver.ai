@@ -265,7 +265,7 @@ export default function Road() {
                   {isDone && (
                     <div style={{
                       position: 'absolute', top: -6, right: -6, width: 22, height: 22, borderRadius: 11,
-                      background: T.success, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: T.successFill, display: 'flex', alignItems: 'center', justifyContent: 'center',
                       boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
                     }}>
                       <Icon name="check" size={14} color="#fff" strokeWidth={3} />
@@ -276,7 +276,7 @@ export default function Road() {
                     <div style={{
                       position: 'absolute', top: -7, left: '50%',
                       transform: 'translateX(-50%) translateY(-100%)',
-                      background: T.a, color: '#fff', padding: '3px 8px', borderRadius: 6,
+                      background: T.aFill, color: '#fff', padding: '3px 8px', borderRadius: 6,
                       fontSize: 10, fontWeight: 800, letterSpacing: 0.3, whiteSpace: 'nowrap',
                       boxShadow: `0 4px 10px ${hexA(T.a, 0.4)}`,
                     }}>
@@ -345,7 +345,7 @@ export default function Road() {
         <div style={{ position: 'absolute', left: 16, right: 16, bottom: 18, zIndex: 30 }}>
           {error && <ErrorNote error={error} />}
           <button onClick={startCurrent} disabled={starting} style={{
-            width: '100%', border: 'none', background: T.a, color: '#fff',
+            width: '100%', border: 'none', background: T.aFill, color: '#fff',
             borderRadius: 18, padding: '14px 18px', cursor: starting ? 'default' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
             boxShadow: `0 10px 28px ${hexA(T.a, 0.45)}`, fontFamily: 'inherit',

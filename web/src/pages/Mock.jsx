@@ -147,7 +147,7 @@ function ConfirmSheet({ title, body, yes, no, onYes, onNo }) {
         <div style={{ display: 'flex', gap: 8, marginTop: 18 }}>
           <GhostButton onClick={onNo}>{no}</GhostButton>
           <button onClick={onYes} style={{
-            flex: 1, border: 'none', background: T.a, color: '#fff',
+            flex: 1, border: 'none', background: T.aFill, color: '#fff',
             padding: 13, borderRadius: 14, fontSize: 14, fontWeight: 800,
             cursor: 'pointer', fontFamily: 'inherit',
           }}>{yes}</button>
@@ -199,7 +199,7 @@ function Palette({ items, answers, marked, current, onPick, onClose, onSubmit })
               <button key={it.id} onClick={() => onPick(n)} style={{
                 aspectRatio: '1 / 1', position: 'relative',
                 border: isCurrent ? `2px solid ${T.text}` : `1px solid ${T.stroke}`,
-                background: answered ? T.a : T.surface,
+                background: answered ? T.aFill : T.surface,
                 color: answered ? '#fff' : T.text,
                 borderRadius: 12, cursor: 'pointer', fontFamily: 'inherit',
                 fontSize: 16, fontWeight: 800, fontVariantNumeric: 'tabular-nums',
@@ -214,7 +214,7 @@ function Palette({ items, answers, marked, current, onPick, onClose, onSubmit })
         </div>
 
         <button onClick={onSubmit} style={{
-          marginTop: 14, flex: 'none', border: 'none', background: T.success, color: '#fff',
+          marginTop: 14, flex: 'none', border: 'none', background: T.successFill, color: '#fff',
           padding: 14, borderRadius: 14, fontSize: 14, fontWeight: 800, letterSpacing: 0.3,
           cursor: 'pointer', fontFamily: 'inherit',
         }}>{t('mock.submit')}</button>
@@ -399,7 +399,7 @@ export function MockRunner() {
                 <div style={{
                   flex: '0 0 auto', width: 22, height: 22, borderRadius: 11,
                   border: `1.5px solid ${picked ? T.a : T.textFaint}`,
-                  background: picked ? T.a : 'transparent',
+                  background: picked ? T.aFill : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: picked ? '#fff' : T.textDim, fontSize: 11, fontWeight: 800,
                 }}>{String.fromCharCode(65 + idx)}</div>
@@ -435,14 +435,14 @@ export function MockRunner() {
 
         {index < total - 1 ? (
           <button onClick={() => setIndex(index + 1)} aria-label={t('common.next')} style={{
-            border: 'none', background: T.a, width: 44, height: 44, borderRadius: 22, flex: 'none',
+            border: 'none', background: T.aFill, width: 44, height: 44, borderRadius: 22, flex: 'none',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <Icon name="chevron" size={18} color="#fff" strokeWidth={2.4} />
           </button>
         ) : (
           <button onClick={() => setConfirmOpen(true)} style={{
-            border: 'none', background: T.success, color: '#fff', flex: 'none',
+            border: 'none', background: T.successFill, color: '#fff', flex: 'none',
             padding: '0 18px', height: 44, borderRadius: 22, cursor: 'pointer',
             fontFamily: 'inherit', fontSize: 13, fontWeight: 800, letterSpacing: 0.3,
           }}>{t('mock.submit')}</button>

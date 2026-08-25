@@ -110,7 +110,7 @@ export function Shell({ dark, setDark, children }) {
             <NavLink key={item.id} to={item.to} end={item.end} style={({ isActive }) => ({
               display: 'flex', alignItems: 'center', gap: 12, padding: '11px 12px', borderRadius: 12,
               textDecoration: 'none', fontSize: 14.5, fontWeight: 700, letterSpacing: -0.2,
-              background: isActive ? T.a : 'transparent',
+              background: isActive ? T.aFill : 'transparent',
               color: isActive ? '#fff' : T.text,
             })}>
               {({ isActive }) => (
@@ -120,7 +120,7 @@ export function Shell({ dark, setDark, children }) {
                   {item.badge === 'due' && due > 0 && (
                     <span style={{
                       minWidth: 20, padding: '1px 6px', borderRadius: 10,
-                      background: isActive ? 'rgba(255,255,255,0.28)' : T.danger,
+                      background: isActive ? 'rgba(255,255,255,0.28)' : T.dangerFill,
                       color: '#fff', fontSize: 11, fontWeight: 800, textAlign: 'center',
                       fontVariantNumeric: 'tabular-nums',
                     }}>{due}</span>

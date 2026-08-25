@@ -28,6 +28,30 @@ body {
 button, input, textarea { font-family: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 
+/* Keyboard focus.
+   The app is built from custom buttons carrying inline styles, and an inline
+   style cannot express a pseudo-class — so this is the one piece of interaction
+   styling that has to live in CSS. Without it there was no focus indicator at
+   all beyond the browser default, which disappears against a filled accent
+   button.
+
+   Two rings: a contrasting halo hugging the element, then the accent outside
+   it. That way the indicator survives landing on a pale card or on a saturated
+   button, without needing a variant per surface. :focus-visible rather than
+   :focus, so a mouse click does not leave a ring behind. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--sdai-focus, #1A6FBF);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--sdai-focus-halo, #fff);
+}
+
+/* The sidebar's active item is already filled with the accent, so an accent
+   ring on it would vanish. Invert the two there. */
+aside a[aria-current='page']:focus-visible {
+  outline-color: var(--sdai-focus-halo, #fff);
+  box-shadow: 0 0 0 2px var(--sdai-focus, #1A6FBF);
+}
+
 @keyframes sdai-spin { to { transform: rotate(360deg); } }
 
 @keyframes sdai-pulse {

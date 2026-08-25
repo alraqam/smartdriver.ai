@@ -14,7 +14,8 @@
     "content:import": "ts-node -r tsconfig-paths/register src/content/import.cli.ts",
     "lint": "tsc --noEmit -p tsconfig.json",
     "test": "jest",
-    "eval:retrieval": "nest build && node test/eval-retrieval.js"
+    "eval:retrieval": "nest build && node test/eval-retrieval.js",
+    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

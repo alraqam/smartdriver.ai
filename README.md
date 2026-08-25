@@ -182,12 +182,34 @@ studies from it.
 ## Tests
 
 ```bash
-cd api && npm run lint && npm test
+cd api && npm run lint && npm test && npm run test:e2e
 ```
 
 Unit tests cover the parts where being wrong is silent: phone normalisation,
 mastery/readiness scoring, question selection, option shuffling, the spaced
 repetition schedule, the demo-OTP gate, and importer validation.
+
+End-to-end tests drive the real HTTP surface against a **separate** database
+(`smartdriverai_test`), so they can never touch development data — the setup
+refuses to run if `DATABASE_URL` does not name it:
+
+```bash
+docker exec shared-postgres psql -U postgres -c "CREATE DATABASE smartdriverai_test OWNER smartdriverai;"
+```
+
+```bash
+cd api && npx dotenv -e .env.test -- npx prisma migrate deploy && npm run test:e2e
+```
+
+They cover what a unit test structurally cannot see: that the answer key never
+reaches the client for an unanswered question, that an exam answer stays
+revisable until submission and that revising it does not double-count mastery,
+that a mistake actually lands in the bank and is scheduled forward when
+recalled, and that admin authority follows the database rather than the role
+claim in a month-old token. The sign-in flow is driven over HTTP in one place
+on purpose; everywhere else mints tokens directly, because the OTP endpoints
+are rate limited and a suite that signs in per test spends that budget on
+setup.
 
 Retrieval cannot be unit tested — it is a SQL query against real content — so
 it has its own eval against the live database:

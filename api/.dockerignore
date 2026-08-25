@@ -1,0 +1,20 @@
+# Host node_modules are built for the host platform. Without this they are
+# copied over the Alpine ones that `npm ci` just installed — which is how the
+# image ends up with Windows-built native binaries and Prisma cannot detect its
+# own engine.
+node_modules/
+
+# Real credentials. Multi-stage keeps them out of the final image anyway, but
+# they have no business entering a build layer at all.
+.env
+.env.*
+!.env.example
+
+# Built in the image, not copied into it.
+dist/
+
+# User content — belongs on a volume.
+uploads/
+
+*.log
+.git/

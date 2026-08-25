@@ -22,7 +22,15 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      NODE_ENV: production
+      # Production by default, so a real deploy gets the safe behaviour without
+      # anyone remembering to ask for it: in production the API refuses to boot
+      # with Eskiz mocked, and demands a strong JWT_SECRET.
+      #
+      # Overridable so the stack can actually be smoke-tested locally
+      # (`NODE_ENV=development docker compose up`) — a compose file that cannot
+      # be run without live SMS credentials is a compose file nobody verifies
+      # until the deploy.
+      NODE_ENV: "${NODE_ENV:-production}"
       PORT: "3003"
       DATABASE_URL: "postgresql://smartdriverai:smartdriverai@host.docker.internal:5432/smartdriverai?schema=public"
 

@@ -1,0 +1,7 @@
+# Host node_modules are built for the host platform; the image installs its own.
+node_modules/
+dist/
+.env
+.env.*
+*.log
+.git/

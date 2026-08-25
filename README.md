@@ -53,10 +53,22 @@ Web:
 cd web && npm install && npm run dev
 ```
 
-Then open http://localhost:5175. Or run the whole thing in containers with
-`docker compose up --build` (web on :8082) — note that `NODE_ENV=production` in
-the compose file makes the API refuse to boot without real Eskiz credentials,
-by design; see below.
+Then open http://localhost:5175.
+
+### In containers
+
+```bash
+NODE_ENV=development docker compose up --build
+```
+
+Web on :8082, API on :3003, both proxied through nginx so images and the API
+share an origin. Migrations run at container start, and uploads live on the
+`uploads` volume.
+
+The compose file defaults to `NODE_ENV=production`, where the API deliberately
+**refuses to boot** without real Eskiz credentials and a strong `JWT_SECRET`.
+That default is what makes a real deploy safe without anyone remembering to ask
+for it — hence overriding it for a local smoke test rather than weakening it.
 
 ---
 

@@ -236,5 +236,11 @@
   "admin.replaceImage": "Заменить",
   "admin.removeImage": "Удалить",
   "admin.uploading": "Загрузка...",
-  "admin.imageHelp": "PNG, JPEG или WEBP · до 4 МБ"
+  "admin.imageHelp": "PNG, JPEG или WEBP · до 4 МБ",
+  "nav.primary": "Главное меню",
+  "profile.appearance": "Оформление",
+  "profile.admin": "Панель управления",
+  "profile.install": "Установить приложение",
+  "profile.installDesc": "Добавьте на главный экран — открывается быстрее, без браузера",
+  "common.offline": "Нет подключения к интернету. Проверьте связь."
 }

@@ -70,7 +70,7 @@ export default function App() {
                   <Route path="/signs" element={<Signs />} />
                   <Route path="/tutor" element={<Tutor />} />
                   <Route path="/tutor/:threadId" element={<Tutor />} />
-                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile" element={<Profile dark={dark} setDark={setDark} />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

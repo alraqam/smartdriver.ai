@@ -128,6 +128,26 @@ Two things, not one:
 - [ ] Sign in with a real phone and confirm the SMS arrives
 - [ ] Start a mock exam and confirm it has the expected number of questions
 - [ ] If `ai` says `live`, open one explanation and confirm it returns
+- [ ] Open it on a phone and confirm the bottom tab bar is there, then install
+      it to the home screen once and check it opens without browser chrome
+
+### Bump the service worker version each release
+
+`VERSION` at the top of `web/public/sw.js` is the cache generation. On activate
+the worker deletes every cache that is not the current generation, so bumping it
+is what actually retires the old bundle from a learner's phone.
+
+If it is *not* bumped, nothing breaks — asset filenames are content-hashed, so
+the new bundle is fetched and used correctly. What happens instead is that the
+previous bundles stay in that phone's cache, roughly 330KB each, until some
+later release does bump it. Treat it as part of cutting a release:
+
+```bash
+sed -i "s/sdai-v1/sdai-v2/" web/public/sw.js
+```
+
+nginx already serves `/sw.js` with `no-cache`, so a bumped worker is picked up
+on the next launch rather than up to 24 hours later.
 
 ## Scaling notes
 

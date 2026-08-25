@@ -5,10 +5,21 @@ import { useTheme } from './design/theme.jsx';
 import { Icon } from './design/Icon.jsx';
 import { useI18n, LOCALES } from './i18n/index.jsx';
 import { useAuth } from './auth.jsx';
+import { useIsMobile } from './design/useMedia.js';
+import { BottomTabBar } from './design/BottomTabBar.jsx';
 import { initialOf } from './lib/progress.js';
 
-// Desktop shell, ported from the prototype's web-app.jsx: a fixed sidebar and
-// one centred panel that every screen fills absolutely.
+// The app shell. Two layouts from one tree:
+//
+//   desktop — the prototype's web-app.jsx: a fixed sidebar and one centred,
+//             rounded panel that every screen fills absolutely.
+//   phone   — no sidebar, no card; the panel is the whole viewport and
+//             navigation moves to a bottom tab bar.
+//
+// The tab bar is a flex sibling of the panel rather than an overlay, so every
+// screen's `position: absolute; inset: 0` is confined above it automatically —
+// no page needs to know the bar exists, and the road's floating "continue" bar
+// lands on top of it rather than underneath.
 
 const NAV = [
   { id: 'road', to: '/', icon: 'map', end: true },
@@ -25,6 +36,7 @@ const NAV = [
 
 // Per-screen panel width, from the prototype. The road stays phone-like because
 // its metaphor depends on a narrow column; lists and the exam get more room.
+// Desktop only — on a phone every screen is as wide as the phone.
 const PANEL_W = [
   [/^\/$/, 560],
   [/^\/lesson\//, 680],
@@ -68,11 +80,18 @@ export function Shell({ dark, setDark, children }) {
   const { t, locale, setLocale } = useI18n();
   const { user, signOut } = useAuth();
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
 
   // The quiz and exam runners take the whole panel: a sidebar during a timed
-  // exam is an invitation to lose the paper by mistap.
+  // exam is an invitation to lose the paper by mistap. The tab bar goes for the
+  // same reason — a stray thumb should not end an exam.
   const focused = /^\/(session|mock\/run)/.test(pathname);
   const width = panelWidth(pathname);
+
+  // Full-bleed: no card, no radius, no shadow. True while running an exam, and
+  // true on a phone, where a 28px-radius card inside a 375px viewport would be
+  // spending real estate on decoration.
+  const bare = focused || isMobile;
 
   // How many mistakes are owed today. Refetched on every navigation so it
   // settles right after a drill rather than going stale until reload.
@@ -86,8 +105,11 @@ export function Shell({ dark, setDark, children }) {
   }, [pathname, locale]);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', background: T.shellBg, color: T.text }}>
-      {!focused && (
+    <div className="sdai-shell" style={{
+      display: 'flex', flexDirection: isMobile ? 'column' : 'row',
+      background: T.shellBg, color: T.text,
+    }}>
+      {!focused && !isMobile && (
         <aside style={{
           width: 248, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 4,
           padding: '24px 16px', background: T.shellSurface, borderRight: `1px solid ${T.line}`,
@@ -174,21 +196,29 @@ export function Shell({ dark, setDark, children }) {
       )}
 
       <main style={{
-        flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center',
-        padding: focused ? 0 : '28px 32px', minWidth: 0,
+        flex: 1, minWidth: 0, minHeight: 0,
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        padding: bare ? 0 : '28px 32px',
+        // viewport-fit=cover lets the page run under the notch. Pad the shell
+        // rather than every screen header, and paint the strip in the screen's
+        // own colour so it does not read as a seam.
+        paddingTop: isMobile ? 'env(safe-area-inset-top, 0px)' : undefined,
+        background: isMobile ? T.bg : undefined,
       }}>
         <div style={{
           position: 'relative', width: '100%',
-          maxWidth: focused ? 820 : width,
-          height: '100%', maxHeight: focused ? '100%' : 940,
-          borderRadius: focused ? 0 : 28, overflow: 'hidden',
-          boxShadow: focused ? 'none' : (T.dark ? '0 20px 60px rgba(0,0,0,0.5)' : '0 20px 60px rgba(0,0,0,0.12)'),
-          border: focused ? 'none' : `1px solid ${T.line}`,
+          maxWidth: isMobile ? '100%' : (focused ? 820 : width),
+          height: '100%', maxHeight: bare ? '100%' : 940,
+          borderRadius: bare ? 0 : 28, overflow: 'hidden',
+          boxShadow: bare ? 'none' : (T.dark ? '0 20px 60px rgba(0,0,0,0.5)' : '0 20px 60px rgba(0,0,0,0.12)'),
+          border: bare ? 'none' : `1px solid ${T.line}`,
           transition: 'max-width 0.25s cubic-bezier(.2,.7,.3,1)',
         }}>
           {children}
         </div>
       </main>
+
+      {isMobile && !focused && <BottomTabBar due={due} />}
     </div>
   );
 }

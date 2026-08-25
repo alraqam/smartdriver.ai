@@ -38,11 +38,21 @@ async function request(path, { method = 'GET', body, auth = true } = {}) {
   const token = getToken();
   if (auth && token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await fetch(BASE + path, {
-    method,
-    headers,
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+  let res;
+  try {
+    res = await fetch(BASE + path, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+  } catch {
+    // The request never reached the server: no signal, aeroplane mode, the API
+    // down. Status 0 marks it as "no answer at all", which is a different thing
+    // from any HTTP status and is the one case a retry is genuinely likely to
+    // fix. ErrorNote turns it into a translated message; the raw rejection here
+    // is an untranslated "Failed to fetch".
+    throw new ApiError(0, 'offline');
+  }
 
   if (res.status === 401 && auth) {
     // The token is gone or expired. Drop it and send them back to sign-in

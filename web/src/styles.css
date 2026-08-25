@@ -52,6 +52,17 @@ aside a[aria-current='page']:focus-visible {
   box-shadow: 0 0 0 2px var(--sdai-focus, #1A6FBF);
 }
 
+/* Shell height.
+   100vh is wrong on a phone: mobile browsers measure it against the viewport
+   with the URL bar hidden, so the bottom tab bar sits below the fold until you
+   scroll. 100dvh tracks the visible viewport instead. The vh line stays as the
+   fallback for browsers that do not know dvh — the declaration order is the
+   whole mechanism, which is why this cannot be an inline style. */
+.sdai-shell {
+  height: 100vh;
+  height: 100dvh;
+}
+
 @keyframes sdai-spin { to { transform: rotate(360deg); } }
 
 @keyframes sdai-pulse {

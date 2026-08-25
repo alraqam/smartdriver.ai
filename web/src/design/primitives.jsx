@@ -1,5 +1,6 @@
 import { useTheme, hexA } from './theme.jsx';
 import { Icon } from './Icon.jsx';
+import { useI18n } from '../i18n/index.jsx';
 
 /// Progress ring. Ported from the prototype.
 export function Ring({ size = 64, value = 0, stroke = 6, color, track, children }) {
@@ -154,7 +155,12 @@ export function Loading({ label }) {
 
 export function ErrorNote({ error, onRetry, retryLabel }) {
   const T = useTheme();
+  const { t } = useI18n();
   if (!error) return null;
+  // Status 0 is the api client's marker for "the request never got an answer".
+  // Every screen shows this note, so translating it here covers all of them at
+  // once rather than each page checking for itself.
+  const message = error.status === 0 ? t('common.offline') : error.message;
   return (
     <div style={{
       margin: '12px 0', padding: '12px 14px', borderRadius: 14,
@@ -164,7 +170,7 @@ export function ErrorNote({ error, onRetry, retryLabel }) {
       fontSize: 13, lineHeight: 1.4,
       display: 'flex', alignItems: 'center', gap: 10,
     }}>
-      <span style={{ flex: 1 }}>{error.message}</span>
+      <span style={{ flex: 1 }}>{message}</span>
       {onRetry && (
         <button onClick={onRetry} style={{
           border: 'none', background: 'transparent', color: 'inherit',

@@ -16,15 +16,36 @@ import { computeStreak, deriveRoadNodes } from '../lib/progress.js';
 // of where they are rather than a fixed illustration. The derivation itself
 // lives in lib/progress.js, where it is tested.
 
+// The road column. 360 is the prototype's width and stays the ceiling — the
+// metaphor wants a narrow lane, and a wider one just flattens into a wiggle.
+export const ROAD_MIN_W = 280;
+export const ROAD_MAX_W = 360;
+
+// A node is a 64px tile + a 10px gap + a 104px label, centred on the path, so
+// it reaches 89px either side of the tarmac. That overhang is what actually
+// decides how far the road may swing.
+const NODE_HALF_W = 89;
+
 /// The path the road follows. Hand-tuned S-curves from the prototype, with the
-/// height derived from the node count so twelve topics do not pile up on a
-/// path drawn for nine.
-function buildPath(count) {
-  const W = 360;
+/// height derived from the node count so twelve topics do not pile up on a path
+/// drawn for nine.
+///
+/// `available` is the real width of the scroll container. On a 560px desktop
+/// panel it changes nothing — the swing was never the binding constraint there,
+/// and the ~19px the labels already overhung was absorbed by the margins. On a
+/// 375px phone it is the whole game: the natural swing would push the outermost
+/// labels off both edges and hand the page a horizontal scrollbar.
+export function buildPath(count, available = ROAD_MAX_W) {
+  const W = Math.min(ROAD_MAX_W, Math.max(ROAD_MIN_W, Math.round(available)));
   const segment = 150;
-  const H = Math.max(760, count * segment + 220);
-  const amp = 110; // how far the road swings from the centre
   const mid = W / 2;
+  // Widest node-to-node span is 2 * amp + 2 * NODE_HALF_W; keep that inside the
+  // viewport. Floored so a very narrow phone gets a gentle curve rather than a
+  // straight line, which would stop reading as a road at all.
+  const amp = Math.max(40, Math.min(
+    W * (110 / 360),
+    (available - NODE_HALF_W * 2) / 2,
+  ));
 
   let d = `M ${mid} 90`;
   let y = 90;
@@ -93,7 +114,29 @@ export default function Road() {
 
   const nodesWithStart = useMemo(() => deriveRoadNodes(topics), [topics]);
 
-  const geom = useMemo(() => buildPath(nodesWithStart.length || 1), [nodesWithStart.length]);
+  // Measure the scroll column so the road can be drawn to the viewport it is
+  // actually in. A callback ref rather than an effect on scrollRef, because the
+  // road is not mounted during the loading state — an effect keyed on [] would
+  // run against a null node and never fire again once the data arrived.
+  const [colW, setColW] = useState(ROAD_MAX_W);
+  const observer = useRef(null);
+  const attachColumn = useCallback((el) => {
+    scrollRef.current = el;
+    observer.current?.disconnect();
+    observer.current = null;
+    if (!el) return;
+    setColW(el.clientWidth || ROAD_MAX_W);
+    if (typeof ResizeObserver === 'undefined') return; // jsdom, older Safari
+    const ro = new ResizeObserver(([entry]) => setColW(entry.contentRect.width));
+    ro.observe(el);
+    observer.current = ro;
+  }, []);
+  useEffect(() => () => observer.current?.disconnect(), []);
+
+  const geom = useMemo(
+    () => buildPath(nodesWithStart.length || 1, colW),
+    [nodesWithStart.length, colW],
+  );
 
   // Sample the SVG path so nodes sit exactly on the tarmac. Done from the real
   // path element rather than re-deriving the bezier by hand.
@@ -200,7 +243,7 @@ export default function Road() {
       </div>
 
       {/* The road */}
-      <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
+      <div ref={attachColumn} style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', position: 'relative' }}>
         <div style={{ position: 'relative', width: geom.W, height: geom.H, margin: '0 auto', paddingBottom: 40 }}>
           <svg width={geom.W} height={geom.H} style={{ position: 'absolute', inset: 0 }} aria-hidden="true">
             <defs>

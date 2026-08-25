@@ -236,5 +236,11 @@
   "admin.replaceImage": "Almashtirish",
   "admin.removeImage": "O'chirish",
   "admin.uploading": "Yuklanmoqda...",
-  "admin.imageHelp": "PNG, JPEG yoki WEBP · maks 4 MB"
+  "admin.imageHelp": "PNG, JPEG yoki WEBP · maks 4 MB",
+  "nav.primary": "Asosiy menyu",
+  "profile.appearance": "Ko'rinish",
+  "profile.admin": "Boshqaruv paneli",
+  "profile.install": "Ilovani o'rnatish",
+  "profile.installDesc": "Uy ekraniga qo'shing — brauzersiz, tezroq ochiladi",
+  "common.offline": "Internet aloqasi yo'q. Ulanishni tekshiring."
 }

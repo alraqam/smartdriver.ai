@@ -7,6 +7,7 @@ import { useTheme, hexA } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, GhostButton, Loading, PrimaryButton, Ring, Screen, ScreenHeader, StatCard } from '../design/primitives.jsx';
+import { useIsMobile } from '../design/useMedia.js';
 import { computeStreak, initialOf } from '../lib/progress.js';
 
 // Profile, ported from the prototype's ProfileScreen.
@@ -15,11 +16,12 @@ import { computeStreak, initialOf } from '../lib/progress.js';
 // session dates); XP and rank are not, so they are replaced with figures the
 // data actually supports: answers given, sessions, and topic coverage.
 
-export default function Profile() {
+export default function Profile({ dark, setDark }) {
   const T = useTheme();
   const { t, locale, setLocale } = useI18n();
   const { user, setUser, signOut } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [progress, setProgress] = useState(null);
   const [sessions, setSessions] = useState([]);
@@ -200,6 +202,23 @@ export default function Profile() {
             ))}
           </div>
 
+          {/* The theme lived only in the desktop sidebar, which a phone does
+              not have. A settings screen is where it belonged anyway, so it
+              moves here for everyone rather than being duplicated. */}
+          <div style={{ fontSize: 12, color: T.textDim, fontWeight: 600, margin: '14px 0 6px' }}>
+            {t('profile.appearance')}
+          </div>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {[{ id: false, label: t('theme.light') }, { id: true, label: t('theme.dark') }].map((o) => (
+              <button key={String(o.id)} onClick={() => setDark?.(o.id)} style={{
+                flex: 1, padding: 10, border: 'none', cursor: 'pointer', borderRadius: 10,
+                fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
+                background: dark === o.id ? T.text : T.surface2,
+                color: dark === o.id ? T.bg : T.textDim,
+              }}>{o.label}</button>
+            ))}
+          </div>
+
           <div style={{ marginTop: 14 }}>
             <PrimaryButton
               onClick={() => save({ name: name.trim() })}
@@ -209,6 +228,29 @@ export default function Profile() {
             </PrimaryButton>
           </div>
         </div>
+
+        {/* Admin has a sidebar entry on desktop and no tab on a phone, so the
+            content team reaches it from here. The server's AdminGuard is still
+            what enforces the boundary — this only keeps it out of the way. */}
+        {isMobile && user?.role === 'admin' && (
+          <button onClick={() => navigate('/admin')} style={{
+            marginTop: 14, width: '100%', padding: 14, borderRadius: 14,
+            background: T.surface, border: `0.5px solid ${T.stroke}`, cursor: 'pointer',
+            fontFamily: 'inherit', textAlign: 'left',
+            display: 'flex', alignItems: 'center', gap: 12,
+          }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: 10, flex: 'none', background: T.surface2,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Icon name="grid" size={18} color={T.textDim} strokeWidth={2.2} />
+            </div>
+            <span style={{ flex: 1, fontSize: 14, fontWeight: 700, color: T.text }}>
+              {t('profile.admin')}
+            </span>
+            <Icon name="chevron" size={18} color={T.textFaint} />
+          </button>
+        )}
 
         <div style={{ marginTop: 14 }}>
           <GhostButton onClick={signOut} style={{ color: T.danger }}>

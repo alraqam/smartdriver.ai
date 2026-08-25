@@ -6,6 +6,7 @@ import { useTheme } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, Loading, Screen, ScreenHeader } from '../design/primitives.jsx';
+import { useIsMobile } from '../design/useMedia.js';
 import { MASTERED_AT } from '../lib/progress.js';
 
 // Topic list, ported from the prototype's LessonsList + ModuleRow. The
@@ -77,6 +78,7 @@ export default function Lessons() {
   const T = useTheme();
   const { t, locale } = useI18n();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [topics, setTopics] = useState(null);
   const [error, setError] = useState(null);
@@ -109,9 +111,27 @@ export default function Lessons() {
     });
   }, [topics, filter]);
 
+  // The sign library has its own sidebar entry on desktop but no room in the
+  // five phone tabs, so it is re-homed here — the other "browse the content"
+  // screen. It is bundled rather than fetched, which makes it the one thing
+  // still worth reaching when the topic list itself could not load, so this
+  // button has to survive the error state too.
+  const signsButton = isMobile ? (
+    <button onClick={() => navigate('/signs')} style={{
+      display: 'flex', alignItems: 'center', gap: 6, flex: 'none',
+      border: `0.5px solid ${T.stroke}`, background: T.surface, color: T.text,
+      padding: '8px 12px', borderRadius: 12, cursor: 'pointer',
+      fontFamily: 'inherit', fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap',
+    }}>
+      <Icon name="library" size={15} color={T.textDim} strokeWidth={2.2} />
+      {t('nav.signs')}
+    </button>
+  ) : undefined;
+
   if (error && !topics) {
     return (
       <Screen scroll>
+        <ScreenHeader title={t('lessons.title')} right={signsButton} />
         <div style={{ padding: 24 }}>
           <ErrorNote error={error} onRetry={load} retryLabel={t('common.retry')} />
         </div>
@@ -127,6 +147,7 @@ export default function Lessons() {
       <ScreenHeader
         title={t('lessons.title')}
         eyebrow={t('lessons.summary', { lessons: totalQuestions, modules: topics.length }).toUpperCase()}
+        right={signsButton}
       />
 
       <div style={{ padding: '12px 16px 4px', display: 'flex', gap: 6, flex: 'none' }}>

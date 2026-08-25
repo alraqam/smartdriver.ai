@@ -62,7 +62,6 @@ export function ThemeProvider({ dark, accentA = ACCENT_A, accentB = ACCENT_B, ch
       // where #3AA2FF manages only 2.4. The fill value doubles as the text
       // value here: 4.66 as text, 5.16 behind white.
       a: FILL.aFill,
-      dark: false,
       bg: '#F6F3EC', // warm off-white — reads as paper, not as a form
       surface: '#FFFFFF',
       surface2: '#EFEAE0',
@@ -97,6 +96,12 @@ export function ThemeProvider({ dark, accentA = ACCENT_A, accentB = ACCENT_B, ch
     // so the focus indicator stays visible whether it lands on a pale card or
     // on a filled accent button.
     root.setProperty('--sdai-focus-halo', T.dark ? '#0E1116' : '#FFFFFF');
+
+    // Installed to a home screen, the page paints its own status bar and
+    // address bar. index.html ships the light value; without this the bar stays
+    // pale after switching to dark and the app looks like it has a white
+    // sliver stuck to the top of it.
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', T.shellBg);
   }, [T]);
 
   return <ThemeCtx.Provider value={T}>{children}</ThemeCtx.Provider>;

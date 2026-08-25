@@ -260,10 +260,9 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
    carry `imageUrl`, but no seed question has one, and there is no image
    hosting yet — files are served from the web container.
 4. **`signs` and `markings` have one question each.** They are the two topics
-   that genuinely need diagrams, so they are thin until images exist.
+   that genuinely need diagrams. Uploads exist now, so this is a content job
+   rather than a missing feature.
 5. **No payments.** Everything is free in v1.
-6. **`signs` and `markings` still have one question each.** The upload exists
-   now, so this is purely a content job rather than a missing feature.
 
 **Every response carries a request id** (`X-Request-Id`, and `requestId` in any
 error body). It is eight hex characters so a learner can read it down a phone,
@@ -363,6 +362,70 @@ Import bodies get a 25 MB limit on that one route (the seed file alone exceeds
 Express's 100 KB default); every other route keeps 1 MB.
 
 ---
+
+## On a phone
+
+The app is responsive and installable. Below **900px** the desktop shell is
+replaced rather than squeezed:
+
+- the 248px sidebar becomes a **bottom tab bar** — Yo'l, Mavzular, Xatolar
+  (carrying the due-review badge), Ustoz, Profil
+- the centred, rounded panel goes **full-bleed**: no card, no radius, no shadow
+- `env(safe-area-inset-*)` keeps the header clear of the notch and the tabs
+  clear of the home indicator
+
+Eight sidebar entries do not fit five tabs, so two are re-homed rather than
+crammed in. The **mock exam** already sits at the finish flag at the end of the
+road. The **sign library** gets a button in the topic-list header — including on
+that screen's error state, because it is the one thing still worth reaching when
+nothing else loaded. Admin, the language and theme toggles and sign-out all live
+in Profil.
+
+The tab bar is a flex sibling of the panel, not an overlay. Every screen is
+`position: absolute; inset: 0`, so being a sibling confines them above the bar
+automatically — no page has to know it exists, and the road's floating
+"continue" button lands on top of it rather than underneath.
+
+The road is the one screen with hand-computed geometry. Its swing is now capped
+by the measured container width, because a node is a 64px tile plus a 104px
+label and so reaches 89px either side of the tarmac: at 375px the original fixed
+column pushed the outermost labels off both edges. Desktop is unchanged — the
+swing was never the binding constraint inside a 560px panel.
+
+### Installing, and what offline actually means
+
+`web/public/manifest.webmanifest` plus a hand-written `web/public/sw.js`, ~60
+lines, registered in production builds only. A build-time PWA plugin would have
+been the largest dependency in a frontend that has three.
+
+Icons are generated, not drawn: `node web/scripts/make-icons.mjs` writes the
+192/512/maskable/apple-touch/favicon PNGs with nothing but Node's `zlib`. They
+are committed; the script exists so the mark is reproducible.
+
+**`/api` is never cached.** Auth, sessions, exams and the tutor must be live. A
+cached exam paper or a cached `/auth/me` is worse than being honestly offline,
+and answering against a stale session would silently lose progress. So:
+navigation is network-first falling back to the cached shell, `/assets/` is
+cache-first (the filenames are content-hashed), Google Fonts are
+stale-while-revalidate, and nothing else is touched.
+
+So offline you get **the shell and the 25-sign library**, because the sign
+catalog is bundled rather than fetched. **Practice, exams and the tutor need a
+connection** and fail through the app's normal error UI. This is not offline
+practice — that needs question sync and answer queueing, which is a real feature
+and not a side effect of a service worker.
+
+Two things had to change to make that true rather than merely plausible.
+`/auth/me` failing used to sign the learner out, so going offline bounced them
+to a login screen they could not complete without a network; a 401 still signs
+out, but a request that got **no answer at all** now leaves the stored session
+alone. And the api client marks those as status 0, which `ErrorNote` renders as
+a translated "no connection" rather than the browser's English "Failed to
+fetch".
+
+Bump `VERSION` in `sw.js` when changing it — old caches are dropped on activate,
+so a deploy cannot leave a phone pinned to last month's bundle. nginx serves
+`/sw.js` with `no-cache` for the same reason.
 
 ## The UI
 

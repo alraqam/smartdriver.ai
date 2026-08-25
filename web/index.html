@@ -3,7 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Updated at runtime by ThemeProvider so the phone's status bar follows
+         the light/dark toggle. This value is the light shell. -->
     <meta name="theme-color" content="#DCD6CB" />
+    <meta name="description" content="O'zbekiston haydovchilik guvohnomasi nazariy imtihoniga AI yordamida tayyorgarlik." />
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <!-- iOS ignores the manifest's display mode; these are how an installed
+         icon opens without Safari's chrome. black-translucent puts the page
+         under the status bar, which is what viewport-fit=cover above is for. -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SmartDriverAi" />
+
     <title>SmartDriverAi — Haydovchilik nazariyasi</title>
   </head>
   <body>

@@ -19,6 +19,13 @@ server {
         add_header Cache-Control "no-cache, must-revalidate";
     }
 
+    # Same reasoning, one level up: a stale service worker keeps serving a stale
+    # index.html, and the phone never sees the deploy at all. Browsers already
+    # cap worker staleness at 24h, but 24h of a bad deploy is 24h too many.
+    location = /sw.js {
+        add_header Cache-Control "no-cache, must-revalidate";
+    }
+
     location /api/ {
         # Substituted at container start by the nginx image's
         # 20-envsubst-on-templates.sh. Defaults to the docker-compose service

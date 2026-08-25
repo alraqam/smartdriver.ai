@@ -12,9 +12,26 @@ import { MasteryState, adjustedScore, isWeak, readiness, updateMastery } from '.
 import { Candidate, RECENCY_WINDOW, selectForExam, selectForTopic, selectWeakTopics } from './selection';
 import { ReviewsService, REVIEW_SESSION_SIZE } from '../reviews/reviews.service';
 import { shuffleOptions } from './shuffle';
+import { clampSessionWindow } from './offline-window';
+import { OfflineSessionDto } from './sync.dto';
 
 /// How many recent exams feed the readiness score.
 const READINESS_EXAM_WINDOW = 5;
+
+type OfflineSessionInput = OfflineSessionDto;
+
+/// What happened to one queued drill. `duplicate` is a success, not a warning:
+/// it means an earlier attempt already landed and the client can drop it.
+interface SyncResult {
+  clientId: string;
+  status: 'accepted' | 'duplicate' | 'rejected';
+  sessionId?: string;
+  correctCount?: number;
+  questionCount?: number;
+  /// Answers whose question no longer exists on the server.
+  dropped?: number;
+  reason?: string;
+}
 
 @Injectable()
 export class SessionsService {
@@ -412,6 +429,181 @@ export class SessionsService {
 
     const full = await this.get(userId, sessionId);
     return { ...full, readiness: await this.readiness(userId) };
+  }
+
+  // ── syncing offline practice ──────────────────────────────
+
+  /// Replay practice drills that happened on a device with no connection.
+  ///
+  /// Three rules hold this together, and all three are about not trusting the
+  /// device that just spent an hour alone with the answer key:
+  ///
+  ///  1. **The server re-grades.** The client sends which option was tapped,
+  ///     never whether it was right. Readiness is built on these numbers.
+  ///  2. **Practice only.** The mode is set here, not read from the request.
+  ///     An exam whose paper and clock lived on the learner's phone is not an
+  ///     exam, and no request shape should be able to ask for one.
+  ///  3. **Idempotent on `clientId`.** Reconnects are flaky by nature: the
+  ///     queue flushes, the response is lost, the queue flushes again. Landing
+  ///     twice must be indistinguishable from landing once.
+  async syncOffline(userId: string, sessions: OfflineSessionInput[]) {
+    const results: SyncResult[] = [];
+    for (const s of sessions) {
+      try {
+        results.push(await this.syncOne(userId, s));
+      } catch (err) {
+        // One malformed drill must not cost the learner the rest of the queue,
+        // so a failure is reported per session rather than thrown for the batch.
+        results.push({
+          clientId: s.clientId,
+          status: 'rejected',
+          reason: err instanceof Error ? err.message : 'nomaʼlum xatolik',
+        });
+      }
+    }
+
+    return {
+      results,
+      accepted: results.filter((r) => r.status === 'accepted').length,
+      duplicates: results.filter((r) => r.status === 'duplicate').length,
+      rejected: results.filter((r) => r.status === 'rejected').length,
+      readiness: await this.readiness(userId),
+    };
+  }
+
+  private async syncOne(userId: string, dto: OfflineSessionInput): Promise<SyncResult> {
+    const existing = await this.prisma.session.findUnique({
+      where: { userId_clientId: { userId, clientId: dto.clientId } },
+      select: { id: true, correctCount: true, questionCount: true },
+    });
+    if (existing) {
+      return {
+        clientId: dto.clientId,
+        status: 'duplicate',
+        sessionId: existing.id,
+        correctCount: existing.correctCount,
+        questionCount: existing.questionCount,
+      };
+    }
+
+    const topic = await this.prisma.topic.findUnique({ where: { id: dto.topicId } });
+    if (!topic) throw new NotFoundException('Mavzu topilmadi');
+
+    // A client bug that submits the same question twice must not let one
+    // question move mastery twice. First answer wins — it is the one the
+    // learner actually gave.
+    const seen = new Set<string>();
+    const answers = dto.answers.filter((a) => {
+      if (seen.has(a.questionId)) return false;
+      seen.add(a.questionId);
+      return true;
+    });
+
+    const questions = await this.prisma.question.findMany({
+      where: { id: { in: answers.map((a) => a.questionId) } },
+      select: { id: true, topicId: true, options: { select: { id: true, isCorrect: true } } },
+    });
+    const byId = new Map(questions.map((q) => [q.id, q]));
+
+    // A question retired or deleted between the download and the sync is an
+    // ordinary event, not a reason to throw the drill away. Grade what still
+    // exists and report the rest. Status is not checked: the learner answered
+    // it in good faith while it was published, and retiring content should not
+    // reach back and erase work.
+    const graded: { questionId: string; topicId: string; optionId: string; isCorrect: boolean; msSpent?: number }[] = [];
+    let dropped = 0;
+    for (const a of answers) {
+      const q = byId.get(a.questionId);
+      const option = q?.options.find((o) => o.id === a.optionId);
+      if (!q || !option) {
+        dropped++;
+        continue;
+      }
+      graded.push({
+        questionId: q.id,
+        topicId: q.topicId,
+        optionId: option.id,
+        isCorrect: option.isCorrect,
+        msSpent: a.msSpent,
+      });
+    }
+
+    if (graded.length === 0) {
+      throw new BadRequestException('Bu sessiyadagi savollar endi mavjud emas');
+    }
+
+    const { startedAt, finishedAt } = clampSessionWindow(dto.startedAt, dto.finishedAt);
+    const correctCount = graded.filter((g) => g.isCorrect).length;
+
+    const created = await this.prisma.$transaction(async (tx) => {
+      const session = await tx.session.create({
+        data: {
+          userId,
+          clientId: dto.clientId,
+          mode: SessionMode.practice,
+          topicId: topic.id,
+          startedAt,
+          finishedAt,
+          questionCount: graded.length,
+          correctCount,
+          items: {
+            create: graded.map((g, order) => ({
+              questionId: g.questionId,
+              order,
+              chosenOptionId: g.optionId,
+              isCorrect: g.isCorrect,
+              answeredAt: finishedAt,
+              msSpent: g.msSpent ?? null,
+            })),
+          },
+        },
+        select: { id: true },
+      });
+
+      // Folded per topic first, so a drill is a handful of upserts rather than
+      // one read-modify-write per answer. Grouped by the question's OWN topic
+      // rather than the session's: if content moved between topics after the
+      // download, the answer should still count where the question now lives.
+      const byTopic = new Map<string, boolean[]>();
+      for (const g of graded) {
+        const list = byTopic.get(g.topicId) ?? [];
+        list.push(g.isCorrect);
+        byTopic.set(g.topicId, list);
+      }
+
+      for (const [topicId, results] of byTopic) {
+        const prev = await tx.topicMastery.findUnique({
+          where: { userId_topicId: { userId, topicId } },
+        });
+        let state: MasteryState = prev
+          ? { attempts: prev.attempts, correct: prev.correct, ewma: prev.ewma }
+          : { attempts: 0, correct: 0, ewma: 0 };
+        for (const ok of results) state = updateMastery(state, ok);
+        await tx.topicMastery.upsert({
+          where: { userId_topicId: { userId, topicId } },
+          create: { userId, topicId, ...state },
+          update: state,
+        });
+      }
+
+      // The mistake bank is scheduled from `now`, not from when the drill
+      // happened offline: a question missed on a plane yesterday is due
+      // relative to today, and backdating it would make it due on arrival.
+      for (const g of graded) {
+        await this.reviews.record(tx, userId, g.questionId, g.isCorrect);
+      }
+
+      return session;
+    });
+
+    return {
+      clientId: dto.clientId,
+      status: 'accepted',
+      sessionId: created.id,
+      correctCount,
+      questionCount: graded.length,
+      ...(dropped > 0 ? { dropped } : {}),
+    };
   }
 
   // ── progress ──────────────────────────────────────────────

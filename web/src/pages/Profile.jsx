@@ -8,6 +8,7 @@ import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, GhostButton, Loading, PrimaryButton, Ring, Screen, ScreenHeader, StatCard } from '../design/primitives.jsx';
 import { useIsMobile } from '../design/useMedia.js';
+import { OfflineCard } from '../design/OfflineCard.jsx';
 import { computeStreak, initialOf } from '../lib/progress.js';
 
 // Profile, ported from the prototype's ProfileScreen.
@@ -227,6 +228,12 @@ export default function Profile({ dark, setDark }) {
               {saved ? t('profile.saved') : t('profile.save')}
             </PrimaryButton>
           </div>
+        </div>
+
+        {/* Offline practice. Below the settings card because it is a choice
+            about this device rather than about the account. */}
+        <div style={{ marginTop: 14 }}>
+          <OfflineCard />
         </div>
 
         {/* Admin has a sidebar entry on desktop and no tab on a phone, so the

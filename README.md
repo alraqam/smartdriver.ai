@@ -194,7 +194,14 @@ cd api && npm run lint && npm test && npm run test:e2e
 
 Unit tests cover the parts where being wrong is silent: phone normalisation,
 mastery/readiness scoring, question selection, option shuffling, the spaced
-repetition schedule, the demo-OTP gate, and importer validation.
+repetition schedule, the demo-OTP gate, importer validation, the offline pack's
+version fingerprint, and the clamp on device-supplied timestamps.
+
+`test:e2e` migrates the test database first (`scripts/migrate-test-db.mjs`).
+Without that, a schema change made every e2e test fail with a 500 whose stack
+pointed at whichever query happened to run first rather than at the missing
+column. It refuses to run against a database not named `smartdriverai_test`,
+the same guard the suite itself carries.
 
 End-to-end tests drive the real HTTP surface against a **separate** database
 (`smartdriverai_test`), so they can never touch development data — the setup
@@ -263,6 +270,14 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
    that genuinely need diagrams. Uploads exist now, so this is a content job
    rather than a missing feature.
 5. **No payments.** Everything is free in v1.
+6. **The offline pack lives in localStorage**, which caps it at a few MB. The
+   current bank is ~60KB and a full ПДД set would be roughly 2MB, so this holds
+   for now; past that it wants IndexedDB. `savePack` refuses a pack over its
+   budget rather than half-writing one, so the failure will be loud.
+7. **Offline practice picks questions more simply than the server does.** The
+   server balances difficulty and weighs the learner's full history; the device
+   has neither, so it only avoids questions it has just asked. Mastery is
+   unaffected — the server re-grades everything on sync.
 
 **Every response carries a request id** (`X-Request-Id`, and `requestId` in any
 error body). It is eight hex characters so a learner can read it down a phone,
@@ -402,18 +417,23 @@ Icons are generated, not drawn: `node web/scripts/make-icons.mjs` writes the
 192/512/maskable/apple-touch/favicon PNGs with nothing but Node's `zlib`. They
 are committed; the script exists so the mark is reproducible.
 
-**`/api` is never cached.** Auth, sessions, exams and the tutor must be live. A
-cached exam paper or a cached `/auth/me` is worse than being honestly offline,
-and answering against a stale session would silently lose progress. So:
-navigation is network-first falling back to the cached shell, `/assets/` is
-cache-first (the filenames are content-hashed), Google Fonts are
+**`/api` is never cached**, with one narrow exception. Auth, sessions, exams and
+the tutor must be live: a cached exam paper or a cached `/auth/me` is worse than
+being honestly offline, and answering against a stale session would silently
+lose progress. So navigation is network-first falling back to the cached shell,
+`/assets/` is cache-first (the filenames are content-hashed), Google Fonts are
 stale-while-revalidate, and nothing else is touched.
 
-So offline you get **the shell and the 25-sign library**, because the sign
-catalog is bundled rather than fetched. **Practice, exams and the tutor need a
-connection** and fail through the app's normal error UI. This is not offline
-practice — that needs question sync and answer queueing, which is a real feature
-and not a side effect of a service worker.
+The exception is **`/api/uploads/`** — question diagrams. They are static files
+named by the sha256 of their own contents, behind no auth and carrying no
+session semantics, so a cached one cannot be stale and cannot leak. Without
+them, offline practice shows a broken image for every diagram question, which is
+most of a real traffic-rules bank.
+
+So the service worker alone gets you **the shell and the 25-sign library**,
+because the sign catalog is bundled rather than fetched. Practice needs more
+than caching, and has it — see below. **Exams and the tutor still need a
+connection** and fail through the app's normal error UI.
 
 Two things had to change to make that true rather than merely plausible.
 `/auth/me` failing used to sign the learner out, so going offline bounced them
@@ -426,6 +446,67 @@ fetch".
 Bump `VERSION` in `sw.js` when changing it — old caches are dropped on activate,
 so a deploy cannot leave a phone pinned to last month's bundle. nginx serves
 `/sw.js` with `no-cache` for the same reason.
+
+
+### Offline practice
+
+A service worker can cache a page. It cannot run a drill, grade it, or get the
+result back to the server afterwards — so practice offline is its own feature,
+built on three pieces.
+
+**The pack.** `GET /api/offline/pack` is the published bank, answer key
+included, at roughly 60KB for the current 54 questions. It is conditional: the
+client sends the version it holds and gets a `304` when nothing has moved, so
+the check on every launch costs one aggregate rather than a serialisation of the
+bank. Learners download it deliberately, from the profile screen — it is not
+fetched behind their back onto a metered connection.
+
+Shipping the answer key is the real tension, and the line is drawn at the mode
+rather than fudged. **Practice may run offline**: it already reveals the correct
+option the instant an answer is submitted, so the key was never a secret it was
+keeping, and the underlying rules are public material every competing app ships
+in a PDF. **Exams never may**: their value is that the server owns the paper,
+the clock and the score, and a downloadable exam is not an exam. That is the
+same line the service worker draws around `/api`, for the same reason.
+
+**Running the drill.** `web/src/lib/localSession.js` produces responses shaped
+exactly like the server's `/sessions` endpoints, so `Quiz.jsx` and `Result.jsx`
+never learn where a session came from. It keeps the server's rules rather than
+relaxing them offline: options are shuffled with the same FNV-1a hash (a test
+transcribes the server's implementation independently and asserts they agree),
+an unanswered question does not reveal its correct option, and a practice answer
+is final — otherwise going offline would quietly become a way to retry until the
+score came out right.
+
+**Getting it back.** A finished drill is written to a queue before anything is
+attempted over the network, and removed only once the server has ruled on it.
+`POST /api/sessions/sync` replays it, and three rules hold that together:
+
+- **The server re-grades.** The client sends which option was tapped, never
+  whether it was right — there is no `isCorrect` field in the request shape at
+  all. Readiness is built on these numbers.
+- **Practice only.** The mode is set server-side, not read from the request.
+- **Idempotent on a client-minted `clientId`.** Reconnects are flaky by nature:
+  the queue flushes, the response is lost, the queue flushes again. Landing
+  twice is indistinguishable from landing once.
+
+Timestamps are clamped to a 30-day window ending now. They come from a device
+clock, cheap phones come up in 1970 or drift without a SIM, and the streak on
+the home screen counts distinct session days — a drill claiming next week would
+hold a streak open that nobody earned.
+
+The queue flushes on the `online` event and on every launch. Both matter: the
+first catches walking back into signal, the second catches the far more common
+case of the app having been closed the whole time it was offline.
+
+Reachability turned out to be most of the work. A pack is useless if the screens
+that lead to practice are error pages, so `topics`, `topicRules`, `progress` and
+`sessions` all degrade in `web/src/api.js` rather than in the pages: the topic
+list and the road render from the pack, the lesson screen loses its rule text
+but keeps the button that starts a drill, and readiness shows the last figure
+the server actually gave rather than one invented on the device.
+
+**Still online-only:** exams, the tutor, the mistake bank and lesson rule text.
 
 ## The UI
 

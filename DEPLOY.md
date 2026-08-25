@@ -130,6 +130,9 @@ Two things, not one:
 - [ ] If `ai` says `live`, open one explanation and confirm it returns
 - [ ] Open it on a phone and confirm the bottom tab bar is there, then install
       it to the home screen once and check it opens without browser chrome
+- [ ] Download the offline pack from the profile screen and confirm the counts
+      match the published bank; tap it again and confirm it reports "already
+      current" rather than downloading twice (that is the `304` path working)
 
 ### Bump the service worker version each release
 

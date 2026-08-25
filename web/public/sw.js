@@ -4,26 +4,35 @@
  * build-time PWA plugin would be the largest thing in it, to produce roughly
  * this file. Sixty lines of routing is cheaper to read than a plugin's config.
  *
- * The one rule that matters: /api is never touched. Auth, sessions, exams and
- * the tutor must all be live. A cached exam paper, a cached /auth/me, or a
- * cached answer key is worse than being honestly offline — and answering a
- * question against a stale session would silently lose the learner's progress.
- * So this caches the shell and the static assets, and nothing else.
+ * The one rule that matters: /api is never touched, with a single narrow
+ * exception for question diagrams (see the fetch handler). Auth, sessions,
+ * exams and the tutor must all be live. A cached exam paper, a cached
+ * /auth/me, or a cached answer key is worse than being honestly offline — and
+ * answering a question against a stale session would silently lose the
+ * learner's progress. So this caches the shell, the static assets and the
+ * diagrams, and nothing else.
  *
  * What that buys: the app opens instantly on a patchy mobile connection, and
  * the sign library — which is bundled, not fetched — works with no network at
- * all. Practice, exams and the tutor still need a connection, and fail through
- * the app's normal error UI when there isn't one.
+ * all. Practice works offline too, but not because of this file: it needs a
+ * question pack the learner downloads deliberately, and the answers it produces
+ * are queued and replayed to the server (see web/src/lib/offlineQueue.js).
+ * Exams and the tutor still need a connection, and fail through the app's
+ * normal error UI when there isn't one.
  *
  * Bump VERSION on any change here. Old caches are dropped on activate, so a
  * deploy cannot leave a phone pinned to last month's bundle.
  */
 
-const VERSION = 'sdai-v1';
+const VERSION = 'sdai-v2';
 const SHELL_CACHE = `${VERSION}-shell`;
 const ASSET_CACHE = `${VERSION}-assets`;
 const FONT_CACHE = `${VERSION}-fonts`;
-const OWNED = [SHELL_CACHE, ASSET_CACHE, FONT_CACHE];
+/// Question diagrams. Separate from the asset cache so it can be reasoned about
+/// — and dropped — on its own; it is the only cache holding content the server
+/// serves under /api.
+const MEDIA_CACHE = `${VERSION}-media`;
+const OWNED = [SHELL_CACHE, ASSET_CACHE, FONT_CACHE, MEDIA_CACHE];
 
 // The app is a HashRouter, so every route in it is served by this one document.
 const SHELL = '/';
@@ -114,8 +123,21 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
+  const sameOrigin = url.origin === self.location.origin;
+
+  // Question diagrams are the one thing under /api that is safe to keep, and
+  // the exemption is narrow on purpose. They are static files served by express
+  // with `immutable`, named by the sha256 of their own contents, behind no auth
+  // and carrying no session semantics — a cached one cannot be stale and cannot
+  // leak. Without this, offline practice shows a broken image for every
+  // diagram question, which is most of a real traffic-rules bank.
+  if (sameOrigin && url.pathname.startsWith('/api/uploads/')) {
+    event.respondWith(cacheFirst(request, MEDIA_CACHE));
+    return;
+  }
+
   // The line that must not move.
-  if (url.origin === self.location.origin && url.pathname.startsWith('/api/')) return;
+  if (sameOrigin && url.pathname.startsWith('/api/')) return;
 
   if (request.mode === 'navigate') {
     event.respondWith(navigateFirst(request));

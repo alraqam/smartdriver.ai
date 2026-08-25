@@ -15,6 +15,7 @@
     "lint": "tsc --noEmit -p tsconfig.json",
     "test": "jest",
     "eval:retrieval": "nest build && node test/eval-retrieval.js",
+    "pretest:e2e": "node scripts/migrate-test-db.mjs",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand"
   },
   "dependencies": {

@@ -207,6 +207,12 @@ model Session {
   /// Set only for single-topic practice; null for exam and weak_topics.
   topicId String?
 
+  /// Set only for a session that was practised offline and synced afterwards.
+  /// The client mints it before the first answer, so a retried sync — a flaky
+  /// reconnect, a double tap, the same queue flushed from two tabs — lands on
+  /// the row that already exists instead of scoring the drill twice.
+  clientId String?
+
   startedAt  DateTime  @default(now())
   finishedAt DateTime?
 
@@ -220,6 +226,9 @@ model Session {
   items SessionItem[]
 
   @@index([userId, startedAt])
+  /// Scoped to the user: two learners' devices can mint the same id without
+  /// one of them silently losing a session.
+  @@unique([userId, clientId])
 }
 
 model SessionItem {

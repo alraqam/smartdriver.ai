@@ -9,6 +9,7 @@ import { ContentModule } from './content/content.module';
 import { SettingsModule } from './settings/settings.module';
 import { TopicsModule } from './topics/topics.module';
 import { SessionsModule } from './sessions/sessions.module';
+import { OfflineModule } from './offline/offline.module';
 import { ProgressModule } from './progress/progress.module';
 import { AiModule } from './ai/ai.module';
 import { ReviewsModule } from './reviews/reviews.module';
@@ -31,6 +32,7 @@ import { RequestLoggerMiddleware } from './common/request-logger.middleware';
     SettingsModule,
     TopicsModule,
     SessionsModule,
+    OfflineModule,
     ProgressModule,
     ReviewsModule,
     AiModule,

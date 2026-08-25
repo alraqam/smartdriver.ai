@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { AnswerDto, CreateSessionDto } from './dto';
+import { SyncSessionsDto } from './sync.dto';
 import { AuthUser, CurrentUser } from '../auth/decorators';
 
 @Controller('sessions')
@@ -10,6 +11,14 @@ export class SessionsController {
   @Post()
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateSessionDto) {
     return this.sessions.create(user.sub, dto.mode, { topicId: dto.topicId, count: dto.count });
+  }
+
+  /// Replay practice drills done offline. Declared before the `:id` routes so
+  /// the literal path is never shadowed by one of them.
+  @Post('sync')
+  @HttpCode(200)
+  sync(@CurrentUser() user: AuthUser, @Body() dto: SyncSessionsDto) {
+    return this.sessions.syncOffline(user.sub, dto.sessions);
   }
 
   @Get()

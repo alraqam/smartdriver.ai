@@ -76,6 +76,11 @@ services:
   web:
     build: ./web
     image: smartdriverai-web
+    environment:
+      # Where nginx proxies /api. Substituted into the config at container
+      # start, so the API host is a deploy-time setting rather than baked into
+      # the image — on EasyPanel or Kubernetes the service is not called "api".
+      API_UPSTREAM: "${API_UPSTREAM:-api:3003}"
     ports:
       - "8082:80"
     depends_on:

@@ -71,6 +71,12 @@ The compose file defaults to `NODE_ENV=production`, where the API deliberately
 That default is what makes a real deploy safe without anyone remembering to ask
 for it — hence overriding it for a local smoke test rather than weakening it.
 
+For a real deploy see **[DEPLOY.md](DEPLOY.md)** — an EasyPanel checklist
+covering the volume the uploads need, the `API_UPSTREAM` value that decides
+whether the site can reach its own API, how the first admin is minted, and every
+guard that will stop the container rather than let it serve traffic
+half-configured.
+
 ---
 
 ## Mock mode

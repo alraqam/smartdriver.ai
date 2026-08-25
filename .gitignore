@@ -15,6 +15,9 @@ web/dist/
 api/.env
 web/.env
 
+# Uploaded question diagrams — user content, not source.
+api/uploads/
+
 # Prisma generated client
 node_modules/.prisma/
 

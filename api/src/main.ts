@@ -3,10 +3,12 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger } from '@nestjs/common';
 import helmet from 'helmet';
 import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
+import { UPLOAD_DIR, UPLOAD_ROUTE } from './admin/uploads.service';
 
 const DEV_SECRET = 'smartdriverai-dev-secret';
 
@@ -46,7 +48,10 @@ async function bootstrap() {
   // skips its own if it finds one already applied, so leaving it on and adding
   // a second parser silently disables parsing everywhere the added one does
   // not match.
-  const app = await NestFactory.create(AppModule, { cors: false, bodyParser: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: false,
+    bodyParser: false,
+  });
   app.enableShutdownHooks();
 
   // Behind Traefik / EasyPanel — trust the proxy so the client IP used for
@@ -66,6 +71,28 @@ async function bootstrap() {
   app.use('/api/admin/import', json({ limit: '25mb' }));
   app.use(json({ limit: '1mb' }));
   app.use(urlencoded({ extended: true, limit: '1mb' }));
+
+  // Uploaded question diagrams. Served from the API under the /api prefix so
+  // the Vite dev proxy and the nginx /api rule already reach them, and images
+  // stay same-origin with the app.
+  //
+  // Filenames are the sha256 of the contents, so a name never changes meaning
+  // and the files can be cached indefinitely. The headers below are belt and
+  // braces on top of the upload sniffer: even if something that is not an
+  // image ever reached this directory, the browser is told not to sniff it and
+  // not to render it inline.
+  app.useStaticAssets(UPLOAD_DIR, {
+    prefix: UPLOAD_ROUTE,
+    immutable: true,
+    maxAge: '365d',
+    index: false,
+    dotfiles: 'deny',
+    setHeaders: (res) => {
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('Content-Security-Policy', "default-src 'none'; sandbox");
+      res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+    },
+  });
 
   app.setGlobalPrefix('api');
 

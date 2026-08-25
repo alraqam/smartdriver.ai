@@ -47,6 +47,16 @@ services:
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       ANTHROPIC_MODEL: "${ANTHROPIC_MODEL:-claude-opus-5}"
       TUTOR_DAILY_LIMIT: "${TUTOR_DAILY_LIMIT:-30}"
+
+      # Uploaded question diagrams. Backed by the named volume below — without
+      # it every image would vanish on the next deploy.
+      UPLOAD_DIR: "/app/uploads"
+
+      # Grants admin at boot. Promote-only; see api/.env.example.
+      ADMIN_PHONE: "${ADMIN_PHONE:-}"
+      ADMIN_NAME: "${ADMIN_NAME:-}"
+    volumes:
+      - uploads:/app/uploads
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3003/api/health"]
       interval: 10s
@@ -64,3 +74,8 @@ services:
       api:
         condition: service_started
     restart: unless-stopped
+
+volumes:
+  # Question diagrams. Survives redeploys; back this up with the database,
+  # because a question whose image is gone is a question nobody can answer.
+  uploads:

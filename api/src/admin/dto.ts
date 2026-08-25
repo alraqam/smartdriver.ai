@@ -7,8 +7,10 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
   Min,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContentStatus } from '@prisma/client';
@@ -56,6 +58,22 @@ export class BulkStatusDto {
 
   @IsEnum(ContentStatus)
   status!: ContentStatus;
+}
+
+export class UpdateQuestionDto {
+  /// A path under /api/uploads returned by POST /admin/uploads. Explicit null
+  /// clears the image; omitting the field leaves it untouched.
+  @IsOptional()
+  @ValidateIf((_, v) => v !== null)
+  @IsString()
+  @MaxLength(500)
+  imageUrl?: string | null;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  difficulty?: number;
 }
 
 export class QuestionQueryDto {

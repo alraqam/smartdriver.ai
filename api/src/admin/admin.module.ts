@@ -3,6 +3,7 @@ import { Role } from '@prisma/client';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { AdminGuard } from './admin.guard';
+import { UploadsService } from './uploads.service';
 import { ContentModule } from '../content/content.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { normalizePhone } from '../common/phone';
@@ -53,6 +54,6 @@ export class AdminBootstrap implements OnModuleInit {
 @Module({
   imports: [ContentModule],
   controllers: [AdminController],
-  providers: [AdminService, AdminGuard, AdminBootstrap],
+  providers: [AdminService, AdminGuard, AdminBootstrap, UploadsService],
 })
 export class AdminModule {}

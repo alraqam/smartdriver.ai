@@ -231,5 +231,10 @@
   "admin.allowMassRetire": "Разрешить изъятие более 20% вопросов",
   "admin.history": "История импорта",
   "admin.noHistory": "Импортов ещё не было.",
-  "admin.invalidJson": "Файл должен быть JSON-массивом."
+  "admin.invalidJson": "Файл должен быть JSON-массивом.",
+  "admin.addImage": "Изображение",
+  "admin.replaceImage": "Заменить",
+  "admin.removeImage": "Удалить",
+  "admin.uploading": "Загрузка...",
+  "admin.imageHelp": "PNG, JPEG или WEBP · до 4 МБ"
 }

@@ -231,5 +231,10 @@
   "admin.allowMassRetire": "20% dan ortiq savolni chiqarishga ruxsat berish",
   "admin.history": "Import tarixi",
   "admin.noHistory": "Hali import qilinmagan.",
-  "admin.invalidJson": "Fayl JSON massiv bo'lishi kerak."
+  "admin.invalidJson": "Fayl JSON massiv bo'lishi kerak.",
+  "admin.addImage": "Rasm",
+  "admin.replaceImage": "Almashtirish",
+  "admin.removeImage": "O'chirish",
+  "admin.uploading": "Yuklanmoqda...",
+  "admin.imageHelp": "PNG, JPEG yoki WEBP · maks 4 MB"
 }

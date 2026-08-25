@@ -209,9 +209,8 @@ Current: **top-1 12/14, top-k 14/14, off-corpus 4/4 clean** on the seed corpus.
 4. **`signs` and `markings` have one question each.** They are the two topics
    that genuinely need diagrams, so they are thin until images exist.
 5. **No payments.** Everything is free in v1.
-6. **No image hosting for the admin UI.** Questions can be imported and
-   reviewed through the app, but a diagram still has to be placed on disk and
-   referenced by `imageUrl` — there is no upload.
+6. **`signs` and `markings` still have one question each.** The upload exists
+   now, so this is purely a content job rather than a missing feature.
 
 ---
 
@@ -229,6 +228,8 @@ Content operations for whoever maintains the question bank. Everything is under
 | `GET /admin/imports` | Load history. |
 | `GET /admin/stats` | Counts by status and topic, plus two content-health figures invisible to learners: published questions with no `ruleRefs` (their explanations have nothing to cite) and `ruleRefs` pointing at rules that do not exist. |
 | `GET /admin/ai-usage` | Spend by feature, and how many explanations are cached — i.e. calls that never had to be made twice. |
+| `POST /admin/uploads` | Store a question diagram, returns the URL to reference it by. |
+| `PATCH /admin/questions/:id` | Attach or clear that image (`imageUrl: null` removes it). |
 
 The web app renders all of this under **Boshqaruv / Управление** in the
 sidebar, visible only to an admin: an overview with content-health warnings and
@@ -247,6 +248,29 @@ strip access from whoever is running content. The account is created if absent;
 they then sign in by OTP like anyone else. There is deliberately no self-serve
 promotion endpoint — the person who can deploy is the person who can appoint an
 admin, which is the authority they already have.
+
+### Question diagrams
+
+`POST /admin/uploads` takes one image and returns a URL; the review queue has a
+per-row control that uploads and attaches in two clicks. Three things worth
+knowing:
+
+- **The format is decided by the file's magic bytes, not its name or declared
+  MIME type** — both of those come from the client and neither is evidence. An
+  HTML file renamed `.png` is rejected.
+- **SVG is refused outright.** It can carry script, and one served from the
+  app's own origin would be stored XSS against every learner who opened that
+  question. PNG, JPEG and WEBP only.
+- **The filename is the sha256 of the contents.** The client's filename never
+  touches the filesystem, so there is no path traversal to defend against;
+  re-uploading the same diagram is free rather than a duplicate; and the name
+  changes whenever the bytes do, so the file is served `immutable`.
+
+`imageUrl` only accepts a path this API produced — a full URL would let an
+admin point every question at a third party who then sees every learner.
+
+In Docker, uploads live on the `uploads` volume. **Back it up with the
+database**: a question whose image is gone is a question nobody can answer.
 
 Import bodies get a 25 MB limit on that one route (the seed file alone exceeds
 Express's 100 KB default); every other route keeps 1 MB.

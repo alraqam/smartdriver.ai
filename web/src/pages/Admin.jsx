@@ -167,6 +167,80 @@ function Overview() {
 
 const PAGE = 25;
 
+/// Diagram control for one question row.
+///
+/// Many exam questions ARE a diagram — the signs and markings topics are
+/// almost entirely pictures — so attaching one has to be a two-click job in
+/// the review queue, not a round trip through the import file.
+function ImageCell({ item, onChanged, onError }) {
+  const T = useTheme();
+  const { t } = useI18n();
+  const ref = useRef(null);
+  const [busy, setBusy] = useState(false);
+
+  async function pick(e) {
+    const f = e.target.files?.[0];
+    e.target.value = ''; // so re-picking the same file fires change again
+    if (!f) return;
+    setBusy(true);
+    try {
+      const up = await api.admin.uploadImage(f);
+      await api.admin.updateQuestion(item.id, { imageUrl: up.url });
+      onChanged();
+    } catch (err) {
+      onError(err);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove() {
+    setBusy(true);
+    try {
+      await api.admin.updateQuestion(item.id, { imageUrl: null });
+      onChanged();
+    } catch (err) {
+      onError(err);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div style={{ flex: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: 56 }}>
+      <input ref={ref} type="file" accept="image/png,image/jpeg,image/webp" onChange={pick} style={{ display: 'none' }} />
+
+      <button
+        onClick={() => ref.current?.click()}
+        disabled={busy}
+        title={item.imageUrl ? t('admin.replaceImage') : `${t('admin.addImage')} · ${t('admin.imageHelp')}`}
+        style={{
+          width: 56, height: 44, borderRadius: 8, cursor: busy ? 'default' : 'pointer',
+          border: `1px dashed ${item.imageUrl ? 'transparent' : T.stroke}`,
+          background: item.imageUrl ? T.surface2 : 'transparent',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden', padding: 0,
+        }}
+      >
+        {busy ? (
+          <Spinner size={14} />
+        ) : item.imageUrl ? (
+          <img src={item.imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '100%', display: 'block' }} />
+        ) : (
+          <Icon name="map" size={16} color={T.textFaint} strokeWidth={2} />
+        )}
+      </button>
+
+      {item.imageUrl && !busy && (
+        <button onClick={remove} style={{
+          border: 'none', background: 'transparent', color: T.textFaint,
+          fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', padding: 0,
+        }}>{t('admin.removeImage')}</button>
+      )}
+    </div>
+  );
+}
+
 function Questions() {
   const T = useTheme();
   const { t, locale } = useI18n();
@@ -329,6 +403,8 @@ function Questions() {
                       </div>
                     )}
                   </div>
+
+                  <ImageCell item={item} onChanged={load} onError={setError} />
 
                   <div style={{ flex: 'none', display: 'flex', gap: 6 }}>
                     {item.status !== 'published' && (

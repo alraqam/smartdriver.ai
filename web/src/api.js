@@ -101,6 +101,20 @@ export const api = {
     aiUsage: (days = 30) => request(`/admin/ai-usage?days=${days}`),
     import: (rows, filename, opts = {}) =>
       request('/admin/import', { method: 'POST', body: { rows, filename, ...opts } }),
+    updateQuestion: (id, patch) => request(`/admin/questions/${id}`, { method: 'PATCH', body: patch }),
+    /// Multipart, so it bypasses the JSON request() helper.
+    uploadImage: async (file) => {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/uploads', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: fd,
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) throw new ApiError(res.status, data?.message || `Xatolik (${res.status})`);
+      return data;
+    },
   },
 
   tutorThreads: () => request('/tutor/threads'),

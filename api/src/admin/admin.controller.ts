@@ -7,13 +7,17 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Throttle } from '@nestjs/throttler';
 import { AdminGuard } from './admin.guard';
 import { AdminService } from './admin.service';
 import { ImportService } from '../content/import.service';
-import { BulkStatusDto, ImportDto, QuestionQueryDto, UpdateQuestionStatusDto } from './dto';
+import { BulkStatusDto, ImportDto, QuestionQueryDto, UpdateQuestionDto, UpdateQuestionStatusDto } from './dto';
+import { MAX_BYTES, UploadsService } from './uploads.service';
 import { AuthUser, CurrentUser } from '../auth/decorators';
 
 /// Content operations for the team that maintains the question bank.
@@ -27,6 +31,7 @@ export class AdminController {
   constructor(
     private readonly admin: AdminService,
     private readonly importer: ImportService,
+    private readonly uploads: UploadsService,
   ) {}
 
   @Get('stats')
@@ -73,6 +78,25 @@ export class AdminController {
   @HttpCode(200)
   setStatusBulk(@Body() dto: BulkStatusDto) {
     return this.admin.setStatusBulk(dto.ids, dto.status);
+  }
+
+  /// Store an image and hand back the URL to reference it by.
+  ///
+  /// Kept separate from attaching it to a question: the same diagram is often
+  /// reused across several questions, and the importer can reference a URL
+  /// from this endpoint in a bulk file.
+  @Throttle({ default: { limit: 60, ttl: 60_000 } })
+  @Post('uploads')
+  @HttpCode(200)
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: MAX_BYTES, files: 1 } }))
+  upload(@UploadedFile() file?: { buffer: Buffer; originalname?: string }) {
+    return this.uploads.store(file?.buffer as Buffer, file?.originalname);
+  }
+
+  /// Attach or clear a question's diagram. Pass imageUrl: null to remove it.
+  @Patch('questions/:id')
+  updateQuestion(@Param('id') id: string, @Body() dto: UpdateQuestionDto) {
+    return this.admin.updateQuestion(id, dto);
   }
 
   @Get('ai-usage')

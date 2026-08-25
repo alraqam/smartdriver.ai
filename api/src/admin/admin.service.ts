@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ContentStatus, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { QuestionQueryDto } from './dto';
@@ -144,6 +144,29 @@ export class AdminService {
       },
     });
     return { id: q.id, externalId: q.externalId, status: q.status, reviewedAt: q.reviewedAt };
+  }
+
+  /// Edit the fields a reviewer changes by hand. Deliberately narrow: the
+  /// question TEXT stays owned by the import file, so an edit here cannot be
+  /// silently reverted by the next re-import.
+  async updateQuestion(id: string, patch: { imageUrl?: string | null; difficulty?: number }) {
+    const existing = await this.prisma.question.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Savol topilmadi');
+
+    // Only accept a path this API produced. A full URL here would let an admin
+    // point every question at a third party who then sees every learner.
+    if (patch.imageUrl != null && !/^\/api\/uploads\/[A-Za-z0-9._-]+$/.test(patch.imageUrl)) {
+      throw new BadRequestException("imageUrl /api/uploads/ ostidagi yo'l bo'lishi kerak");
+    }
+
+    const q = await this.prisma.question.update({
+      where: { id },
+      data: {
+        ...(patch.imageUrl !== undefined ? { imageUrl: patch.imageUrl } : {}),
+        ...(patch.difficulty !== undefined ? { difficulty: patch.difficulty } : {}),
+      },
+    });
+    return { id: q.id, externalId: q.externalId, imageUrl: q.imageUrl, difficulty: q.difficulty };
   }
 
   async setStatusBulk(ids: string[], status: ContentStatus) {

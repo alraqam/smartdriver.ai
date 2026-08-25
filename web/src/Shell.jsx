@@ -25,6 +25,9 @@ const NAV = [
   { id: 'signs', to: '/signs', icon: 'library' },
   { id: 'tutor', to: '/tutor', icon: 'sparkle' },
   { id: 'profile', to: '/profile', icon: 'profile' },
+  // Content team only. The server's AdminGuard is what actually enforces this;
+  // hiding the link just keeps it out of a learner's way.
+  { id: 'admin', to: '/admin', icon: 'grid', adminOnly: true },
 ];
 
 // Per-screen panel width, from the prototype. The road stays phone-like because
@@ -41,6 +44,7 @@ const PANEL_W = [
   [/^\/signs/, 900],
   [/^\/tutor/, 760],
   [/^\/profile/, 680],
+  [/^\/admin/, 980],
 ];
 
 function panelWidth(pathname) {
@@ -109,7 +113,7 @@ export function Shell({ dark, setDark, children }) {
             </div>
           </div>
 
-          {NAV.map((item) => (
+          {NAV.filter((item) => !item.adminOnly || user?.role === 'admin').map((item) => (
             <NavLink key={item.id} to={item.to} end={item.end} style={({ isActive }) => ({
               display: 'flex', alignItems: 'center', gap: 12, padding: '11px 12px', borderRadius: 12,
               textDecoration: 'none', fontSize: 14.5, fontWeight: 700, letterSpacing: -0.2,

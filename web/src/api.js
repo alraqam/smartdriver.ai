@@ -92,6 +92,17 @@ export const api = {
   explain: (questionId, payload) =>
     request(`/questions/${questionId}/explain`, { method: 'POST', body: payload }),
 
+  admin: {
+    stats: () => request('/admin/stats'),
+    questions: (params) => request(`/admin/questions?${new URLSearchParams(params)}`),
+    setStatus: (id, status) => request(`/admin/questions/${id}/status`, { method: 'PATCH', body: { status } }),
+    setStatusBulk: (ids, status) => request('/admin/questions/status', { method: 'POST', body: { ids, status } }),
+    imports: (take = 20) => request(`/admin/imports?take=${take}`),
+    aiUsage: (days = 30) => request(`/admin/ai-usage?days=${days}`),
+    import: (rows, filename, opts = {}) =>
+      request('/admin/import', { method: 'POST', body: { rows, filename, ...opts } }),
+  },
+
   tutorThreads: () => request('/tutor/threads'),
   createThread: (locale) => request('/tutor/threads', { method: 'POST', body: { locale } }),
   getThread: (id) => request(`/tutor/threads/${id}`),

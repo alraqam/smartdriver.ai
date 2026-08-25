@@ -16,6 +16,7 @@ import Review from './pages/Review.jsx';
 import Signs from './pages/Signs.jsx';
 import Tutor from './pages/Tutor.jsx';
 import Profile from './pages/Profile.jsx';
+import Admin from './pages/Admin.jsx';
 import { MockIntro, MockRunner, MockResult } from './pages/Mock.jsx';
 
 const THEME_KEY = 'sdai.dark';
@@ -70,6 +71,7 @@ export default function App() {
                   <Route path="/tutor" element={<Tutor />} />
                   <Route path="/tutor/:threadId" element={<Tutor />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/admin" element={<Admin />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </Shell>

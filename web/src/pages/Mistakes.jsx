@@ -5,17 +5,16 @@ import { useI18n } from '../i18n/index.jsx';
 import { useTheme, hexA } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { ErrorNote, Loading, PrimaryButton, Screen, ScreenHeader } from '../design/primitives.jsx';
+import { daysUntilDue } from '../lib/progress.js';
 
 // The mistake bank — questions the learner has got wrong, on a spaced
 // repetition schedule. See api/src/reviews/schedule.ts for the schedule itself.
-
-const MS_DAY = 24 * 60 * 60 * 1000;
 
 /// Days until a review comes back, as words rather than a raw timestamp.
 function dueLabel(item, t) {
   if (item.mastered) return t('mistakes.mastered');
   if (item.due) return t('mistakes.dueNow');
-  const days = Math.ceil((new Date(item.dueAt).getTime() - Date.now()) / MS_DAY);
+  const days = daysUntilDue(item.dueAt);
   if (days <= 1) return t('mistakes.dueTomorrow');
   return t('mistakes.dueIn', { n: days });
 }

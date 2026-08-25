@@ -6,11 +6,12 @@ import { useTheme } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, Loading, Screen, ScreenHeader } from '../design/primitives.jsx';
+import { MASTERED_AT } from '../lib/progress.js';
 
 // Topic list, ported from the prototype's LessonsList + ModuleRow. The
 // prototype's six hardcoded modules are the real topics with real mastery.
-
-const MASTERED_AT = 0.85;
+// MASTERED_AT is shared with the road so a topic cannot read "done" on one
+// screen and "in progress" on the other.
 
 export function ModuleRow({ topic, onClick }) {
   const T = useTheme();

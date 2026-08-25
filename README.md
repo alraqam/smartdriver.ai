@@ -1,5 +1,6 @@
 # SmartDriverAI
 
+
 AI-assisted driving-licence theory exam prep for Uzbekistan. A learner signs in
 with their phone, practises official traffic-rule questions by topic, takes
 timed mock exams, and gets an AI explanation of every question they miss. The
@@ -210,6 +211,18 @@ claim in a month-old token. The sign-in flow is driven over HTTP in one place
 on purpose; everywhere else mints tokens directly, because the OTP endpoints
 are rate limited and a suite that signs in per test spends that budget on
 setup.
+
+The frontend has its own suite over the pure derivations that were previously
+inline in components — streaks, road-node status, review due-dates:
+
+```bash
+cd web && npm test
+```
+
+Writing it caught a real bug: the "give a new learner somewhere to stand"
+fallback fired whenever no topic was current, which includes the case where a
+learner has **mastered every topic** — relabelling their first finished topic
+"you are here" and undoing the one thing the road exists to show.
 
 Retrieval cannot be unit tested — it is a SQL query against real content — so
 it has its own eval against the live database:

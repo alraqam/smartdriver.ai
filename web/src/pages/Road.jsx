@@ -7,23 +7,14 @@ import { useTheme, hexA } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, Loading, StatChip } from '../design/primitives.jsx';
+import { computeStreak, deriveRoadNodes } from '../lib/progress.js';
 
 // Home — "The Road Ahead", ported from the prototype's HomeRoad.
 //
-// The prototype drew nine hardcoded nodes. Here each node is a real topic, and
+// The prototype drew nine hardcoded nodes. Here each node is a real topic and
 // its state comes from the learner's actual mastery, so the road is a picture
-// of where they are rather than a fixed illustration:
-//
-//   done     mastery at or above MASTERED_AT
-//   current  the first topic they have started but not mastered
-//   next     the first untouched topic after that
-//   locked   nothing — every topic stays open
-//
-// Nothing is ever truly locked: this is exam prep for adults, and refusing to
-// let someone practise pedestrians until they finish signals would be
-// gamification getting in the way of studying.
-
-const MASTERED_AT = 0.85;
+// of where they are rather than a fixed illustration. The derivation itself
+// lives in lib/progress.js, where it is tested.
 
 /// The path the road follows. Hand-tuned S-curves from the prototype, with the
 /// height derived from the node count so twelve topics do not pile up on a
@@ -72,31 +63,6 @@ function CarIcon({ color }) {
   );
 }
 
-/// Consecutive days, counting back from today, on which the learner practised.
-/// Derived from real session history rather than stored — the sessions already
-/// say when someone studied, so a streak column would just be a cache that can
-/// disagree with them.
-export function computeStreak(sessions) {
-  if (!sessions?.length) return 0;
-  const days = new Set(
-    sessions.map((s) => {
-      const d = new Date(s.startedAt);
-      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    }),
-  );
-  const key = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-  const cursor = new Date();
-  // A streak survives "not yet today": it only breaks once a full day is
-  // missed, otherwise it would read 0 every morning until the first session.
-  if (!days.has(key(cursor))) cursor.setDate(cursor.getDate() - 1);
-  let streak = 0;
-  while (days.has(key(cursor))) {
-    streak++;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
-}
-
 export default function Road() {
   const T = useTheme();
   const { t, locale } = useI18n();
@@ -125,30 +91,7 @@ export default function Road() {
 
   useEffect(load, [load]);
 
-  const nodes = useMemo(() => {
-    if (!topics) return [];
-    let currentTaken = false;
-    let nextTaken = false;
-    return topics.map((tp, i) => {
-      const p = tp.progress;
-      const score = p?.score ?? 0;
-      const started = (p?.attempts ?? 0) > 0;
-      let status;
-      if (started && score >= MASTERED_AT) status = 'done';
-      else if (started && !currentTaken) { status = 'current'; currentTaken = true; }
-      else if (!started && !nextTaken && currentTaken) { status = 'next'; nextTaken = true; }
-      else status = started ? 'open' : 'untouched';
-      return { ...tp, status, sign: signForTopic(tp.slug, i), score };
-    });
-  }, [topics]);
-
-  // Nobody has started: make the first topic the current one so the road has a
-  // "you are here" instead of a car parked at nothing.
-  const nodesWithStart = useMemo(() => {
-    if (!nodes.length) return nodes;
-    if (nodes.some((n) => n.status === 'current')) return nodes;
-    return nodes.map((n, i) => (i === 0 ? { ...n, status: 'current' } : n));
-  }, [nodes]);
+  const nodesWithStart = useMemo(() => deriveRoadNodes(topics), [topics]);
 
   const geom = useMemo(() => buildPath(nodesWithStart.length || 1), [nodesWithStart.length]);
 
@@ -317,7 +260,7 @@ export default function Road() {
                   opacity: empty ? 0.5 : 1,
                   filter: empty ? 'grayscale(1)' : 'none',
                 }}>
-                  {empty ? <Icon name="lock" size={22} color={T.textDim} /> : <RoadSign kind={n.sign} size={48} />}
+                  {empty ? <Icon name="lock" size={22} color={T.textDim} /> : <RoadSign kind={signForTopic(n.slug, i)} size={48} />}
 
                   {isDone && (
                     <div style={{

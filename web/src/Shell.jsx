@@ -5,17 +5,10 @@ import { useTheme } from './design/theme.jsx';
 import { Icon } from './design/Icon.jsx';
 import { useI18n, LOCALES } from './i18n/index.jsx';
 import { useAuth } from './auth.jsx';
+import { initialOf } from './lib/progress.js';
 
 // Desktop shell, ported from the prototype's web-app.jsx: a fixed sidebar and
 // one centred panel that every screen fills absolutely.
-
-/// First letter of a learner's name, or null when they only have a phone.
-export function initialOf(user) {
-  const name = (user?.name || '').trim();
-  if (!name) return null;
-  const ch = name.charAt(0);
-  return /\p{L}|\p{N}/u.test(ch) ? ch.toUpperCase() : null;
-}
 
 const NAV = [
   { id: 'road', to: '/', icon: 'map', end: true },

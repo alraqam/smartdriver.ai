@@ -7,8 +7,7 @@ import { useTheme, hexA } from '../design/theme.jsx';
 import { Icon } from '../design/Icon.jsx';
 import { RoadSign, signForTopic } from '../design/RoadSign.jsx';
 import { ErrorNote, GhostButton, Loading, PrimaryButton, Ring, Screen, ScreenHeader, StatCard } from '../design/primitives.jsx';
-import { computeStreak } from './Road.jsx';
-import { initialOf } from '../Shell.jsx';
+import { computeStreak, initialOf } from '../lib/progress.js';
 
 // Profile, ported from the prototype's ProfileScreen.
 //
